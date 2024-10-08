@@ -72,7 +72,6 @@ import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ShadowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.SparkParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -518,7 +517,6 @@ public class CursedWand {
 	public static class Explosion extends CursedEffect {
 		@Override
 		public boolean effect(Item origin, Char user, Ballistica bolt, boolean positiveOnly) {
-			new Bomb.ConjuredBomb().explode(bolt.collisionPos);
 			tryForWandProc(Actor.findChar(bolt.collisionPos), origin);
 			return true;
 		}
@@ -1078,7 +1076,7 @@ public class CursedWand {
 				Item reward;
 				do {
 					reward = Generator.randomUsingDefaults(Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR,
-							Generator.Category.RING, Generator.Category.WAND));
+							Generator.Category.BRACELET, Generator.Category.WAND));
 				} while (reward.level() < 1);
 				mimic.items.add(reward);
 			}
@@ -1166,7 +1164,7 @@ public class CursedWand {
 			Item result;
 			do {
 				result = Generator.randomUsingDefaults(Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR,
-						Generator.Category.RING, Generator.Category.ARTIFACT));
+						Generator.Category.BRACELET, Generator.Category.ARTIFACT));
 			} while (result.cursed);
 			if (result.isUpgradable()) result.upgrade();
 			result.cursed = result.cursedKnown = true;
@@ -1222,10 +1220,6 @@ public class CursedWand {
 
 		@Override
 		public boolean valid(Item origin, Char user, Ballistica bolt, boolean positiveOnly) {
-			//can't happen on floors where chasms aren't allowed
-			if( Dungeon.bossLevel() || Dungeon.depth > 25 || Dungeon.branch != 0){
-				return false;
-			}
 			return true;
 		}
 

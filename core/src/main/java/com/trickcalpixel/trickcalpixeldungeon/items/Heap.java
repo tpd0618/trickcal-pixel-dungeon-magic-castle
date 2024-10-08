@@ -25,21 +25,17 @@ import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Wraith;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ElmoParticle;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ShadowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.Artifact;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.ChargrilledMeat;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.FrozenCarpaccio;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.MysteryMeat;
 import com.trickcalpixel.trickcalpixeldungeon.items.journal.DocumentPage;
 import com.trickcalpixel.trickcalpixeldungeon.items.journal.Guidebook;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfWealth;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.darts.Dart;
@@ -47,7 +43,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.darts.Tipped
 import com.trickcalpixel.trickcalpixeldungeon.journal.Document;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
-import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -83,33 +78,14 @@ public class Heap implements Bundlable {
 	public void open( Hero hero ) {
 		switch (type) {
 		case TOMB:
-			Wraith.spawnAround( hero.pos );
-			break;
 		case REMAINS:
 		case SKELETON:
 			CellEmitter.center( pos ).start(Speck.factory(Speck.RATTLE), 0.1f, 3);
 			break;
 		default:
 		}
-		
-		if (haunted){
-			if (Wraith.spawnAt( pos ) == null) {
-				hero.sprite.emitter().burst( ShadowParticle.CURSE, 6 );
-				hero.damage( hero.HP / 2, this );
-				if (!hero.isAlive()){
-					Dungeon.fail(Wraith.class);
-					GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", Messages.get(Wraith.class, "name"))));
-				}
-			}
-			Sample.INSTANCE.play( Assets.Sounds.CURSED );
-		}
 
 		type = Type.HEAP;
-		ArrayList<Item> bonus = RingOfWealth.tryForBonusDrop(hero, 1);
-		if (bonus != null && !bonus.isEmpty()) {
-			items.addAll(0, bonus);
-			RingOfWealth.showFlareForBonusDrop(sprite);
-		}
 		sprite.link();
 		sprite.drop();
 	}
@@ -224,15 +200,6 @@ public class Heap implements Bundlable {
 			} else if (item instanceof MysteryMeat || item instanceof FrozenCarpaccio) {
 				replace( item, ChargrilledMeat.cook( item.quantity ) );
 				burnt = true;
-			} else if (item instanceof Bomb) {
-				items.remove( item );
-				((Bomb) item).explode( pos );
-				if (((Bomb) item).explodesDestructively()) {
-					//stop processing the burning, it will be replaced by the explosion.
-					return;
-				} else {
-					burnt = true;
-				}
 			}
 		}
 		
@@ -287,14 +254,6 @@ public class Heap implements Bundlable {
 					items.remove(item);
 					((Honeypot.ShatteredPot) item).destroyPot(pos);
 
-				} else if (item instanceof Bomb) {
-					items.remove( item );
-					((Bomb) item).explode(pos);
-					if (((Bomb) item).explodesDestructively()) {
-						//stop processing current explosion, it will be replaced by the new one.
-						return;
-					}
-
 				} else {
 					items.remove( item );
 				}
@@ -324,8 +283,6 @@ public class Heap implements Bundlable {
 				items.remove(item);
 				((Potion) item).shatter(pos);
 				frozen = true;
-			} else if (item instanceof Bomb && ((Bomb) item).fuse != null){
-				frozen = frozen || ((Bomb) item).fuse.freeze();
 			}
 		}
 		
@@ -361,13 +318,13 @@ public class Heap implements Bundlable {
 
 	public String title(){
 		switch(type){
-			case FOR_SALE:
-				Item i = peek();
-				if (size() == 1) {
-					return Messages.get(this, "for_sale", Shopkeeper.sellPrice(i), i.title());
-				} else {
-					return i.title();
-				}
+			//case FOR_SALE:
+				//Item i = peek();
+				//if (size() == 1) {
+					//return Messages.get(this, "for_sale", Shopkeeper.sellPrice(i), i.title());
+				//} else {
+					//return i.title();
+				//} //todo
 			case CHEST:
 				return Messages.get(this, "chest");
 			case LOCKED_CHEST:

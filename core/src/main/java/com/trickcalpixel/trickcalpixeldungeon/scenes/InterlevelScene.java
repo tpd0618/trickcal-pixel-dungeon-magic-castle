@@ -134,7 +134,7 @@ public class InterlevelScene extends PixelScene {
 				} else {
 					if (curTransition != null)  loadingDepth = curTransition.destDepth;
 					else                        loadingDepth = Dungeon.depth+1;
-					if (Statistics.deepestFloor >= loadingDepth) {
+					if (Statistics.highestFloor >= loadingDepth) {
 						fadeTime = FAST_FADE;
 					} else if (loadingDepth == 6 || loadingDepth == 11
 							|| loadingDepth == 16 || loadingDepth == 21 || loadingDepth == 26) {
@@ -263,7 +263,7 @@ public class InterlevelScene extends PixelScene {
 		add(loadingText);
 
 		if (mode == Mode.DESCEND && lastRegion <= 5 && !DeviceCompat.isDebug()){
-			if (Dungeon.hero == null || (loadingDepth > Statistics.deepestFloor && loadingDepth % 5 == 1)){
+			if (Dungeon.hero == null || (loadingDepth > Statistics.highestFloor && loadingDepth % 5 == 1)){
 					storyMessage = PixelScene.renderTextBlock(Document.INTROS.pageBody(region), 6);
 					storyMessage.maxWidth( PixelScene.landscape() ? 180 : 125);
 					storyMessage.setPos((Camera.main.width-storyMessage.width())/2f, (Camera.main.height-storyMessage.height())/2f);
@@ -710,7 +710,7 @@ public class InterlevelScene extends PixelScene {
 
 		Dungeon.loadGame( GamesInProgress.curSlot );
 		if (Dungeon.depth == -1) {
-			Dungeon.depth = Statistics.deepestFloor;
+			Dungeon.depth = Statistics.highestFloor;
 			Dungeon.switchLevel( Dungeon.loadLevel( GamesInProgress.curSlot ), -1 );
 		} else {
 			Level level = Dungeon.loadLevel( GamesInProgress.curSlot );

@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Bee;
 import com.trickcalpixel.trickcalpixeldungeon.items.Honeypot;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.painters.Painter;
@@ -55,8 +54,6 @@ public class SecretHoneypotRoom extends SecretRoom {
 		bee.setPotInfo(level.pointToCell(brokenPotPos), null);
 		
 		placeItem(new Honeypot(), level);
-		
-		placeItem( new Bomb().random(), level);
 		
 		entrance().set(Door.Type.HIDDEN);
 	}

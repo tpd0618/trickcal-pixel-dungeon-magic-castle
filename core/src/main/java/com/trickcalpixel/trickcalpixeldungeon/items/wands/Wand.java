@@ -39,18 +39,15 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.mage.WildMagic;
 import com.trickcalpixel.trickcalpixeldungeon.effects.FloatingText;
 import com.trickcalpixel.trickcalpixeldungeon.effects.MagicMissile;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.MagicalHolster;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.WondrousResin;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.mechanics.Ballistica;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.CellSelector;
@@ -63,7 +60,6 @@ import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
-import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -132,8 +128,6 @@ public abstract class Wand extends Item {
 
 	public abstract void onZap(Ballistica attack);
 
-	public abstract void onHit( MagesStaff staff, Char attacker, Char defender, int damage);
-
 	//not affected by enchantment proc chance changers
 	public static float procChanceMultiplier( Char attacker ){
 		if (attacker.buff(Talent.EmpoweredStrikeTracker.class) != null){
@@ -144,13 +138,13 @@ public abstract class Wand extends Item {
 
 	public boolean tryToZap( Hero owner, int target ){
 
-		if (owner.buff(WildMagic.WildMagicTracker.class) == null && owner.buff(MagicImmune.class) != null){
+		if (owner.buff(MagicImmune.class) != null){
 			GLog.w( Messages.get(this, "no_magic") );
 			return false;
 		}
 
 		//if we're using wild magic, then assume we have charges
-		if ( owner.buff(WildMagic.WildMagicTracker.class) != null || curCharges >= chargesPerCast()){
+		if (curCharges >= chargesPerCast()){
 			return true;
 		} else {
 			GLog.w(Messages.get(this, "fizzles"));
@@ -373,22 +367,6 @@ public abstract class Wand extends Item {
 			if (curCharges == 1 && charger.target instanceof Hero && ((Hero)charger.target).hasTalent(Talent.DESPERATE_POWER)){
 				lvl += ((Hero)charger.target).pointsInTalent(Talent.DESPERATE_POWER);
 			}
-
-			if (charger.target.buff(WildMagic.WildMagicTracker.class) != null){
-				int bonus = 4 + ((Hero)charger.target).pointsInTalent(Talent.WILD_POWER);
-				if (Random.Int(2) == 0) bonus++;
-				bonus /= 2; // +2/+2.5/+3/+3.5/+4 at 0/1/2/3/4 talent points
-
-				int maxBonusLevel = 3 + ((Hero)charger.target).pointsInTalent(Talent.WILD_POWER);
-				if (lvl < maxBonusLevel) {
-					lvl = Math.min(lvl + bonus, maxBonusLevel);
-				}
-			}
-
-			WandOfMagicMissile.MagicCharge buff = charger.target.buff(WandOfMagicMissile.MagicCharge.class);
-			if (buff != null && buff.level() > lvl){
-				return buff.level();
-			}
 		}
 		return lvl;
 	}
@@ -413,14 +391,6 @@ public abstract class Wand extends Item {
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play( Assets.Sounds.ZAP );
-	}
-
-	public void staffFx( MagesStaff.StaffParticle particle ){
-		particle.color(0xFFFFFF); particle.am = 0.3f;
-		particle.setLifespan( 1f);
-		particle.speed.polar( Random.Float(PointF.PI2), 2f );
-		particle.setSize( 1f, 2f );
-		particle.radiateXY(0.5f);
 	}
 
 	protected void wandUsed() {
@@ -455,21 +425,6 @@ public abstract class Wand extends Item {
 		}
 		
 		curCharges -= cursed ? 1 : chargesPerCast();
-
-		//remove magic charge at a higher priority, if we are benefiting from it are and not the
-		//wand that just applied it
-		WandOfMagicMissile.MagicCharge buff = curUser.buff(WandOfMagicMissile.MagicCharge.class);
-		if (buff != null
-				&& buff.wandJustApplied() != this
-				&& buff.level() == buffedLvl()
-				&& buffedLvl() > super.buffedLvl()){
-			buff.detach();
-		} else {
-			ScrollEmpower empower = curUser.buff(ScrollEmpower.class);
-			if (empower != null){
-				empower.use();
-			}
-		}
 
 		//If hero owns wand but it isn't in belongings it must be in the staff
 		if (Dungeon.hero.hasTalent(Talent.EMPOWERED_STRIKE)
@@ -600,7 +555,6 @@ public abstract class Wand extends Item {
 
 		@Override
 		public void onZap(Ballistica attack) {}
-		public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {}
 
 		@Override
 		public String info() {
@@ -796,7 +750,7 @@ public abstract class Wand extends Item {
 					+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
 
 			if (Regeneration.regenOn())
-				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target);
+				partialCharge += (1f/turnsToCharge);
 
 			for (Recharging bonus : target.buffs(Recharging.class)){
 				if (bonus != null && bonus.remainder() > 0f) {

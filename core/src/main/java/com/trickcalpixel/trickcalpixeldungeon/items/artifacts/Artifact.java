@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon.items.artifacts;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.KindofMisc;
@@ -46,7 +45,7 @@ public class Artifact extends KindofMisc {
 	protected int levelCap = 0;
 
 	//the current artifact charge
-	protected int charge = 0;
+	public int charge = 0;
 	//the build towards next charge, usually rolls over at 1.
 	//better to keep charge as an int and use a separate float than casting.
 	protected float partialCharge = 0;
@@ -57,17 +56,17 @@ public class Artifact extends KindofMisc {
 	protected int cooldown = 0;
 
 	@Override
-	public boolean doEquip( final Hero hero ) {
+	public boolean doEquip( final Hero heroine) {
 
-		if ((hero.belongings.artifact != null && hero.belongings.artifact.getClass() == this.getClass())
-				|| (hero.belongings.misc != null && hero.belongings.misc.getClass() == this.getClass())){
+		if ((heroine.belongings.artifact != null && heroine.belongings.artifact.getClass() == this.getClass())
+				|| (heroine.belongings.misc != null && heroine.belongings.misc.getClass() == this.getClass())){
 
 			GLog.w( Messages.get(Artifact.class, "cannot_wear_two") );
 			return false;
 
 		} else {
 
-			if (super.doEquip( hero )){
+			if (super.doEquip(heroine)){
 
 				identify();
 				return true;
@@ -84,7 +83,7 @@ public class Artifact extends KindofMisc {
 
 	public void activate( Char ch ) {
 		if (passiveBuff != null){
-			if (passiveBuff.target != null) passiveBuff.detach();
+			passiveBuff.detach();
 			passiveBuff = null;
 		}
 		passiveBuff = passiveBuff();
@@ -92,11 +91,11 @@ public class Artifact extends KindofMisc {
 	}
 
 	@Override
-	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
-		if (super.doUnequip( hero, collect, single )) {
+	public boolean doUnequip(Hero heroine, boolean collect, boolean single ) {
+		if (super.doUnequip(heroine, collect, single )) {
 
 			if (passiveBuff != null) {
-				if (passiveBuff.target != null) passiveBuff.detach();
+				passiveBuff.detach();
 				passiveBuff = null;
 			}
 
@@ -137,14 +136,14 @@ public class Artifact extends KindofMisc {
 
 	@Override
 	public String info() {
-		if (cursed && cursedKnown && !isEquipped( Dungeon.hero )) {
-			return super.info() + "\n\n" + Messages.get(Artifact.class, "curse_known");
+		if (cursed && cursedKnown && !isEquipped( Dungeon.hero)) {
+			return desc() + "\n\n" + Messages.get(Artifact.class, "curse_known");
 			
 		} else if (!isIdentified() && cursedKnown && !isEquipped( Dungeon.hero)) {
-			return super.info() + "\n\n" + Messages.get(Artifact.class, "not_cursed");
+			return desc()+ "\n\n" + Messages.get(Artifact.class, "not_cursed");
 			
 		} else {
-			return super.info();
+			return desc();
 			
 		}
 	}
@@ -214,26 +213,18 @@ public class Artifact extends KindofMisc {
 		//do nothing by default;
 	}
 
-	public class ArtifactBuff extends Buff {
+	public int getChargeCap(){
+		return chargeCap;
+	}
 
-		@Override
-		public boolean attachTo( Char target ) {
-			if (super.attachTo( target )) {
-				//if we're loading in and the hero has partially spent a turn, delay for 1 turn
-				if (target instanceof Hero && Dungeon.hero == null && cooldown() == 0 && target.cooldown() > 0) {
-					spend(TICK);
-				}
-				return true;
-			}
-			return false;
-		}
+	public class ArtifactBuff extends Buff {
 
 		public int itemLevel() {
 			return level();
 		}
 
 		public boolean isCursed() {
-			return target.buff(MagicImmune.class) == null && cursed;
+			return cursed;
 		}
 
 		public void charge(Hero target, float amount){

@@ -27,21 +27,16 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.BadgeBanner;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.SandalsOfNature;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.WoollyBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfArcana;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfWealth;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.AntiParryBracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ScrollOfAntiMagic;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.TelekineticGrab;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfTransfusion;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
+import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.ChangesScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.CharSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.ElementalSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.SpectralNecromancerSprite;
 import com.trickcalpixel.trickcalpixeldungeon.ui.BuffIcon;
 import com.trickcalpixel.trickcalpixeldungeon.ui.BuffIndicator;
 import com.trickcalpixel.trickcalpixeldungeon.ui.Icons;
@@ -84,7 +79,7 @@ public class v1_X_Changes {
 				"_30 pages of lore text have been added to the game, scattered around the regions of the dungeon!_\n\n" +
 				"These pages are found through the dungeon and go into a new tab in the journal window. Each region contains 6 pages that make up a short story that gives more details about that region and the people who have been there before the player."));
 
-		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.RING_TOURMALINE), new RingOfArcana().trueName(),
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.BRACELET), new AntiParryBracelet().trueName(),
 				"_A new ring has been added that enhances enchantments and glyphs!_\n\n" +
 				"The Ring of Arcana lets the player directly power up their enchantments and glyphs, instead of only being able to power them up by upgrading the item they are attached to. This can lead to be some really potent enchant/glyph effects at high ring levels."));
 
@@ -93,7 +88,7 @@ public class v1_X_Changes {
 				"Rather than just using the effect of earthroot, the footwear of nature now use the effect of the seed most recently fed to them! These effects can be triggered on nearby enemies instead of just on you, opening up a bunch of tactical potential for this artifact.\n\n" +
 				"For balance, the amount of extra seeds/dew the footwear gives has been reduced, and 1 additional seed is needed for each upgrade level."));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.WARRIOR, 0, 90, 12, 15), HeroSubClass.BERSERKER.title(),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.AYA, 0, 90, 12, 15), HeroSubClass.BERSERKER.title(),
 				"_The Berserker's berserk ability is now manually activated, but has a much lower cooldown._\n\n" +
 				"I'm doing this to try and make the subclass a bit more engaging, players can now trigger berserk at any point when they have 100% or more rage. Berserking still gives a big bonus shield, letting the Berserker survive normally fatal encounters. The lower the Berserker's health, the more shielding he gets.\n\n" +
 				"The Berserker's talents have been adjusted as well:\n" +
@@ -174,7 +169,7 @@ public class v1_X_Changes {
 				"_-_ The controller pointer can now pan the game camera\n" +
 				"_-_ Heroes can now be renamed individually"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.ALICE, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed the following bugs:\n\n" +
 				"_Highlights:_\n" +
 				"_-_ Victory and Champion badges not being awarded in some cases\n" +
@@ -257,14 +252,7 @@ public class v1_X_Changes {
 		changes.hardlight(CharSprite.POSITIVE);
 		changeInfos.add(changes);
 
-		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.RING_AMETHYST), new RingOfWealth().trueName(),
-				"I'm making a few improvements to the ring of wealth, mainly to make it more worth upgrading:\n\n" +
-				"_-_ Now gives a rare drop every 0-20 kills, up from every 0-25\n" +
-				"_-_ Now gives an equipment drop every 5-10 rare drops, down from every 4-8\n" +
-				"_-_ Equipment drops are now guaranteed to be at least level 1/2/3/4/5/6 at ring level 1/3/5/7/9/11, up from 1/3/6/10/15/21\n\n" +
-				"To limit the effectiveness of farming for a long time to stack up two highly upgraded rings of wealth, the level for equipment drops is based on your most powerful wealth ring, and a second one can only boost the level by another +1 at most."));
-
-		changes.addButton(new ChangeButton( new WandOfTransfusion(),
+		changes.addButton(new ChangeButton( new WandOfBlastWave(),
 				"I'm boosting the wand of transfusion's damage scaling versus undead enemies slightly:\n\n" +
 				"_-_ Damage vs. undead scaling up to 1-2 per level, from 0.5-1"));
 
@@ -392,7 +380,7 @@ public class v1_X_Changes {
 				"_-_ Boss health bars have been expanded to show current health and active buffs/debuffs.\n" +
 				"_-_ The Changes scene has been expanded on large enough displays. This is the first of several UI expansions I'd like to make over time."));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.ALICE, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed\n" +
 				"_-_ Various minor textual and visual bugs\n" +
 				"_-_ Final boss's summons being slightly weaker than intended when badder bosses is enabled\n" +
@@ -458,13 +446,6 @@ public class v1_X_Changes {
 				"Two of the most harsh curses have been nerfed (i.e. made better for the player):\n\n" +
 				"_- Anti-Entropy_ now spreads less fire to the player, and freezes all adjacent tiles instead of just the enemy.\n\n" +
 				"_- Sacrifice_ now more heavily scales on current HP, bleeding for a bit more at high health, and very little at medium to low health."));
-
-		changes.addButton( new ChangeButton(new Image(new ElementalSprite.Fire()), "Floor 16 Adjustments",
-				"Floor 16's spawn rates have been adjusted:\n\n" +
-				"Ghouls up to 60% from 40%\n" +
-				"Elementals down to 20% from 40%\n" +
-				"Warlocks unchanged at 20%\n\n" +
-				"This is to help smooth over a slight difficulty spike on that floor."));
 
 	}
 
@@ -535,7 +516,7 @@ public class v1_X_Changes {
 				"_-_ Added a new language: Galician!\n" +
 				"_-_ Removed the Catalan translation as it was below 70% complete"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.ALICE, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed:\n" +
 				"_-_ Various rare cases of save corruption on Android\n" +
 				"_-_ Various minor textual and visual errors\n\n" +
@@ -580,7 +561,7 @@ public class v1_X_Changes {
 		changes.hardlight(CharSprite.POSITIVE);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.FIRE_BOMB), "Recipe Cost Reductions",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.AMULET), "Recipe Cost Reductions",
 				"I've made a bunch of cost adjustments to alchemy recipes to help counteract energy becoming more expensive after v1.1.0:\n\n" +
 				"_- Bomb Recipe_ energy costs down across the board\n\n" +
 				"_- Infernal, Blizzard, and Caustic Brew_ energy costs down by 1\n\n" +
@@ -728,7 +709,7 @@ public class v1_X_Changes {
 				"\n" +
 				"_-_ Updated translations and translator credits"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.ALICE, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed:\n" +
 				"_-_ Various minor/rare visual and textual errors\n" +
 				"_-_ Cases where pausing/resuming the game at precise moments would cancel animations or attacks\n" +
@@ -797,7 +778,7 @@ public class v1_X_Changes {
 				"I'm giving a mild buff to the _Dried Rose_ to fix an odd inconsistency where it was better to kill the ghost off than let them heal:\n" +
 				"_-_ Ghost HP regen doubled, to match the roses recharge speed (500 turns to full HP)"));
 
-		changes.addButton( new ChangeButton( new Image(Assets.Sprites.WARRIOR, 0, 90, 12, 15), HeroSubClass.BERSERKER.title(),
+		changes.addButton( new ChangeButton( new Image(Assets.Sprites.AYA, 0, 90, 12, 15), HeroSubClass.BERSERKER.title(),
 				"The berserker is getting a small QOL buff to make it easier to hold onto rage in combat:\n\n" +
 				"_-_ Rage now starts expiring after not taking damage for 2 turns, instead of immediately."));
 
@@ -813,11 +794,7 @@ public class v1_X_Changes {
 		changes.hardlight(CharSprite.NEGATIVE);
 		changeInfos.add(changes);
 
-		changes.addButton(new ChangeButton(new MagesStaff(),
-				"The reduction to the Mage's starting melee damage in v1.0.0 had a good effect on his early game winrate, but it's still notably higher than other heroes. So, I'm nudging his early melee power down one more time:\n\n" +
-				"_- Mage's Staff_ base damage reduced to 1-6 from 1-7."));
-
-		changes.addButton( new ChangeButton( new Image(Assets.Sprites.ROGUE, 0, 90, 12, 15), HeroSubClass.ASSASSIN.title(),
+		changes.addButton( new ChangeButton( new Image(Assets.Sprites.AYA, 0, 90, 12, 15), HeroSubClass.ASSASSIN.title(),
 				"The Assassin is doing very well right now, especially after the power boost he can receive from smoke bomb or death mark. I'm scaling back his core power a little to try and reign him in a bit:\n\n" +
 				"_-_ Preparation bonus damage at power level 1/2/3/4 reduced to 10/20/35/50%, from 15/30/45/60%"));
 
@@ -876,10 +853,6 @@ public class v1_X_Changes {
 				"This is partly as a reference to the tome of mastery, which I removed in the previous update, and partly because the game's tutorial functionality has been improved.\n\n" +
 				"Guidebook pages are now a bit shorter and more plentiful, and some of them are now given to the player right at the start of the game. These automatic pages are suggested to the player to read at crucial moments. This way the guidebook does a better job of highlighting info right when it's needed."));
 
-		changes.addButton(new ChangeButton(new Image(new SpectralNecromancerSprite()), "spectral necromancers",
-				"A new rare variant has been added for necromancers: _Spectral Necromancers!_\n\n" +
-				"These necromancers don't care for skeletons, and prefer to summon a bunch of wraiths instead! Dealing with their horde might be tricky, but you'll be rewarded with a scroll of remove curse."));
-
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.ANKH), "new ankh mechanics",
 				"_Regular Ankhs_ have been totally redesigned, and now give the player a chance to save all of their equipment! Be careful though, you'll have to fight your way back to your lost gear.\n\n" +
 				"_Blessed Ankhs_ have received comparatively minor changes. In addition to the resurrection effect, these ankhs now also give the player 3 turns of invulnerability. This should help give players a moment to heal up after being revived."));
@@ -913,7 +886,7 @@ public class v1_X_Changes {
 				"_-_ Becoming magic immune now also cleanses existing magical buffs and debuffs.\n" +
 				"_-_ Traps that spawn visible or that never deactivate can no longer appear in enclosed spaces"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.ALICE, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed:\n" +
 				"_-_ Various rare crash bugs\n" +
 				"_-_ Various minor visual and text errors\n" +
@@ -975,18 +948,9 @@ public class v1_X_Changes {
 				"_- Go for the Eyes_ now gives 2/4/6/8 turns of blind, up from 2/3/4/5.\n\n" +
 				"_- Spirit Blades_ effectiveness increased by 20%."));
 
-		changes.addButton( new ChangeButton(new WoollyBomb(),
-				"As stones of flock were buffed, I thought it was only fair to give woolly bombs some compensation buffs as well:\n\n" +
-				"_-_ AOE size up to 9x9 from 5x5\n" +
-				"_-_ Sheep duration up to 12-16 from 8-16"));
-
 		changes = new ChangeInfo(Messages.get(ChangesScene.class, "nerfs"), false, null);
 		changes.hardlight(CharSprite.NEGATIVE);
 		changeInfos.add(changes);
-
-		changes.addButton(new ChangeButton(new MagesStaff(),
-				"The Mage continues to do too well in the early game since the talent changes in v0.9.1. Rather than weakening his talents and other magical abilities more, I've decided to make him more reliant on them instead by reducing his melee damage.\n\n" +
-				"_- Mage's Staff_ base damage reduced to 1-7 from 1-8."));
 
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.CROWN, null), "Armor Ability Nerfs",
 				"I focused mostly on buffs this update, but a few abilities and talents do need to be scaled back a little:\n\n" +

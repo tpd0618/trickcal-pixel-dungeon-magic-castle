@@ -31,7 +31,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Adrenaline;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AllyBuff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Amok;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AscensionChallenge;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.ChampionEnemy;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Charm;
@@ -50,26 +49,17 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.Feint;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.DirectableAlly;
-import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.FloatingText;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Surprise;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Wound;
-import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ShadowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfWealth;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.stones.StoneOfAggression;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ExoticCrystals;
-import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ShardOfOblivion;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Lucky;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -130,7 +120,6 @@ public abstract class Mob extends Char {
 		if (firstAdded) {
 			//modify health for ascension challenge if applicable, only on first add
 			float percent = HP / (float) HT;
-			HT = Math.round(HT * AscensionChallenge.statModifier(this));
 			HP = Math.round(HT * percent);
 			firstAdded = false;
 		}
@@ -237,13 +226,6 @@ public abstract class Mob extends Char {
 		enemy = chooseEnemy();
 		
 		boolean enemyInFOV = enemy != null && enemy.isAlive() && fieldOfView[enemy.pos] && enemy.invisible <= 0;
-
-		//prevents action, but still updates enemy seen status
-		if (buff(Feint.AfterImage.FeintConfusion.class) != null){
-			enemySeen = enemyInFOV;
-			spend( TICK );
-			return true;
-		}
 
 		return state.act( enemyInFOV, justAlerted );
 	}
@@ -406,10 +388,6 @@ public abstract class Mob extends Char {
 				//if we were going to target the hero, but an afterimage exists, target that instead
 				if (closest == Dungeon.hero){
 					for (Char ch : enemies){
-						if (ch instanceof Feint.AfterImage){
-							closest = ch;
-							break;
-						}
 					}
 				}
 
@@ -675,7 +653,6 @@ public abstract class Mob extends Char {
 		
 		if (enemy instanceof Hero
 				&& ((Hero) enemy).belongings.attackingWeapon() instanceof MissileWeapon){
-			Statistics.thrownAttacks++;
 			Badges.validateHuntressUnlock();
 		}
 		
@@ -684,8 +661,7 @@ public abstract class Mob extends Char {
 			Badges.validateRogueUnlock();
 			//TODO this is somewhat messy, it would be nicer to not have to manually handle delays here
 			// playing the strong hit sound might work best as another property of weapon?
-			if (Dungeon.hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow
-				|| Dungeon.hero.belongings.attackingWeapon() instanceof Dart){
+			if (Dungeon.hero.belongings.attackingWeapon() instanceof Dart){
 				Sample.INSTANCE.playDelayed(Assets.Sounds.HIT_STRONG, 0.125f);
 			} else {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
@@ -727,7 +703,7 @@ public abstract class Mob extends Char {
 
 	@Override
 	public float speed() {
-		return super.speed() * AscensionChallenge.enemySpeedModifier(this);
+		return super.speed();
 	}
 
 	public final boolean surprisedBy( Char enemy ){
@@ -795,21 +771,10 @@ public abstract class Mob extends Char {
 			if (alignment == Alignment.ENEMY) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
-				Statistics.qualifiedForNoKilling = false;
 				Bestiary.setSeen(getClass());
 				Bestiary.countEncounter(getClass());
-
-				AscensionChallenge.processEnemyKill(this);
 				
 				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
-
-				//during ascent, under-levelled enemies grant 10 xp each until level 30
-				// after this enemy kills which reduce the amulet curse still grant 10 effective xp
-				// for the purposes of on-exp effects, see AscensionChallenge.processEnemyKill
-				if (Dungeon.hero.buff(AscensionChallenge.class) != null &&
-						exp == 0 && maxLvl > 0 && EXP > 0 && Dungeon.hero.lvl < Hero.MAX_LEVEL){
-					exp = Math.round(10 * spawningWeight());
-				}
 
 				if (exp > 0) {
 					Dungeon.hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(exp), FloatingText.EXPERIENCE);
@@ -857,71 +822,20 @@ public abstract class Mob extends Char {
 		boolean soulMarked = buff(SoulMark.class) != null;
 
 		super.die( cause );
-
-		if (!(this instanceof Wraith)
-				&& soulMarked
-				&& Random.Float() < (0.4f*Dungeon.hero.pointsInTalent(Talent.NECROMANCERS_MINIONS)/3f)){
-			Wraith w = Wraith.spawnAt(pos, Wraith.class);
-			if (w != null) {
-				Buff.affect(w, Corruption.class);
-				if (Dungeon.level.heroFOV[pos]) {
-					CellEmitter.get(pos).burst(ShadowParticle.CURSE, 6);
-					Sample.INSTANCE.play(Assets.Sounds.CURSED);
-				}
-			}
-		}
 	}
 
 	public float lootChance(){
 		float lootChance = this.lootChance;
 
-		float dropBonus = RingOfWealth.dropChanceMultiplier( Dungeon.hero );
-
-		Talent.BountyHunterTracker bhTracker = Dungeon.hero.buff(Talent.BountyHunterTracker.class);
-		if (bhTracker != null){
-			Preparation prep = Dungeon.hero.buff(Preparation.class);
-			if (prep != null){
-				// 2/4/8/16% per prep level, multiplied by talent points
-				float bhBonus = 0.02f * (float)Math.pow(2, prep.attackLevel()-1);
-				bhBonus *= Dungeon.hero.pointsInTalent(Talent.BOUNTY_HUNTER);
-				dropBonus += bhBonus;
-			}
-		}
-
-		dropBonus += ShardOfOblivion.lootChanceMultiplier()-1f;
-
-		return lootChance * dropBonus;
+		return lootChance;
 	}
 	
 	public void rollToDropLoot(){
 		if (Dungeon.hero.lvl > maxLvl + 2) return;
-
-		MasterThievesArmband.StolenTracker stolen = buff(MasterThievesArmband.StolenTracker.class);
-		if (stolen == null || !stolen.itemWasStolen()) {
-			if (Random.Float() < lootChance()) {
-				Item loot = createLoot();
-				if (loot != null) {
-					Dungeon.level.drop(loot, pos).sprite.drop();
-				}
-			}
-		}
-		
-		//ring of wealth logic
-		if (Ring.getBuffedBonus(Dungeon.hero, RingOfWealth.Wealth.class) > 0) {
-			int rolls = 1;
-			if (properties.contains(Property.BOSS)) rolls = 15;
-			else if (properties.contains(Property.MINIBOSS)) rolls = 5;
-			ArrayList<Item> bonus = RingOfWealth.tryForBonusDrop(Dungeon.hero, rolls);
-			if (bonus != null && !bonus.isEmpty()) {
-				for (Item b : bonus) Dungeon.level.drop(b, pos).sprite.drop();
-				RingOfWealth.showFlareForBonusDrop(sprite);
-			}
-		}
 		
 		//lucky enchant logic
 		if (buff(Lucky.LuckProc.class) != null){
-			Dungeon.level.drop(buff(Lucky.LuckProc.class).genLoot(), pos).sprite.drop();
-			Lucky.showFlare(sprite);
+			Lucky.showFlare(sprite);//todo delete lucky enchant
 		}
 
 		//soul eater talent
@@ -1043,7 +957,7 @@ public abstract class Mob extends Char {
 					if (fieldOfView[ch.pos] && ch.invisible == 0 && ch.alignment != alignment && ch.alignment != Alignment.NEUTRAL){
 						float chDist = ch.stealth() + distance(ch);
 						//silent steps rogue talent, which also applies to rogue's shadow clone
-						if ((ch instanceof Hero || ch instanceof ShadowClone.ShadowAlly)
+						if ((ch instanceof Hero)
 								&& Dungeon.hero.hasTalent(Talent.SILENT_STEPS)){
 							if (distance(ch) >= 4 - Dungeon.hero.pointsInTalent(Talent.SILENT_STEPS)) {
 								chDist = Float.POSITIVE_INFINITY;

@@ -29,9 +29,8 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroClass;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.CorpseDust;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.Trinket;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Notes;
@@ -102,13 +101,12 @@ public enum Rankings {
 		rec.armorTier	= Dungeon.hero.tier();
 		rec.herolevel	= Dungeon.hero.lvl;
 		if (Statistics.highestAscent == 0){
-			rec.depth = Statistics.deepestFloor;
+			rec.depth = Statistics.highestFloor;
 			rec.ascending = false;
 		} else {
 			rec.depth = Statistics.highestAscent;
 			rec.ascending = true;
 		}
-		rec.score       = calculateScore();
 		rec.customSeed  = Dungeon.customSeedText;
 		rec.daily       = Dungeon.daily;
 
@@ -166,69 +164,6 @@ public enum Rankings {
 
 	private int score( boolean win ) {
 		return (Statistics.goldCollected + Dungeon.hero.lvl * (win ? 26 : Dungeon.depth ) * 100) * (win ? 2 : 1);
-	}
-
-	//assumes a ranking is loaded, or game is ending
-	public int calculateScore(){
-
-		if (Dungeon.initialVersion > ShatteredPixelDungeon.v1_2_3){
-			Statistics.progressScore = Dungeon.hero.lvl * Statistics.deepestFloor * 65;
-			Statistics.progressScore = Math.min(Statistics.progressScore, 50_000);
-
-			if (Statistics.heldItemValue == 0) {
-				for (Item i : Dungeon.hero.belongings) {
-					Statistics.heldItemValue += i.value();
-					if (i instanceof CorpseDust && Statistics.deepestFloor >= 10){
-						// in case player kept the corpse dust, for a necromancer run
-						Statistics.questScores[1] = 2000;
-					}
-				}
-			}
-			Statistics.treasureScore = Statistics.goldCollected + Statistics.heldItemValue;
-			Statistics.treasureScore = Math.min(Statistics.treasureScore, 20_000);
-
-			Statistics.exploreScore = 0;
-			int scorePerFloor = Statistics.floorsExplored.size * 50;
-			for (Boolean b : Statistics.floorsExplored.valueList()){
-				if (b) Statistics.exploreScore += scorePerFloor;
-			}
-
-			Statistics.totalBossScore = 0;
-			for (int i : Statistics.bossScores){
-				if (i > 0) Statistics.totalBossScore += i;
-			}
-
-			Statistics.totalQuestScore = 0;
-			for (int i : Statistics.questScores){
-				if (i > 0) Statistics.totalQuestScore += i;
-			}
-
-			Statistics.winMultiplier = 1f;
-			if (Statistics.gameWon)         Statistics.winMultiplier += 1f;
-			if (Statistics.ascended)        Statistics.winMultiplier += 0.5f;
-
-		//pre v1.3.0 runs have different score calculations
-		//only progress and treasure score, and they are each up to 50% bigger
-		//win multiplier is a simple 2x if run was a win, challenge multi is the same as 1.3.0
-		} else {
-			Statistics.progressScore = Dungeon.hero.lvl * Statistics.deepestFloor * 100;
-			Statistics.treasureScore = Math.min(Statistics.goldCollected, 30_000);
-
-			Statistics.exploreScore = Statistics.totalBossScore = Statistics.totalQuestScore = 0;
-
-			Statistics.winMultiplier = Statistics.gameWon ? 2 : 1;
-
-		}
-
-		Statistics.chalMultiplier = (float)Math.pow(1.25, Challenges.activeChallenges());
-		Statistics.chalMultiplier = Math.round(Statistics.chalMultiplier*20f)/20f;
-
-		Statistics.totalScore = Statistics.progressScore + Statistics.treasureScore + Statistics.exploreScore
-					+ Statistics.totalBossScore + Statistics.totalQuestScore;
-
-		Statistics.totalScore *= Statistics.winMultiplier * Statistics.chalMultiplier;
-
-		return Statistics.totalScore;
 	}
 
 	public static final String HERO         = "hero";
@@ -292,8 +227,8 @@ public enum Rankings {
 		Potion.saveSelectively(handler, belongings.backpack.items);
 		//include potentially worn rings
 		if (belongings.misc != null)        belongings.backpack.items.add(belongings.misc);
-		if (belongings.ring != null)        belongings.backpack.items.add(belongings.ring);
-		Ring.saveSelectively(handler, belongings.backpack.items);
+		if (belongings.bracelet != null)        belongings.backpack.items.add(belongings.bracelet);
+		Bracelet.saveSelectively(handler, belongings.backpack.items);
 		rec.gameData.put( HANDLERS, handler);
 
 		//restore items now that we're done saving
@@ -327,7 +262,7 @@ public enum Rankings {
 		Bundle handler = data.getBundle(HANDLERS);
 		Scroll.restore(handler);
 		Potion.restore(handler);
-		Ring.restore(handler);
+		Bracelet.restore(handler);
 
 		Badges.loadLocal(data.getBundle(BADGES));
 
@@ -339,11 +274,6 @@ public enum Rankings {
 		Dungeon.challenges = data.getInt(CHALLENGES);
 
 		Dungeon.initialVersion = data.getInt(GAME_VERSION);
-
-		if (Dungeon.initialVersion <= ShatteredPixelDungeon.v1_2_3){
-			Statistics.gameWon = rec.win;
-		}
-		rec.score = calculateScore();
 
 		if (rec.gameData.contains(SEED)){
 			Dungeon.seed = rec.gameData.getLong(SEED);

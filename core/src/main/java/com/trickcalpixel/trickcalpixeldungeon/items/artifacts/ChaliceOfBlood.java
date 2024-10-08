@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +22,19 @@
 package com.trickcalpixel.trickcalpixeldungeon.items.artifacts;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
-import com.trickcalpixel.trickcalpixeldungeon.Badges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.effects.FloatingText;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ShadowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLivingEarth;
-import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.plants.Earthroot;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.CharSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
 import com.trickcalpixel.trickcalpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -56,26 +49,22 @@ public class ChaliceOfBlood extends Artifact {
 	public static final String AC_PRICK = "PRICK";
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (isEquipped( hero )
-				&& level() < levelCap
-				&& !cursed
-				&& !hero.isInvulnerable(getClass())
-				&& hero.buff(MagicImmune.class) == null)
-			actions.add(AC_PRICK);
+	public ArrayList<String> actions( Hero heroine) {
+		ArrayList<String> actions = super.actions(heroine);
+			if (isEquipped(heroine) && level() < levelCap && !cursed && !heroine.isInvulnerable(getClass()))
+				actions.add(AC_PRICK);
 		return actions;
 	}
 
 	@Override
-	public void execute(Hero hero, String action ) {
-		super.execute(hero, action);
+	public void execute(Hero heroine, String action ) {
+		super.execute(heroine, action);
 
 		if (action.equals(AC_PRICK)){
 
-			int damage = 5 + 3*(level()*level());
+			int damage = 3*(level()*level());
 
-			if (damage > hero.HP*0.75) {
+			if (damage > heroine.HP*0.75) {
 
 				GameScene.show(
 					new WndOptions(new ItemSprite(this),
@@ -92,46 +81,39 @@ public class ChaliceOfBlood extends Artifact {
 				);
 
 			} else {
-				prick(hero);
+				prick(heroine);
 			}
 		}
 	}
 
-	private void prick(Hero hero){
-		int damage = 5 + 3*(level()*level());
+	private void prick(Hero heroine){
+		int damage = 3*(level()*level());
 
-		Earthroot.Armor armor = hero.buff(Earthroot.Armor.class);
+		Earthroot.Armor armor = heroine.buff(Earthroot.Armor.class);
 		if (armor != null) {
 			damage = armor.absorb(damage);
 		}
 
-		WandOfLivingEarth.RockArmor rockArmor = hero.buff(WandOfLivingEarth.RockArmor.class);
-		if (rockArmor != null) {
-			damage = rockArmor.absorb(damage);
-		}
+		damage -= heroine.drRoll();
 
-		damage -= hero.drRoll();
-
-		hero.sprite.operate( hero.pos );
-		hero.busy();
-		hero.spend(3f);
+		heroine.sprite.operate( heroine.pos );
+		heroine.busy();
+		heroine.spend(3f);
 		GLog.w( Messages.get(this, "onprick") );
 		if (damage <= 0){
 			damage = 1;
 		} else {
 			Sample.INSTANCE.play(Assets.Sounds.CURSED);
-			hero.sprite.emitter().burst( ShadowParticle.CURSE, 4+(damage/10) );
+			heroine.sprite.emitter().burst( ShadowParticle.CURSE, 4+(damage/10) );
 		}
 
-		hero.damage(damage, this);
+		heroine.damage(damage, this);
 
-		if (!hero.isAlive()) {
-			Badges.validateDeathFromFriendlyMagic();
-			Dungeon.fail( this );
+		if (!heroine.isAlive()) {
+			Dungeon.fail( getClass() );
 			GLog.n( Messages.get(this, "ondeath") );
 		} else {
 			upgrade();
-			Catalog.countUse(getClass());
 		}
 	}
 
@@ -158,26 +140,11 @@ public class ChaliceOfBlood extends Artifact {
 	
 	@Override
 	public void charge(Hero target, float amount) {
-		if (cursed || target.buff(MagicImmune.class) != null) return;
-
-		//grants 5 turns of healing up-front, if hero isn't starving
-		if (target.isStarving()) return;
-
-		float healDelay = 10f - (1.33f + level()*0.667f);
+		//grants 5 turns of healing up-front
+		float healDelay = 10f - level()*0.9f;
 		healDelay /= amount;
-		float heal = 5f/healDelay;
-		//effectively 0.5/1/1.5/2/2.5 HP per turn at +0/+6/+8/+9/+10
-		if (Random.Float() < heal%1){
-			heal++;
-		}
-		if (heal >= 1f && target.HP < target.HT) {
-			target.HP = Math.min(target.HT, target.HP + (int)heal);
-			target.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString((int)heal), FloatingText.HEALING);
-
-			if (target.HP == target.HT && target instanceof Hero) {
-				((Hero) target).resting = false;
-			}
-		}
+		//effectively 1HP at lvl 0-5, 2HP lvl 6-8, 3HP lvl 9, and 5HP lvl 10.
+		target.HP = Math.min( target.HT, target.HP + (int)Math.ceil(5/healDelay));
 	}
 	
 	@Override

@@ -36,8 +36,6 @@ import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.glyphs.Brimstone;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfAccuracy;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEvasion;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.Chasm;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.CharSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.PrismaticSprite;
@@ -162,7 +160,7 @@ public class PrismaticImage extends NPC {
 	public int attackSkill( Char target ) {
 		if (hero != null) {
 			//same base attack skill as hero, benefits from accuracy ring
-			return (int)((9 + hero.lvl) * RingOfAccuracy.accuracyMultiplier(hero));
+			return (int)((9 + hero.lvl));
 		} else {
 			return 0;
 		}
@@ -172,7 +170,7 @@ public class PrismaticImage extends NPC {
 	public int defenseSkill(Char enemy) {
 		if (hero != null) {
 			int baseEvasion = 4 + hero.lvl;
-			int heroEvasion = (int)((4 + hero.lvl) * RingOfEvasion.evasionMultiplier( hero ));
+			int heroEvasion = (int)((4 + hero.lvl));
 			if (hero.belongings.armor() != null){
 				heroEvasion = (int)hero.belongings.armor().evasionFactor(this, heroEvasion);
 			}

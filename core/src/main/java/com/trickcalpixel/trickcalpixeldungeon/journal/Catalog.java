@@ -31,10 +31,8 @@ import com.trickcalpixel.trickcalpixeldungeon.items.EnergyCrystal;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Gold;
 import com.trickcalpixel.trickcalpixeldungeon.items.Honeypot;
-import com.trickcalpixel.trickcalpixeldungeon.items.KingsCrown;
 import com.trickcalpixel.trickcalpixeldungeon.items.LiquidMetal;
 import com.trickcalpixel.trickcalpixeldungeon.items.Stylus;
-import com.trickcalpixel.trickcalpixeldungeon.items.TengusMask;
 import com.trickcalpixel.trickcalpixeldungeon.items.Torch;
 import com.trickcalpixel.trickcalpixeldungeon.items.Waterskin;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
@@ -42,17 +40,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.bags.MagicalHolster;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.PotionBandolier;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.ScrollHolder;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.VelvetPouch;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.ArcaneBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Firebomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.SmokeBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.FrostBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.HolyBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Noisemaker;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.RegrowthBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.FlashBangBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.ShrapnelBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.WoollyBomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Berry;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Blandfruit;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.ChargrilledMeat;
@@ -71,12 +58,9 @@ import com.trickcalpixel.trickcalpixeldungeon.items.keys.IronKey;
 import com.trickcalpixel.trickcalpixeldungeon.items.keys.SkeletonKey;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.AquaBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.BlizzardBrew;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.CausticBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.InfernalBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.ShockingBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.UnstableBrew;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
@@ -84,13 +68,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfIcyT
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfMight;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfToxicEssence;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.CeremonialCandle;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.CorpseDust;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.DarkGold;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.DwarfToken;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.Embers;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.GooBlob;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.MetalShard;
 import com.trickcalpixel.trickcalpixeldungeon.items.remains.BowFragment;
 import com.trickcalpixel.trickcalpixeldungeon.items.remains.BrokenHilt;
 import com.trickcalpixel.trickcalpixeldungeon.items.remains.BrokenStaff;
@@ -98,18 +75,12 @@ import com.trickcalpixel.trickcalpixeldungeon.items.remains.CloakScrap;
 import com.trickcalpixel.trickcalpixeldungeon.items.remains.SealShard;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Alchemize;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.BeaconOfReturning;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.CurseInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.MagicalInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.PhaseShift;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.ReclaimTrap;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Recycle;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.SummonElemental;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.TelekineticGrab;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.UnstableSpell;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.WildEnergy;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.TrinketCatalyst;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.darts.TippedDart;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -210,13 +181,13 @@ public enum Catalog {
 
 		WANDS.addItems(Generator.Category.WAND.classes);
 
-		RINGS.addItems(Generator.Category.RING.classes);
+		RINGS.addItems(Generator.Category.BRACELET.classes);
 
 		ARTIFACTS.addItems(Generator.Category.ARTIFACT.classes);
 
 		TRINKETS.addItems(Generator.Category.TRINKET.classes);
 
-		MISC_EQUIPMENT.addItems(BrokenSeal.class, SpiritBow.class, Waterskin.class, VelvetPouch.class,
+		MISC_EQUIPMENT.addItems(BrokenSeal.class, Waterskin.class, VelvetPouch.class,
 				PotionBandolier.class, ScrollHolder.class, MagicalHolster.class, Amulet.class);
 
 
@@ -237,25 +208,18 @@ public enum Catalog {
 
 		EXOTIC_SCROLLS.addItems(ExoticScroll.exoToReg.keySet().toArray(new Class[0]));
 
-		BOMBS.addItems( Bomb.class, FrostBomb.class, Firebomb.class, SmokeBomb.class, RegrowthBomb.class,
-				WoollyBomb.class, Noisemaker.class, FlashBangBomb.class, HolyBomb.class, ArcaneBomb.class, ShrapnelBomb.class);
-
 		TIPPED_DARTS.addItems(TippedDart.types.values().toArray(new Class[0]));
 
 		BREWS_ELIXIRS.addItems( UnstableBrew.class, InfernalBrew.class, BlizzardBrew.class,
-				ShockingBrew.class, CausticBrew.class, AquaBrew.class, ElixirOfHoneyedHealing.class,
-				ElixirOfAquaticRejuvenation.class, ElixirOfArcaneArmor.class, ElixirOfDragonsBlood.class,
+				ShockingBrew.class, AquaBrew.class, ElixirOfHoneyedHealing.class, ElixirOfDragonsBlood.class,
 				ElixirOfIcyTouch.class, ElixirOfToxicEssence.class, ElixirOfMight.class, ElixirOfFeatherFall.class);
 
-		SPELLS.addItems( UnstableSpell.class, WildEnergy.class, TelekineticGrab.class, PhaseShift.class,
-				Alchemize.class, CurseInfusion.class, MagicalInfusion.class, Recycle.class,
-				ReclaimTrap.class, SummonElemental.class, BeaconOfReturning.class);
+		SPELLS.addItems( UnstableSpell.class, TelekineticGrab.class, PhaseShift.class,
+				Alchemize.class, MagicalInfusion.class, Recycle.class);
 
 		MISC_CONSUMABLES.addItems( Gold.class, EnergyCrystal.class, Dewdrop.class,
 				IronKey.class, GoldenKey.class, CrystalKey.class, SkeletonKey.class,
 				TrinketCatalyst.class, Stylus.class, Torch.class, Honeypot.class, Ankh.class,
-				CorpseDust.class, Embers.class, CeremonialCandle.class, DarkGold.class, DwarfToken.class,
-				GooBlob.class, TengusMask.class, MetalShard.class, KingsCrown.class,
 				LiquidMetal.class, ArcaneResin.class,
 				SealShard.class, BrokenStaff.class, CloakScrap.class, BowFragment.class, BrokenHilt.class);
 

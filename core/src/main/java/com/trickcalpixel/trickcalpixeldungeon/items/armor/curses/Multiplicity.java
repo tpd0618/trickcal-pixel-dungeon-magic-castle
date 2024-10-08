@@ -26,12 +26,8 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.PinCushion;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.Ratmogrify;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.DwarfKing;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Statue;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Thief;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.NPC;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
@@ -73,14 +69,10 @@ public class Multiplicity extends Armor.Glyph {
 				} else {
 					Char toDuplicate = attacker;
 
-					if (toDuplicate instanceof Ratmogrify.TransmogRat){
-						toDuplicate = ((Ratmogrify.TransmogRat)attacker).getOriginal();
-					}
-
 					//FIXME should probably have a mob property for this
 					if (!(toDuplicate instanceof Mob)
 							|| toDuplicate.properties().contains(Char.Property.BOSS) || toDuplicate.properties().contains(Char.Property.MINIBOSS)
-							|| toDuplicate instanceof Mimic || toDuplicate instanceof Statue || toDuplicate instanceof NPC) {
+							|| toDuplicate instanceof Mimic || toDuplicate instanceof NPC) {
 						m = Dungeon.level.createMob();
 					} else {
 						Actor.fixTime();
@@ -97,13 +89,6 @@ public class Multiplicity extends Armor.Glyph {
 
 							//don't duplicate stuck projectiles
 							m.remove(m.buff(PinCushion.class));
-							//don't duplicate pending damage to dwarf king
-							m.remove(DwarfKing.KingDamager.class);
-							
-							//If a thief has stolen an item, that item is not duplicated.
-							if (m instanceof Thief) {
-								((Thief) m).item = null;
-							}
 						}
 					}
 				}

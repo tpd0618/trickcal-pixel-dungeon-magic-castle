@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.stones.Runestone;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
@@ -38,7 +37,6 @@ import com.trickcalpixel.trickcalpixeldungeon.ui.RedButton;
 import com.trickcalpixel.trickcalpixeldungeon.windows.WndBag;
 import com.trickcalpixel.trickcalpixeldungeon.windows.WndEnergizeItem;
 import com.trickcalpixel.trickcalpixeldungeon.windows.WndInfoItem;
-import com.trickcalpixel.trickcalpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
@@ -115,8 +113,7 @@ public class Alchemize extends Spell {
 
 		@Override
 		public boolean itemSelectable(Item item) {
-			return !(item instanceof Alchemize)
-					&& (Shopkeeper.canSell(item) || item.energyVal() > 0);
+			return item.energyVal() > 0;
 		}
 
 		@Override
@@ -144,54 +141,6 @@ public class Alchemize extends Spell {
 			this.owner = owner;
 
 			float pos = height;
-
-			if (Shopkeeper.canSell(item)) {
-				if (item.quantity() == 1) {
-
-					RedButton btnSell = new RedButton(Messages.get(this, "sell", item.value())) {
-						@Override
-						protected void onClick() {
-							WndTradeItem.sell(item);
-							hide();
-							consumeAlchemize();
-						}
-					};
-					btnSell.setRect(0, pos + GAP, width, BTN_HEIGHT);
-					btnSell.icon(new ItemSprite(ItemSpriteSheet.GOLD));
-					add(btnSell);
-
-					pos = btnSell.bottom();
-
-				} else {
-
-					int priceAll = item.value();
-					RedButton btnSell1 = new RedButton(Messages.get(this, "sell_1", priceAll / item.quantity())) {
-						@Override
-						protected void onClick() {
-							WndTradeItem.sellOne(item);
-							hide();
-							consumeAlchemize();
-						}
-					};
-					btnSell1.setRect(0, pos + GAP, width, BTN_HEIGHT);
-					btnSell1.icon(new ItemSprite(ItemSpriteSheet.GOLD));
-					add(btnSell1);
-					RedButton btnSellAll = new RedButton(Messages.get(this, "sell_all", priceAll)) {
-						@Override
-						protected void onClick() {
-							WndTradeItem.sell(item);
-							hide();
-							consumeAlchemize();
-						}
-					};
-					btnSellAll.setRect(0, btnSell1.bottom() + 1, width, BTN_HEIGHT);
-					btnSellAll.icon(new ItemSprite(ItemSpriteSheet.GOLD));
-					add(btnSellAll);
-
-					pos = btnSellAll.bottom();
-
-				}
-			}
 
 			if (item.energyVal() > 0) {
 				if (item.quantity() == 1) {

@@ -31,7 +31,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Adrenaline;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AllyBuff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Amok;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.ArcaneArmor;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AscensionChallenge;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Barkskin;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Berserk;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Bleeding;
@@ -67,7 +66,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Preparation;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.ShieldBuff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Sleep;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Slow;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.SnipersMark;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Speed;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Stamina;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Terror;
@@ -77,16 +75,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Weakness;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.Challenge;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.rogue.DeathMark;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.warrior.Endure;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.CrystalSpire;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.DwarfKing;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Elemental;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.GnollGeomancer;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Necromancer;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Tengu;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.YogDzewa;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.PrismaticImage;
 import com.trickcalpixel.trickcalpixeldungeon.effects.FloatingText;
@@ -95,21 +83,14 @@ import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.glyphs.Potential;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.glyphs.Viscosity;
-import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.DriedRose;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.exotic.PotionOfCleansing;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.Pickaxe;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfElements;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.trickcalpixel.trickcalpixeldungeon.items.stones.StoneOfAggression;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfFireblast;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfFrost;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLightning;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLivingEarth;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Blazing;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Grim;
@@ -123,7 +104,6 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.Chasm;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.Door;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.GeyserTrap;
-import com.trickcalpixel.trickcalpixeldungeon.levels.traps.GnollRockfallTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.GrimTrap;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.plants.Earthroot;
@@ -191,9 +171,7 @@ public abstract class Char extends Actor {
 
 	protected void throwItems(){
 		Heap heap = Dungeon.level.heaps.get( pos );
-		if (heap != null && heap.type == Heap.Type.HEAP
-				&& !(heap.peek() instanceof Tengu.BombAbility.BombItem)
-				&& !(heap.peek() instanceof Tengu.ShockerAbility.ShockerItem)) {
+		if (heap != null && heap.type == Heap.Type.HEAP) {
 			ArrayList<Integer> candidates = new ArrayList<>();
 			for (int n : PathFinder.NEIGHBOURS8){
 				if (Dungeon.level.passable[pos+n]){
@@ -364,8 +342,8 @@ public abstract class Char extends Actor {
 			return false;
 
 		} else if (hit( this, enemy, accMulti, false )) {
-			
-			int dr = Math.round(enemy.drRoll() * AscensionChallenge.statModifier(enemy));
+
+			int dr = Math.round(enemy.drRoll());
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
@@ -409,18 +387,6 @@ public abstract class Char extends Actor {
 				dmg *= buff.meleeDamageFactor();
 			}
 
-			dmg *= AscensionChallenge.statModifier(this);
-
-			//friendly endure
-			Endure.EndureTracker endure = buff(Endure.EndureTracker.class);
-			if (endure != null) dmg = endure.damageFactor(dmg);
-
-			//enemy endure
-			endure = enemy.buff(Endure.EndureTracker.class);
-			if (endure != null){
-				dmg = endure.adjustDamageTaken(dmg);
-			}
-
 			if (enemy.buff(ScrollOfChallenge.ChallengeArena.class) != null){
 				dmg *= 0.67f;
 			}
@@ -438,10 +404,6 @@ public abstract class Char extends Actor {
 					&& enemy.alignment == alignment
 					&& (Char.hasProp(enemy, Property.BOSS) || Char.hasProp(enemy, Property.MINIBOSS))){
 				dmg *= 0.5f;
-				//yog-dzewa specifically takes 1/4 damage
-				if (enemy instanceof YogDzewa){
-					dmg *= 0.5f;
-				}
 			}
 			
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );
@@ -485,7 +447,6 @@ public abstract class Char extends Actor {
 				} else {
 					//helps with triggering any on-damage effects that need to activate
 					enemy.damage(-1, this);
-					DeathMark.processFearTheReaper(enemy);
 				}
 				if (enemy.sprite != null) {
 					enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Preparation.class, "assassinated"));
@@ -503,7 +464,6 @@ public abstract class Char extends Actor {
 					} else {
 						//helps with triggering any on-damage effects that need to activate
 						enemy.damage(-1, this);
-						DeathMark.processFearTheReaper(enemy);
 					}
 					if (enemy.sprite != null) {
 						enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Talent.CombinedLethalityAbilityTracker.class, "executed"));
@@ -524,8 +484,7 @@ public abstract class Char extends Actor {
 						return true;
 					}
 
-					if (this instanceof WandOfLivingEarth.EarthGuardian
-							|| this instanceof MirrorImage || this instanceof PrismaticImage){
+					if (this instanceof MirrorImage || this instanceof PrismaticImage){
 						Badges.validateDeathFromFriendlyMagic();
 					}
 					Dungeon.fail( this );
@@ -590,7 +549,6 @@ public abstract class Char extends Actor {
 		for (ChampionEnemy buff : attacker.buffs(ChampionEnemy.class)){
 			acuRoll *= buff.evasionAndAccuracyFactor();
 		}
-		acuRoll *= AscensionChallenge.statModifier(attacker);
 		
 		float defRoll = Random.Float( defStat );
 		if (defender.buff(Bless.class) != null) defRoll *= 1.25f;
@@ -599,7 +557,6 @@ public abstract class Char extends Actor {
 		for (ChampionEnemy buff : defender.buffs(ChampionEnemy.class)){
 			defRoll *= buff.evasionAndAccuracyFactor();
 		}
-		defRoll *= AscensionChallenge.statModifier(defender);
 		
 		return (acuRoll * accMulti) >= defRoll;
 	}
@@ -732,9 +689,6 @@ public abstract class Char extends Actor {
 		if (this.buff(Doom.class) != null && !isImmune(Doom.class)){
 			dmg *= 1.67f;
 		}
-		if (alignment != Alignment.ALLY && this.buff(DeathMark.DeathMarkTracker.class) != null){
-			dmg *= 1.25f;
-		}
 
 		if (buff(Sickle.HarvestBleedTracker.class) != null){
 			buff(Sickle.HarvestBleedTracker.class).detach();
@@ -824,7 +778,6 @@ public abstract class Char extends Actor {
 			int                                                         icon = FloatingText.PHYS_DMG;
 			if (NO_ARMOR_PHYSICAL_SOURCES.contains(src.getClass()))     icon = FloatingText.PHYS_DMG_NO_BLOCK;
 			if (AntiMagic.RESISTS.contains(src.getClass()))             icon = FloatingText.MAGIC_DMG;
-			if (src instanceof Pickaxe)                                 icon = FloatingText.PICK_DMG;
 
 			//special case for sniper when using ranged attacks
 			if (src == Dungeon.hero
@@ -847,7 +800,6 @@ public abstract class Char extends Actor {
 			if (src instanceof Ooze)                                    icon = FloatingText.OOZE;
 			if (src instanceof Viscosity.DeferedDamage)                 icon = FloatingText.DEFERRED;
 			if (src instanceof Corruption)                              icon = FloatingText.CORRUPTION;
-			if (src instanceof AscensionChallenge)                      icon = FloatingText.AMULET;
 
 			sprite.showStatusWithIcon(CharSprite.NEGATIVE, Integer.toString(dmg + shielded), icon);
 		}
@@ -856,26 +808,16 @@ public abstract class Char extends Actor {
 
 		if (!isAlive()) {
 			die( src );
-		} else if (HP == 0 && buff(DeathMark.DeathMarkTracker.class) != null){
-			DeathMark.processFearTheReaper(this);
 		}
 	}
 
 	//these are misc. sources of physical damage which do not apply armor, they get a different icon
 	private static HashSet<Class> NO_ARMOR_PHYSICAL_SOURCES = new HashSet<>();
 	{
-		NO_ARMOR_PHYSICAL_SOURCES.add(CrystalSpire.SpireSpike.class);
-		NO_ARMOR_PHYSICAL_SOURCES.add(GnollGeomancer.Boulder.class);
-		NO_ARMOR_PHYSICAL_SOURCES.add(GnollGeomancer.GnollRockFall.class);
-		NO_ARMOR_PHYSICAL_SOURCES.add(GnollRockfallTrap.class);
-		NO_ARMOR_PHYSICAL_SOURCES.add(DwarfKing.KingDamager.class);
-		NO_ARMOR_PHYSICAL_SOURCES.add(DwarfKing.Summoning.class);
 		NO_ARMOR_PHYSICAL_SOURCES.add(LifeLink.class);
 		NO_ARMOR_PHYSICAL_SOURCES.add(Chasm.class);
 		NO_ARMOR_PHYSICAL_SOURCES.add(WandOfBlastWave.Knockback.class);
 		NO_ARMOR_PHYSICAL_SOURCES.add(Heap.class); //damage from wraiths attempting to spawn from heaps
-		NO_ARMOR_PHYSICAL_SOURCES.add(Necromancer.SummoningBlockDamage.class);
-		NO_ARMOR_PHYSICAL_SOURCES.add(DriedRose.GhostHero.NoRoseDamage.class);
 	}
 	
 	public void destroy() {
@@ -891,9 +833,6 @@ public abstract class Char extends Actor {
 			}
 			if (ch.buff(Terror.class) != null && ch.buff(Terror.class).object == id()){
 				ch.buff(Terror.class).detach();
-			}
-			if (ch.buff(SnipersMark.class) != null && ch.buff(SnipersMark.class).object == id()){
-				ch.buff(SnipersMark.class).detach();
 			}
 			if (ch.buff(Talent.FollowupStrikeTracker.class) != null
 					&& ch.buff(Talent.FollowupStrikeTracker.class).object == id()){
@@ -1005,13 +944,9 @@ public abstract class Char extends Actor {
 		if (buff(PotionOfCleansing.Cleanse.class) != null) { //cleansing buff
 			if (buff.type == Buff.buffType.NEGATIVE
 					&& !(buff instanceof AllyBuff)
-					&& !(buff instanceof LostInventory)){
+					&& !(buff instanceof LostInventory)) {
 				return false;
 			}
-		}
-
-		if (sprite != null && buff(Challenge.SpectatorFreeze.class) != null){
-			return false; //can't add buffs while frozen and game is loaded
 		}
 
 		buffs.add( buff );
@@ -1142,7 +1077,7 @@ public abstract class Char extends Actor {
 				result *= 0.5f;
 			}
 		}
-		return result * RingOfElements.resist(this, effect);
+		return result;
 	}
 	
 	protected final HashSet<Class> immunities = new HashSet<>();
@@ -1167,7 +1102,7 @@ public abstract class Char extends Actor {
 	//similar to isImmune, but only factors in damage.
 	//Is used in AI decision-making
 	public boolean isInvulnerable( Class effect ){
-		return buff(Challenge.SpectatorFreeze.class) != null || buff(Invulnerability.class) != null;
+		return buff(Invulnerability.class) != null;
 	}
 
 	protected HashSet<Property> properties = new HashSet<>();
@@ -1191,14 +1126,14 @@ public abstract class Char extends Actor {
 		DEMONIC,
 		INORGANIC ( new HashSet<Class>(),
 				new HashSet<Class>( Arrays.asList(Bleeding.class, ToxicGas.class, Poison.class) )),
-		FIERY ( new HashSet<Class>( Arrays.asList(WandOfFireblast.class, Elemental.FireElemental.class)),
+		FIERY ( new HashSet<Class>( Arrays.asList()),
 				new HashSet<Class>( Arrays.asList(Burning.class, Blazing.class))),
-		ICY ( new HashSet<Class>( Arrays.asList(WandOfFrost.class, Elemental.FrostElemental.class)),
+		ICY ( new HashSet<Class>( Arrays.asList()),
 				new HashSet<Class>( Arrays.asList(Frost.class, Chill.class))),
 		ACIDIC ( new HashSet<Class>( Arrays.asList(Corrosion.class)),
 				new HashSet<Class>( Arrays.asList(Ooze.class))),
-		ELECTRIC ( new HashSet<Class>( Arrays.asList(WandOfLightning.class, Shocking.class, Potential.class,
-										Electricity.class, ShockingDart.class, Elemental.ShockElemental.class )),
+		ELECTRIC ( new HashSet<Class>( Arrays.asList(Shocking.class, Potential.class,
+										Electricity.class, ShockingDart.class)),
 				new HashSet<Class>()),
 		LARGE,
 		IMMOVABLE ( new HashSet<Class>(),

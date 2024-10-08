@@ -28,32 +28,12 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Hex;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicalSleep;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Vulnerable;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Weakness;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.CrystalWisp;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.DM100;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Eye;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Shaman;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Warlock;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.YogFist;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.ArcaneBomb;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.HolyBomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.CursedWand;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfDisintegration;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfFireblast;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfFrost;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLightning;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLivingEarth;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfMagicMissile;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfPrismaticLight;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfTransfusion;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfWarding;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Blazing;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Grim;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Shocking;
@@ -81,42 +61,17 @@ public class AntiMagic extends Armor.Glyph {
 		RESISTS.add( DisintegrationTrap.class );
 		RESISTS.add( GrimTrap.class );
 
-		RESISTS.add( ArcaneBomb.class );
-		RESISTS.add( HolyBomb.HolyDamage.class );
 		RESISTS.add( ScrollOfRetribution.class );
 		RESISTS.add( ScrollOfPsionicBlast.class );
 		RESISTS.add( ScrollOfTeleportation.class );
 		RESISTS.add( HolyDart.class );
 
-		RESISTS.add( ElementalBlast.class );
 		RESISTS.add( CursedWand.class );
 		RESISTS.add( WandOfBlastWave.class );
-		RESISTS.add( WandOfDisintegration.class );
-		RESISTS.add( WandOfFireblast.class );
-		RESISTS.add( WandOfFrost.class );
-		RESISTS.add( WandOfLightning.class );
-		RESISTS.add( WandOfLivingEarth.class );
-		RESISTS.add( WandOfMagicMissile.class );
-		RESISTS.add( WandOfPrismaticLight.class );
-		RESISTS.add( WandOfTransfusion.class );
-		RESISTS.add( WandOfWarding.Ward.class );
 
-		RESISTS.add( ElementalStrike.class );
 		RESISTS.add( Blazing.class );
-		RESISTS.add( WandOfFireblast.FireBlastOnHit.class );
 		RESISTS.add( Shocking.class );
-		RESISTS.add( WandOfLightning.LightningOnHit.class );
 		RESISTS.add( Grim.class );
-
-		RESISTS.add( WarpBeacon.class );
-		
-		RESISTS.add( DM100.LightningBolt.class );
-		RESISTS.add( Shaman.EarthenBolt.class );
-		RESISTS.add( CrystalWisp.LightBeam.class );
-		RESISTS.add( Warlock.DarkBolt.class );
-		RESISTS.add( Eye.DeathGaze.class );
-		RESISTS.add( YogFist.BrightFist.LightBeam.class );
-		RESISTS.add( YogFist.DarkFist.DarkBolt.class );
 	}
 	
 	@Override

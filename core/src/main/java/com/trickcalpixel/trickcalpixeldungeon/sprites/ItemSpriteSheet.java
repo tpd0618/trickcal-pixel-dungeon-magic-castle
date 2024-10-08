@@ -49,7 +49,7 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_HOLDER    = PLACEHOLDERS+2;
 	public static final int MISSILE_HOLDER  = PLACEHOLDERS+3;
 	public static final int WAND_HOLDER     = PLACEHOLDERS+4;
-	public static final int RING_HOLDER     = PLACEHOLDERS+5;
+	public static final int BRACELET_HOLDER = PLACEHOLDERS+5;
 	public static final int ARTIFACT_HOLDER = PLACEHOLDERS+6;
 	public static final int TRINKET_HOLDER  = PLACEHOLDERS+7;
 	public static final int FOOD_HOLDER     = PLACEHOLDERS+8;
@@ -68,7 +68,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_HOLDER,    14, 12);
 		assignItemRect(MISSILE_HOLDER,  15, 15);
 		assignItemRect(WAND_HOLDER,     14, 14);
-		assignItemRect(RING_HOLDER,     8,  10);
+		assignItemRect(BRACELET_HOLDER,     8,  10);
 		assignItemRect(ARTIFACT_HOLDER, 15, 15);
 		assignItemRect(TRINKET_HOLDER,  16, 11);
 		assignItemRect(FOOD_HOLDER,     15, 11);
@@ -152,6 +152,7 @@ public class ItemSpriteSheet {
 	public static final int BOW_FRAGMENT    = MISC_CONSUMABLE +19;
 	public static final int BROKEN_HILT     = MISC_CONSUMABLE +20;
 	public static final int TRINKET_CATA    = MISC_CONSUMABLE +21;
+	public static final int BRACELET    = MISC_CONSUMABLE +22;
 
 	static{
 		assignItemRect(ANKH,            10, 16);
@@ -180,35 +181,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BROKEN_HILT,      9,  9);
 
 		assignItemRect(TRINKET_CATA,    12, 11);
-	}
-	
-	private static final int BOMBS          =                               xy(1, 6);   //16 slots
-	public static final int BOMB            = BOMBS+0;
-	public static final int DBL_BOMB        = BOMBS+1;
-	public static final int FIRE_BOMB       = BOMBS+2;
-	public static final int FROST_BOMB      = BOMBS+3;
-	public static final int REGROWTH_BOMB   = BOMBS+4;
-	public static final int SMOKE_BOMB      = BOMBS+5;
-	public static final int FLASHBANG       = BOMBS+6;
-	public static final int HOLY_BOMB       = BOMBS+7;
-	public static final int WOOLY_BOMB      = BOMBS+8;
-	public static final int NOISEMAKER      = BOMBS+9;
-	public static final int ARCANE_BOMB     = BOMBS+10;
-	public static final int SHRAPNEL_BOMB   = BOMBS+11;
-	
-	static{
-		assignItemRect(BOMB,            10, 13);
-		assignItemRect(DBL_BOMB,        14, 13);
-		assignItemRect(FIRE_BOMB,       13, 12);
-		assignItemRect(FROST_BOMB,      13, 12);
-		assignItemRect(REGROWTH_BOMB,   13, 12);
-		assignItemRect(SMOKE_BOMB,      13, 12);
-		assignItemRect(FLASHBANG,       10, 13);
-		assignItemRect(HOLY_BOMB,       10, 13);
-		assignItemRect(WOOLY_BOMB,      10, 13);
-		assignItemRect(NOISEMAKER,      10, 13);
-		assignItemRect(ARCANE_BOMB,     10, 13);
-		assignItemRect(SHRAPNEL_BOMB,   10, 13);
+		assignItemRect(BRACELET,   16, 16);
 	}
 
 	private static final int WEP_TIER1      =                               xy(1, 7);   //8 slots
@@ -405,24 +378,6 @@ public class ItemSpriteSheet {
 	static {
 		for (int i = WANDS; i < WANDS+16; i++)
 			assignItemRect(i, 14, 14);
-	}
-
-	private static final int RINGS          =                               xy(1, 15);  //16 slots
-	public static final int RING_GARNET     = RINGS+0;
-	public static final int RING_RUBY       = RINGS+1;
-	public static final int RING_TOPAZ      = RINGS+2;
-	public static final int RING_EMERALD    = RINGS+3;
-	public static final int RING_ONYX       = RINGS+4;
-	public static final int RING_OPAL       = RINGS+5;
-	public static final int RING_TOURMALINE = RINGS+6;
-	public static final int RING_SAPPHIRE   = RINGS+7;
-	public static final int RING_AMETHYST   = RINGS+8;
-	public static final int RING_QUARTZ     = RINGS+9;
-	public static final int RING_AGATE      = RINGS+10;
-	public static final int RING_DIAMOND    = RINGS+11;
-	static {
-		for (int i = RINGS; i < RINGS+16; i++)
-			assignItemRect(i, 8, 10);
 	}
 
 	private static final int ARTIFACTS          =                            xy(1, 16);  //24 slots

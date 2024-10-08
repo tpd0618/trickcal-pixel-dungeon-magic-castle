@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,50 +23,28 @@ package com.trickcalpixel.trickcalpixeldungeon.items.artifacts;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Invisibility;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AshurBread;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Roots;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
-import com.trickcalpixel.trickcalpixeldungeon.effects.Splash;
-import com.trickcalpixel.trickcalpixeldungeon.effects.particles.LeafParticle;
+import com.trickcalpixel.trickcalpixeldungeon.effects.particles.EarthParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.VelvetPouch;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
-import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
-import com.trickcalpixel.trickcalpixeldungeon.mechanics.Ballistica;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Blindweed;
 import com.trickcalpixel.trickcalpixeldungeon.plants.Earthroot;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Fadeleaf;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Firebloom;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Icecap;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Mageroyal;
 import com.trickcalpixel.trickcalpixeldungeon.plants.Plant;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Rotberry;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Sorrowmoss;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Starflower;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Stormvine;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Sungrass;
-import com.trickcalpixel.trickcalpixeldungeon.plants.Swiftthistle;
-import com.trickcalpixel.trickcalpixeldungeon.scenes.CellSelector;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
-import com.trickcalpixel.trickcalpixeldungeon.tiles.DungeonTilemap;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
 import com.trickcalpixel.trickcalpixeldungeon.windows.WndBag;
+import com.watabou.noosa.Camera;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PointF;
-import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 public class SandalsOfNature extends Artifact {
 
@@ -76,7 +54,6 @@ public class SandalsOfNature extends Artifact {
 		levelCap = 3;
 
 		charge = 0;
-		chargeCap = 100;
 
 		defaultAction = AC_ROOT;
 	}
@@ -85,75 +62,38 @@ public class SandalsOfNature extends Artifact {
 	public static final String AC_ROOT = "ROOT";
 
 	public ArrayList<Class> seeds = new ArrayList<>();
-	public Class curSeedEffect = null;
-
-	private static final HashMap<Class<? extends Plant.Seed>, Integer> seedColors = new HashMap<>();
-	static {
-		seedColors.put(Rotberry.Seed.class,     0xCC0022);
-		seedColors.put(Firebloom.Seed.class,    0xFF7F00);
-		seedColors.put(Swiftthistle.Seed.class, 0xCCBB00);
-		seedColors.put(Sungrass.Seed.class,     0x2EE62E);
-		seedColors.put(Icecap.Seed.class,       0x66B3FF);
-		seedColors.put(Stormvine.Seed.class,    0x195D80);
-		seedColors.put(Sorrowmoss.Seed.class,   0xA15CE5);
-		seedColors.put(Mageroyal.Seed.class,    0xFF4CD2);
-		seedColors.put(Earthroot.Seed.class,    0x67583D);
-		seedColors.put(Starflower.Seed.class,   0x404040);
-		seedColors.put(Fadeleaf.Seed.class,     0x919999);
-		seedColors.put(Blindweed.Seed.class,    0XD9D9D9);
-	}
-
-	private static final HashMap<Class<? extends Plant.Seed>, Integer> seedChargeReqs = new HashMap<>();
-	static {
-		seedChargeReqs.put(Rotberry.Seed.class,     8);
-		seedChargeReqs.put(Firebloom.Seed.class,    20);
-		seedChargeReqs.put(Swiftthistle.Seed.class, 20);
-		seedChargeReqs.put(Sungrass.Seed.class,     80);
-		seedChargeReqs.put(Icecap.Seed.class,       20);
-		seedChargeReqs.put(Stormvine.Seed.class,    20);
-		seedChargeReqs.put(Sorrowmoss.Seed.class,   20);
-		seedChargeReqs.put(Mageroyal.Seed.class,    12);
-		seedChargeReqs.put(Earthroot.Seed.class,    40);
-		seedChargeReqs.put(Starflower.Seed.class,   40);
-		seedChargeReqs.put(Fadeleaf.Seed.class,     12);
-		seedChargeReqs.put(Blindweed.Seed.class,    12);
-	}
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (hero.buff(MagicImmune.class) != null){
-			return actions;
-		}
-		if (isEquipped( hero ) && !cursed) {
-			actions.add(AC_FEED);
-		}
-		if (isEquipped( hero )
-				&& !cursed
-				&& curSeedEffect != null
-				&& charge >= seedChargeReqs.get(curSeedEffect)) {
-			actions.add(AC_ROOT);
+	public ArrayList<String> actions( Hero heroine) {
+		ArrayList<String> actions = super.actions(heroine);
+		if (Dungeon.hero.buff(AshurBread.class) == null) {
+			if (isEquipped(heroine) && level() < 3 && !cursed)
+				actions.add(AC_FEED);
+			if (isEquipped(heroine) && charge > 0)
+				actions.add(AC_ROOT);
 		}
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
-		super.execute(hero, action);
-
-		if (hero.buff(MagicImmune.class) != null) return;
+	public void execute(Hero heroine, String action ) {
+		super.execute(heroine, action);
 
 		if (action.equals(AC_FEED)){
 
 			GameScene.selectItem(itemSelector);
 
-		} else if (action.equals(AC_ROOT) && !cursed){
+		} else if (action.equals(AC_ROOT) && level() > 0){
 
-			if (!isEquipped( hero ))                                GLog.i( Messages.get(Artifact.class, "need_to_equip") );
-			else if (curSeedEffect == null)                         GLog.i( Messages.get(this, "no_effect") );
-			else if (charge < seedChargeReqs.get(curSeedEffect))    GLog.i( Messages.get(this, "low_charge") );
+			if (!isEquipped(heroine)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
+			else if (charge == 0)    GLog.i( Messages.get(this, "no_charge") );
 			else {
-				GameScene.selectCell(cellSelector);
+				Buff.prolong(heroine, Roots.class, Roots.DURATION);
+				Buff.affect(heroine, Earthroot.Armor.class).level(charge);
+				CellEmitter.bottom(heroine.pos).start(EarthParticle.FACTORY, 0.05f, 8);
+				Camera.main.shake(1, 0.4f);
+				charge = 0;
+				updateQuickslot();
 			}
 		}
 	}
@@ -165,27 +105,7 @@ public class SandalsOfNature extends Artifact {
 	
 	@Override
 	public void charge(Hero target, float amount) {
-		if (cursed || target.buff(MagicImmune.class) != null) return;
-		if (charge < chargeCap) {
-			partialCharge += 2*amount;
-			while (partialCharge >= 1f){
-				charge++;
-				partialCharge--;
-			}
-			if (charge >= chargeCap) {
-				charge = chargeCap;
-				partialCharge = 0;
-			}
-			updateQuickslot();
-		}
-	}
-
-	@Override
-	public ItemSprite.Glowing glowing() {
-		if (curSeedEffect != null){
-			return new ItemSprite.Glowing(seedColors.get(curSeedEffect));
-		}
-		return null;
+		target.buff(Naturalism.class).charge(amount);
 	}
 
 	@Override
@@ -198,21 +118,16 @@ public class SandalsOfNature extends Artifact {
 	public String desc() {
 		String desc = Messages.get(this, "desc_" + (level()+1));
 
-		if ( isEquipped ( Dungeon.hero ) ) {
+		if ( isEquipped ( Dungeon.hero) ){
 			desc += "\n\n";
 
-			if (!cursed) {
+			if (!cursed)
 				desc += Messages.get(this, "desc_hint");
-			} else {
+			else
 				desc += Messages.get(this, "desc_cursed");
-			}
 
-		}
-
-		if (curSeedEffect != null){
-				desc += "\n\n" + Messages.get(this, "desc_ability",
-					Messages.titleCase(Messages.get(curSeedEffect, "name")),
-					seedChargeReqs.get(curSeedEffect));
+			if (level() > 0)
+				desc += "\n\n" + Messages.get(this, "desc_ability");
 		}
 
 		if (!seeds.isEmpty()){
@@ -232,47 +147,39 @@ public class SandalsOfNature extends Artifact {
 	}
 
 	public boolean canUseSeed(Item item){
-		return item instanceof Plant.Seed
-				&& !seeds.contains(item.getClass())
-				&& (level() < 3 || curSeedEffect != item.getClass());
+		return item instanceof Plant.Seed && !seeds.contains(item.getClass());
 	}
 
+
 	private static final String SEEDS = "seeds";
-	private static final String CUR_SEED_EFFECT = "cur_seed_effect";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle(bundle);
-		bundle.put(SEEDS, seeds.toArray(new Class[0]));
-		bundle.put(CUR_SEED_EFFECT, curSeedEffect);
+		bundle.put(SEEDS, seeds.toArray(new Class[seeds.size()]));
 	}
 
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
-		if (bundle.contains(SEEDS) && bundle.getClassArray(SEEDS) != null) {
-			Collections.addAll(seeds, bundle.getClassArray(SEEDS));
-		}
-		curSeedEffect = bundle.getClass(CUR_SEED_EFFECT);
-
+		if (bundle.contains(SEEDS))
+			Collections.addAll(seeds , bundle.getClassArray(SEEDS));
 		if (level() == 1)  image = ItemSpriteSheet.ARTIFACT_SHOES;
 		else if (level() == 2)  image = ItemSpriteSheet.ARTIFACT_BOOTS;
 		else if (level() >= 3)  image = ItemSpriteSheet.ARTIFACT_GREAVES;
 	}
 
 	public class Naturalism extends ArtifactBuff{
-		public void charge() {
-			if (cursed || target.buff(MagicImmune.class) != null) return;
-			if (charge < chargeCap){
-				//0.5 charge per grass at +0, up to 1 at +10
-				float chargeGain = (3f + level())/6f;
-				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
+		public void charge(float amount) {
+			if (level() > 0 && charge < target.HT){
+				//gain 1+(1*level)% of the difference between current charge and max HP.
+				float chargeGain = (target.HT-charge) * (.01f+ level()*0.01f);
+				chargeGain *= amount;
 				partialCharge += Math.max(0, chargeGain);
-				while (partialCharge >= 1){
+				while (partialCharge > 1){
 					charge++;
 					partialCharge--;
 				}
-				charge = Math.min(charge, chargeCap);
 				updateQuickslot();
 			}
 		}
@@ -298,64 +205,29 @@ public class SandalsOfNature extends Artifact {
 		@Override
 		public void onSelect( Item item ) {
 			if (item != null && item instanceof Plant.Seed) {
-				if (level() < 3) seeds.add(0, item.getClass());
-				curSeedEffect = item.getClass();
-
-				Hero hero = Dungeon.hero;
-				hero.sprite.operate( hero.pos );
-				Sample.INSTANCE.play( Assets.Sounds.PLANT );
-				hero.busy();
-				hero.spend( Actor.TICK );
-				if (seeds.size() >= 3+(level()*3)){
-					seeds.clear();
-					upgrade();
-					Catalog.countUses(SandalsOfNature.class, level() == 3 ? 4 : 3);
-					if (level() >= 1 && level() <= 3) {
-						GLog.p( Messages.get(SandalsOfNature.class, "levelup") );
-					}
-
+				if (seeds.contains(item.getClass())){
+					GLog.w( Messages.get(SandalsOfNature.class, "already_fed") );
 				} else {
-					GLog.i( Messages.get(SandalsOfNature.class, "absorb_seed") );
-				}
-				item.detach(hero.belongings.backpack);
-			}
-		}
-	};
+					seeds.add(item.getClass());
 
-	protected CellSelector.Listener cellSelector = new CellSelector.Listener(){
+					Hero heroine = Dungeon.hero;
+					heroine.sprite.operate( heroine.pos );
+					Sample.INSTANCE.play( Assets.Sounds.PLANT );
+					heroine.busy();
+					heroine.spend( 2f );
+					if (seeds.size() >= 3+(level()*3)){
+						seeds.clear();
+						upgrade();
+						if (level() >= 1 && level() <= 3) {
+							GLog.p( Messages.get(SandalsOfNature.class, "levelup") );
+						}
 
-		@Override
-		public void onSelect(Integer cell) {
-			if (cell != null){
-
-				if (!Dungeon.level.heroFOV[cell] || Dungeon.level.distance(curUser.pos, cell) > 3){
-					GLog.w(Messages.get(SandalsOfNature.class, "out_of_range"));
-				} else {
-
-					Ballistica aim = new Ballistica(curUser.pos, cell, Ballistica.STOP_TARGET);
-					for (int c : aim.subPath(0, aim.dist)){
-						CellEmitter.get( c ).burst( LeafParticle.GENERAL, 6 );
+					} else {
+						GLog.i( Messages.get(SandalsOfNature.class, "absorb_seed") );
 					}
-
-					Splash.at(DungeonTilemap.tileCenterToWorld( cell ), -PointF.PI/2, PointF.PI/2, seedColors.get(curSeedEffect), 6);
-					Invisibility.dispel(curUser);
-
-					Plant plant = ((Plant.Seed) Reflection.newInstance(curSeedEffect)).couch(cell, null);
-					plant.activate(Actor.findChar(cell));
-					Sample.INSTANCE.play(Assets.Sounds.PLANT);
-					Sample.INSTANCE.playDelayed(Assets.Sounds.TRAMPLE, 0.25f, 1, Random.Float( 0.96f, 1.05f ) );
-
-					charge -= seedChargeReqs.get(curSeedEffect);
-					Talent.onArtifactUsed(Dungeon.hero);
-					updateQuickslot();
-					curUser.spendAndNext(1f);
+					item.detach(heroine.belongings.backpack);
 				}
 			}
-		}
-
-		@Override
-		public String prompt() {
-			return Messages.get(SandalsOfNature.class, "prompt_target");
 		}
 	};
 

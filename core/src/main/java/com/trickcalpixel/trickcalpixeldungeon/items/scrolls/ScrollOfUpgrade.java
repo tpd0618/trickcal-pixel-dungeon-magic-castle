@@ -31,7 +31,7 @@ import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ShadowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
@@ -117,7 +117,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 				GLog.w( Messages.get(Armor.class, "incompatible") );
 			}
 
-		} else if (item instanceof Wand || item instanceof Ring) {
+		} else if (item instanceof Wand || item instanceof Bracelet) {
 			boolean wasCursed = item.cursed;
 
 			item = item.upgrade();

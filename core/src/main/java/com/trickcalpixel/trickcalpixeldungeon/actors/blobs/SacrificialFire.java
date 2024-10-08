@@ -33,9 +33,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Bee;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Piranha;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Statue;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Swarm;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Wraith;
 import com.trickcalpixel.trickcalpixeldungeon.effects.BlobEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.SacrificialParticle;
@@ -160,15 +157,10 @@ public class SacrificialFire extends Blob {
 			int exp = 0;
 			if (ch instanceof Mob) {
 				//same rates as used in wand of corruption, except for swarms
-				if (ch instanceof Statue || ch instanceof Mimic){
+				if (ch instanceof Mimic){
 					exp = 1 + Dungeon.depth;
 				} else if (ch instanceof Piranha || ch instanceof Bee) {
 					exp = 1 + Dungeon.depth/2;
-				} else if (ch instanceof Wraith) {
-					exp = 1 + Dungeon.depth/3;
-				} else if (ch instanceof Swarm && ((Swarm) ch).EXP == 0){
-					//give 1 exp for child swarms, instead of 0
-					exp = 1;
 				} else if (((Mob) ch).EXP > 0) {
 					exp = 1 + ((Mob)ch).EXP;
 				}

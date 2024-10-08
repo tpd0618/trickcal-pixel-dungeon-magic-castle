@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,18 +25,15 @@ import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AshurBread;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.FlavourBuff;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Invisibility;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.LockedFloor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Regeneration;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CheckedCell;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.mechanics.Ballistica;
 import com.trickcalpixel.trickcalpixeldungeon.mechanics.ConeAOE;
@@ -69,24 +66,20 @@ public class TalismanOfForesight extends Artifact {
 	public static final String AC_SCRY = "SCRY";
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (isEquipped( hero )
-				&& !cursed
-				&& hero.buff(MagicImmune.class) == null) {
-			actions.add(AC_SCRY);
+	public ArrayList<String> actions( Hero heroine) {
+		ArrayList<String> actions = super.actions(heroine);
+		if (Dungeon.hero.buff(AshurBread.class) == null) {
+			if (isEquipped(heroine) && !cursed) actions.add(AC_SCRY);
 		}
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
-		super.execute(hero, action);
-
-		if (hero.buff(MagicImmune.class) != null) return;
+	public void execute(Hero heroine, String action ) {
+		super.execute(heroine, action);
 
 		if (action.equals(AC_SCRY)){
-			if (!isEquipped(hero))  GLog.i( Messages.get(Artifact.class, "need_to_equip") );
+			if (!isEquipped(heroine))  GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 			else if (charge < 5)    GLog.i( Messages.get(this, "low_charge") );
 			else                    GameScene.selectCell(scry);
 		}
@@ -99,13 +92,8 @@ public class TalismanOfForesight extends Artifact {
 	
 	@Override
 	public void charge(Hero target, float amount) {
-		if (cursed || target.buff(MagicImmune.class) != null) return;
 		if (charge < chargeCap){
-			partialCharge += 2*amount;
-			while (partialCharge >= 1f){
-				charge++;
-				partialCharge--;
-			}
+			charge += Math.round(2*amount);
 			if (charge >= chargeCap) {
 				charge = chargeCap;
 				partialCharge = 0;
@@ -119,7 +107,7 @@ public class TalismanOfForesight extends Artifact {
 	public String desc() {
 		String desc = super.desc();
 
-		if ( isEquipped( Dungeon.hero ) ){
+		if ( isEquipped( Dungeon.hero) ){
 			if (!cursed) {
 				desc += "\n\n" + Messages.get(this, "desc_worn");
 
@@ -210,7 +198,6 @@ public class TalismanOfForesight extends Artifact {
 				if (exp >= 100 + 50*level() && level() < levelCap) {
 					exp -= 100 + 50*level();
 					upgrade();
-					Catalog.countUse(TalismanOfForesight.class);
 					GLog.p( Messages.get(TalismanOfForesight.class, "levelup") );
 				}
 				updateQuickslot();
@@ -226,8 +213,6 @@ public class TalismanOfForesight extends Artifact {
 					charge++;
 					partialCharge--;
 				}
-				Invisibility.dispel(curUser);
-				Talent.onArtifactUsed(Dungeon.hero);
 				updateQuickslot();
 				Dungeon.observe();
 				Dungeon.hero.checkVisibleMobs();
@@ -263,32 +248,74 @@ public class TalismanOfForesight extends Artifact {
 	}
 	
 	private boolean warn = false;
-	
+
 	public class Foresight extends ArtifactBuff{
 
 		@Override
 		public boolean act() {
 			spend( TICK );
 
-			checkAwareness();
+			boolean smthFound = false;
 
-			if (charge < chargeCap
-					&& !cursed
-					&& target.buff(MagicImmune.class) == null
-					&& Regeneration.regenOn()) {
+			int distance = 3;
+
+			int cx = target.pos % Dungeon.level.width();
+			int cy = target.pos / Dungeon.level.width();
+			int ax = cx - distance;
+			if (ax < 0) {
+				ax = 0;
+			}
+			int bx = cx + distance;
+			if (bx >= Dungeon.level.width()) {
+				bx = Dungeon.level.width() - 1;
+			}
+			int ay = cy - distance;
+			if (ay < 0) {
+				ay = 0;
+			}
+			int by = cy + distance;
+			if (by >= Dungeon.level.height()) {
+				by = Dungeon.level.height() - 1;
+			}
+
+			for (int y = ay; y <= by; y++) {
+				for (int x = ax, p = ax + y * Dungeon.level.width(); x <= bx; x++, p++) {
+
+					if (Dungeon.level.heroFOV[p]
+							&& Dungeon.level.secret[p]
+							&& Dungeon.level.map[p] != Terrain.SECRET_DOOR) {
+						if (Dungeon.level.traps.get(p) != null && Dungeon.level.traps.get(p).canBeSearched) {
+							smthFound = true;
+						}
+					}
+				}
+			}
+
+			if (smthFound && !cursed){
+				if (!warn){
+					GLog.w( Messages.get(this, "uneasy") );
+					if (target instanceof Hero){
+						((Hero)target).interrupt();
+					}
+					warn = true;
+				}
+			} else {
+				warn = false;
+			}
+
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
 				//fully charges in 2000 turns at +0, scaling to 1000 turns at +10.
 				float chargeGain = (0.05f+(level()*0.005f));
-				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
 				partialCharge += chargeGain;
 
-				while (partialCharge >= 1){
+				if (partialCharge > 1 && charge < chargeCap) {
 					partialCharge--;
 					charge++;
-					if (charge >= chargeCap) {
-						partialCharge = 0;
-						GLog.p(Messages.get(TalismanOfForesight.class, "full_charge"));
-					}
 					updateQuickslot();
+				} else if (charge >= chargeCap) {
+					partialCharge = 0;
+					GLog.p( Messages.get(TalismanOfForesight.class, "full_charge") );
 				}
 			}
 
@@ -348,10 +375,20 @@ public class TalismanOfForesight extends Artifact {
 		}
 
 		public void charge(int boost){
-			if (!cursed && target.buff(MagicImmune.class) == null) {
+			if (!cursed) {
 				charge = Math.min((charge + boost), chargeCap);
 				updateQuickslot();
 			}
+		}
+
+		@Override
+		public String toString() {
+			return  Messages.get(this, "name");
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc");
 		}
 
 		@Override
@@ -393,12 +430,10 @@ public class TalismanOfForesight extends Artifact {
 	public static class HeapAwareness extends FlavourBuff {
 
 		public int pos;
-		public int depth = Dungeon.depth;
-		public int branch = Dungeon.branch;
+		public int floor = Dungeon.depth;
 
 		private static final String POS = "pos";
-		private static final String DEPTH = "depth";
-		private static final String BRANCH = "branch";
+		private static final String FLOOR = "floor";
 
 		@Override
 		public void detach() {
@@ -411,16 +446,14 @@ public class TalismanOfForesight extends Artifact {
 		public void restoreFromBundle(Bundle bundle) {
 			super.restoreFromBundle(bundle);
 			pos = bundle.getInt(POS);
-			depth = bundle.getInt(DEPTH);
-			branch = bundle.getInt(BRANCH);
+			floor = bundle.getInt(FLOOR);
 		}
 
 		@Override
 		public void storeInBundle(Bundle bundle) {
 			super.storeInBundle(bundle);
 			bundle.put(POS, pos);
-			bundle.put(DEPTH, depth);
-			bundle.put(BRANCH, branch);
+			bundle.put(FLOOR, floor);
 		}
 	}
 

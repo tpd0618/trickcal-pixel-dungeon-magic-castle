@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Badges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
@@ -109,11 +108,6 @@ public class PoisonDartTrap extends Trap {
 										int dmg = Random.NormalIntRange(4, 8) - finalTarget.drRoll();
 										finalTarget.damage(dmg, PoisonDartTrap.this);
 										if (finalTarget == Dungeon.hero){
-											//for the poison dart traps in the Tengu fight
-											if (Dungeon.depth == 10) {
-												Statistics.qualifiedForBossChallengeBadge = false;
-												Statistics.bossScores[1] -= 100;
-											}
 											if (!finalTarget.isAlive()) {
 												Dungeon.fail(PoisonDartTrap.this);
 												GLog.n(Messages.get(PoisonDartTrap.class, "ondeath"));

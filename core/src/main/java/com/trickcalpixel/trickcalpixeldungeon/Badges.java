@@ -525,7 +525,7 @@ public class Badges {
 	public static void validatePiranhasKilled() {
 		Badge badge = null;
 		
-		if (!local.contains( Badge.PIRANHAS ) && Statistics.piranhasKilled >= 6) {
+		if (!local.contains( Badge.PIRANHAS ) && Statistics.murasasKilled >= 6) {
 			badge = Badge.PIRANHAS;
 			local.add( badge );
 		}
@@ -781,7 +781,7 @@ public class Badges {
 
 	private static LinkedHashMap<HeroClass, Badge> firstBossClassBadges = new LinkedHashMap<>();
 	static {
-		firstBossClassBadges.put(HeroClass.WARRIOR, Badge.BOSS_SLAIN_1_WARRIOR);
+		firstBossClassBadges.put(HeroClass.AYA, Badge.BOSS_SLAIN_1_WARRIOR);
 		firstBossClassBadges.put(HeroClass.MAGE, Badge.BOSS_SLAIN_1_MAGE);
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
@@ -790,7 +790,7 @@ public class Badges {
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
 	static {
-		victoryClassBadges.put(HeroClass.WARRIOR, Badge.VICTORY_WARRIOR);
+		victoryClassBadges.put(HeroClass.AYA, Badge.VICTORY_WARRIOR);
 		victoryClassBadges.put(HeroClass.MAGE, Badge.VICTORY_MAGE);
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
@@ -873,13 +873,6 @@ public class Badges {
 					}
 				}
 			}
-
-			if (Statistics.qualifiedForBossRemainsBadge && Dungeon.hero.belongings.getItem(RemainsItem.class) != null){
-				badge = Badge.BOSS_SLAIN_REMAINS;
-				local.add( badge );
-				displayBadge( badge );
-			}
-
 		}
 	}
 
@@ -913,7 +906,7 @@ public class Badges {
 		
 		Badge badge = null;
 		switch (Dungeon.hero.heroClass) {
-			case WARRIOR:
+			case AYA:
 				badge = Badge.MASTERY_WARRIOR;
 				break;
 			case MAGE:
@@ -950,7 +943,7 @@ public class Badges {
 	}
 	
 	public static void validateHuntressUnlock(){
-		if (Statistics.thrownAttacks >= 10 && !isUnlocked(Badge.UNLOCK_HUNTRESS)){
+		if (Statistics.talismanUsed >= 10 && !isUnlocked(Badge.UNLOCK_HUNTRESS)){
 			displayBadge( Badge.UNLOCK_HUNTRESS );
 		}
 	}
@@ -1000,14 +993,6 @@ public class Badges {
 		}
 		if (allUnlocked){
 			badge = Badge.VICTORY_ALL_CLASSES;
-			displayBadge( badge );
-		}
-	}
-
-	public static void validateNoKilling() {
-		if (!local.contains( Badge.NO_MONSTERS_SLAIN ) && Statistics.completedWithNoKilling) {
-			Badge badge = Badge.NO_MONSTERS_SLAIN;
-			local.add( badge );
 			displayBadge( badge );
 		}
 	}

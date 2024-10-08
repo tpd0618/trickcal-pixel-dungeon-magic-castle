@@ -34,7 +34,7 @@ import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Honeypot;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.Artifact;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.MimicTooth;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
@@ -72,7 +72,7 @@ public class CrystalMimic extends Mimic {
 				if (i instanceof Artifact){
 					desc = Messages.get(Heap.class, "crystal_chest_desc", Messages.get(Heap.class, "artifact"));
 					break;
-				} else if (i instanceof Ring){
+				} else if (i instanceof Bracelet){
 					desc = Messages.get(Heap.class, "crystal_chest_desc", Messages.get(Heap.class, "ring"));
 					break;
 				} else if (i instanceof Wand){

@@ -29,7 +29,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.InventoryScroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.stones.StoneOfEnchantment;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -68,7 +67,7 @@ public class ScrollOfEnchantment extends ExoticScroll {
 	}
 
 	public static boolean enchantable( Item item ){
-		return (item instanceof MeleeWeapon || item instanceof SpiritBow || item instanceof Armor);
+		return (item instanceof MeleeWeapon || item instanceof Armor);
 	}
 
 	private void confirmCancelation() {

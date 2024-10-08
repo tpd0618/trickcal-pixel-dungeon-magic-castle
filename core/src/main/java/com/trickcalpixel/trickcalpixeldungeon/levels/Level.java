@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Challenges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Blob;
@@ -48,14 +47,10 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Shadows;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.GnollGeomancer;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.MobSpawner;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Piranha;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.YogFist;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Sheep;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.FlowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.WindParticle;
@@ -65,7 +60,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.Stylus;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.PotionOfStrength;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
@@ -76,8 +70,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.EyeOfNewt;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.MossyClump;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.TrapMechanism;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.TrinketCatalyst;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfRegrowth;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfWarding;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.HeavyBoomerang;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.Chasm;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.Door;
@@ -100,7 +92,6 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.BArray;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -210,7 +201,7 @@ public abstract class Level implements Bundlable {
 		Random.pushGenerator( Dungeon.seedCurDepth() );
 
 		//TODO maybe just make this part of RegularLevel?
-		if (!Dungeon.bossLevel() && Dungeon.branch == 0) {
+		if (Dungeon.branch == 0) {
 
 			addItemToSpawn(Generator.random(Generator.Category.FOOD));
 
@@ -619,9 +610,6 @@ public abstract class Level implements Bundlable {
 		for (Heap h : heaps.valueList()){
 			if (h.type == Heap.Type.HEAP) {
 				for (Item i : h.items){
-					if (i instanceof Bomb){
-						((Bomb) i).fuse = null;
-					}
 					items.add(i);
 				}
 			}
@@ -707,15 +695,7 @@ public abstract class Level implements Bundlable {
 
 	public float respawnCooldown(){
 		float cooldown;
-		if (Statistics.amuletObtained){
-			if (Dungeon.depth == 1){
-				//very fast spawns on floor 1! 0/2/4/6/8/10/12, etc.
-				cooldown = (Dungeon.level.mobCount()) * (TIME_TO_RESPAWN / 25f);
-			} else {
-				//respawn time is 5/5/10/15/20/25/25, etc.
-				cooldown = Math.round(GameMath.gate( TIME_TO_RESPAWN/10f, Dungeon.level.mobCount() * (TIME_TO_RESPAWN / 10f), TIME_TO_RESPAWN / 2f));
-			}
-		} else if (Dungeon.level.feeling == Feeling.DARK){
+		if (Dungeon.level.feeling == Feeling.DARK){
 			cooldown = 2*TIME_TO_RESPAWN/3f;
 		} else {
 			cooldown = TIME_TO_RESPAWN;
@@ -1007,12 +987,6 @@ public abstract class Level implements Bundlable {
 		GameScene.plantSeed( pos );
 
 		for (Char ch : Actor.chars()){
-			if (ch instanceof WandOfRegrowth.Lotus
-					&& ((WandOfRegrowth.Lotus) ch).inRange(pos)
-					&& Actor.findChar(pos) != null){
-				plant.trigger();
-				return null;
-			}
 		}
 		
 		return plant;
@@ -1247,28 +1221,24 @@ public abstract class Level implements Bundlable {
 		if (sighted) {
 			boolean[] blocking = null;
 
-			if (modifiableBlocking == null || modifiableBlocking.length != Dungeon.level.losBlocking.length){
+			if (modifiableBlocking == null || modifiableBlocking.length != Dungeon.level.losBlocking.length) {
 				modifiableBlocking = new boolean[Dungeon.level.losBlocking.length];
 			}
 
-			//grass is see-through by some specific entities, but not during the fungi quest
-			if (!(Dungeon.level instanceof  MiningLevel) || Blacksmith.Quest.Type() != Blacksmith.Quest.FUNGI){
-				if ((c instanceof Hero && ((Hero) c).subClass == HeroSubClass.WARDEN)
-						|| c instanceof YogFist.SoiledFist || c instanceof GnollGeomancer) {
-					if (blocking == null) {
-						System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
-						blocking = modifiableBlocking;
-					}
-					for (int i = 0; i < blocking.length; i++) {
-						if (blocking[i] && (Dungeon.level.map[i] == Terrain.HIGH_GRASS || Dungeon.level.map[i] == Terrain.FURROWED_GRASS)) {
-							blocking[i] = false;
-						}
+			if ((c instanceof Hero && ((Hero) c).subClass == HeroSubClass.WARDEN)) {
+				if (blocking == null) {
+					System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
+					blocking = modifiableBlocking;
+				}
+				for (int i = 0; i < blocking.length; i++) {
+					if (blocking[i] && (Dungeon.level.map[i] == Terrain.HIGH_GRASS || Dungeon.level.map[i] == Terrain.FURROWED_GRASS)) {
+						blocking[i] = false;
 					}
 				}
 			}
 
 			//allies and specific enemies can see through shrouding fog
-			if ((c.alignment != Char.Alignment.ALLY && !(c instanceof GnollGeomancer))
+			if ((c.alignment != Char.Alignment.ALLY)
 					&& Dungeon.level.blobs.containsKey(SmokeScreen.class)
 					&& Dungeon.level.blobs.get(SmokeScreen.class).volume > 0) {
 				if (blocking == null) {
@@ -1333,18 +1303,6 @@ public abstract class Level implements Bundlable {
 			}
 		}
 
-		if (c instanceof SpiritHawk.HawkAlly && Dungeon.hero.pointsInTalent(Talent.EAGLE_EYE) >= 3){
-			int range = 1+(Dungeon.hero.pointsInTalent(Talent.EAGLE_EYE)-2);
-			for (Mob mob : mobs) {
-				int p = mob.pos;
-				if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-					for (int i : PathFinder.NEIGHBOURS9) {
-						fieldOfView[mob.pos + i] = true;
-					}
-				}
-			}
-		}
-
 		//Currently only the hero can get mind vision or awareness
 		if (c.isAlive() && c == Dungeon.hero) {
 
@@ -1404,20 +1362,11 @@ public abstract class Level implements Bundlable {
 			}
 
 			for (TalismanOfForesight.HeapAwareness h : c.buffs(TalismanOfForesight.HeapAwareness.class)){
-				if (Dungeon.depth != h.depth || Dungeon.branch != h.branch) continue;
+				if (Dungeon.depth != h.floor) continue;
 				for (int i : PathFinder.NEIGHBOURS9) heroMindFov[h.pos+i] = true;
 			}
 
 			for (Mob m : mobs){
-				if (m instanceof WandOfWarding.Ward
-						|| m instanceof WandOfRegrowth.Lotus
-						|| m instanceof SpiritHawk.HawkAlly){
-					if (m.fieldOfView == null || m.fieldOfView.length != length()){
-						m.fieldOfView = new boolean[length()];
-						Dungeon.level.updateFieldOfView( m, m.fieldOfView );
-					}
-					BArray.or(heroMindFov, m.fieldOfView, heroMindFov);
-				}
 			}
 
 			for (RevealedArea a : c.buffs(RevealedArea.class)){

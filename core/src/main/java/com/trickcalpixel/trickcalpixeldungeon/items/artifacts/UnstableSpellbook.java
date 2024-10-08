@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,25 +23,21 @@ package com.trickcalpixel.trickcalpixeldungeon.items.artifacts;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AshurBread;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Blindness;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Regeneration;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.LockedFloor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ElmoParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
-import com.trickcalpixel.trickcalpixeldungeon.items.bags.ScrollHolder;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
+import com.trickcalpixel.trickcalpixeldungeon.items.bags.MagicalHolster;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ExoticScroll;
-import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
@@ -82,7 +78,7 @@ public class UnstableSpellbook extends Artifact {
 		super();
 
 		Class<?>[] scrollClasses = Generator.Category.SCROLL.classes;
-		float[] probs = Generator.Category.SCROLL.defaultProbsTotal.clone(); //array of primitives, clone gives deep copy.
+		float[] probs = Generator.Category.SCROLL.defaultProbs.clone(); //array of primitives, clone gives deep copy.
 		int i = Random.chances(probs);
 
 		while (i != -1){
@@ -95,28 +91,26 @@ public class UnstableSpellbook extends Artifact {
 	}
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (isEquipped( hero ) && charge > 0 && !cursed && hero.buff(MagicImmune.class) == null) {
-			actions.add(AC_READ);
-		}
-		if (isEquipped( hero ) && level() < levelCap && !cursed && hero.buff(MagicImmune.class) == null) {
-			actions.add(AC_ADD);
+	public ArrayList<String> actions( Hero heroine) {
+		ArrayList<String> actions = super.actions(heroine);
+		if (Dungeon.hero.buff(AshurBread.class) == null) {
+			if (isEquipped(heroine) && charge > 0 && !cursed)
+				actions.add(AC_READ);
+			if (isEquipped(heroine) && level() < levelCap && !cursed)
+				actions.add(AC_ADD);
 		}
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Hero heroine, String action ) {
 
-		super.execute( hero, action );
-
-		if (hero.buff(MagicImmune.class) != null) return;
+		super.execute(heroine, action );
 
 		if (action.equals( AC_READ )) {
 
-			if (hero.buff( Blindness.class ) != null) GLog.w( Messages.get(this, "blinded") );
-			else if (!isEquipped( hero ))             GLog.i( Messages.get(Artifact.class, "need_to_equip") );
+			if (heroine.buff( Blindness.class ) != null) GLog.w( Messages.get(this, "blinded") );
+			else if (!isEquipped(heroine))             GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 			else if (charge <= 0)                     GLog.i( Messages.get(this, "no_charge") );
 			else if (cursed)                          GLog.i( Messages.get(this, "cursed") );
 			else {
@@ -128,20 +122,19 @@ public class UnstableSpellbook extends Artifact {
 				} while (scroll == null
 						//reduce the frequency of these scrolls by half
 						||((scroll instanceof ScrollOfIdentify ||
-							scroll instanceof ScrollOfRemoveCurse ||
 							scroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
 						//cannot roll transmutation
 						|| (scroll instanceof ScrollOfTransmutation));
 				
 				scroll.anonymize();
 				curItem = scroll;
-				curUser = hero;
+				curUser = heroine;
 
 				//if there are charges left and the scroll has been given to the book
 				if (charge > 0 && !scrolls.contains(scroll.getClass())) {
 					final Scroll fScroll = scroll;
 
-					final ExploitHandler handler = Buff.affect(hero, ExploitHandler.class);
+					final ExploitHandler handler = Buff.affect(heroine, ExploitHandler.class);
 					handler.scroll = scroll;
 
 					GameScene.show(new WndOptions(new ItemSprite(this),
@@ -154,14 +147,10 @@ public class UnstableSpellbook extends Artifact {
 							handler.detach();
 							if (index == 1){
 								Scroll scroll = Reflection.newInstance(ExoticScroll.regToExo.get(fScroll.getClass()));
-								curItem = scroll;
 								charge--;
-								scroll.anonymize();
 								scroll.doRead();
-								Talent.onArtifactUsed(Dungeon.hero);
 							} else {
 								fScroll.doRead();
-								Talent.onArtifactUsed(Dungeon.hero);
 							}
 							updateQuickslot();
 						}
@@ -173,7 +162,6 @@ public class UnstableSpellbook extends Artifact {
 					});
 				} else {
 					scroll.doRead();
-					Talent.onArtifactUsed(Dungeon.hero);
 				}
 				updateQuickslot();
 			}
@@ -225,16 +213,13 @@ public class UnstableSpellbook extends Artifact {
 	
 	@Override
 	public void charge(Hero target, float amount) {
-		if (charge < chargeCap && !cursed && target.buff(MagicImmune.class) == null){
+		if (charge < chargeCap){
 			partialCharge += 0.1f*amount;
-			while (partialCharge >= 1){
+			if (partialCharge >= 1){
 				partialCharge--;
 				charge++;
+				updateQuickslot();
 			}
-			if (charge >= chargeCap){
-				partialCharge = 0;
-			}
-			updateQuickslot();
 		}
 	}
 
@@ -285,24 +270,19 @@ public class UnstableSpellbook extends Artifact {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle(bundle);
 		scrolls.clear();
-		if (bundle.contains(SCROLLS)) {
-			Collections.addAll(scrolls, bundle.getClassArray(SCROLLS));
-		}
+		Collections.addAll(scrolls, bundle.getClassArray(SCROLLS));
 	}
 
 	public class bookRecharge extends ArtifactBuff{
 		@Override
 		public boolean act() {
-			if (charge < chargeCap
-					&& !cursed
-					&& target.buff(MagicImmune.class) == null
-					&& Regeneration.regenOn()) {
+			LockedFloor lock = target.buff(LockedFloor.class);
+			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
 				//120 turns to charge at full, 80 turns to charge at 0/8
 				float chargeGain = 1 / (120f - (chargeCap - charge)*5f);
-				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
 				partialCharge += chargeGain;
 
-				while (partialCharge >= 1) {
+				if (partialCharge >= 1) {
 					partialCharge --;
 					charge ++;
 
@@ -329,7 +309,7 @@ public class UnstableSpellbook extends Artifact {
 
 		@Override
 		public Class<?extends Bag> preferredBag(){
-			return ScrollHolder.class;
+			return MagicalHolster.class;
 		}
 
 		@Override
@@ -340,20 +320,19 @@ public class UnstableSpellbook extends Artifact {
 		@Override
 		public void onSelect(Item item) {
 			if (item != null && item instanceof Scroll && item.isIdentified()){
-				Hero hero = Dungeon.hero;
+				Hero heroine = Dungeon.hero;
 				for (int i = 0; ( i <= 1 && i < scrolls.size() ); i++){
 					if (scrolls.get(i).equals(item.getClass())){
-						hero.sprite.operate( hero.pos );
-						hero.busy();
-						hero.spend( 2f );
+						heroine.sprite.operate( heroine.pos );
+						heroine.busy();
+						heroine.spend( 2f );
 						Sample.INSTANCE.play(Assets.Sounds.BURNING);
-						hero.sprite.emitter().burst( ElmoParticle.FACTORY, 12 );
+						heroine.sprite.emitter().burst( ElmoParticle.FACTORY, 12 );
 
 						scrolls.remove(i);
-						item.detach(hero.belongings.backpack);
+						item.detach(heroine.belongings.backpack);
 
 						upgrade();
-						Catalog.countUse(UnstableSpellbook.class);
 						GLog.i( Messages.get(UnstableSpellbook.class, "infuse_scroll") );
 						return;
 					}

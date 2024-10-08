@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon.ui;
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.SPDAction;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CircleArc;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
@@ -113,8 +112,8 @@ public class StatusPane extends Component {
 
 		talentBlink = 0;
 
-		compass = new Compass( Statistics.amuletObtained ? Dungeon.level.entrance() : Dungeon.level.exit() );
-		add( compass );
+		compass = new Compass( Dungeon.level.exit() );
+		add( compass );//todo
 
 		if (large)  rawShielding = new Image(asset, 0, 112, 128, 9);
 		else        rawShielding = new Image(asset, 0, 40, 50, 4);

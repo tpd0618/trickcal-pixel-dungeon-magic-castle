@@ -48,15 +48,6 @@ public class ShatteredPixelDungeon extends Game {
 	
 	public ShatteredPixelDungeon( PlatformSupport platform ) {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
-
-		//pre-v2.5.2
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.items.bombs.FlashBangBomb.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.bombs.ShockBomb" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.items.bombs.SmokeBomb.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.bombs.Flashbang" );
-
 		//pre-v2.5.0
 		com.watabou.utils.Bundle.addAlias(
 				com.trickcalpixel.trickcalpixeldungeon.actors.mobs.MobSpawner.class,
@@ -88,34 +79,6 @@ public class ShatteredPixelDungeon extends Game {
 		com.watabou.utils.Bundle.addAlias(
 				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.standard.exit.ExitRoom.class,
 				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ExitRoom" );
-
-		//pre-v2.3.0
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb.ConjuredBomb.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb$MagicalBomb" );
-
-		//pre-v2.2.0
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.BlacksmithRoom.QuestEntrance.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.BlacksmithRoom$QuestEntrance" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.BlacksmithRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.BlacksmithRoom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.MassGraveRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MassGraveRoom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.MassGraveRoom.Bones.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MassGraveRoom$Bones" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.RitualSiteRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.RitualSiteRoom" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.RitualSiteRoom.RitualMarker.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.RitualSiteRoom$RitualMarker" );
-		com.watabou.utils.Bundle.addAlias(
-				com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.RotGardenRoom.class,
-				"com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.RotGardenRoom" );
 	}
 	
 	@Override

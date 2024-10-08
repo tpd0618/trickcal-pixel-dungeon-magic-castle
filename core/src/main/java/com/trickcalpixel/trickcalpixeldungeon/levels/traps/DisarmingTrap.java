@@ -23,9 +23,7 @@ package com.trickcalpixel.trickcalpixeldungeon.levels.traps;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Statue;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
@@ -69,12 +67,6 @@ public class DisarmingTrap extends Trap{
 				Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
 				CellEmitter.get(pos).burst(Speck.factory(Speck.LIGHT), 4);
 			}
-		}
-
-		if (Actor.findChar(pos) instanceof Statue){
-			Actor.findChar(pos).die(this);
-			Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
-			CellEmitter.get(pos).burst(Speck.factory(Speck.LIGHT), 4);
 		}
 
 		if (Dungeon.hero.pos == pos && !Dungeon.hero.flying){

@@ -35,7 +35,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.StenchGas;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.StormCloud;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.ToxicGas;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Web;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Tengu;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.MagicalFireRoom;
 import com.trickcalpixel.trickcalpixeldungeon.ui.BuffIndicator;
 
@@ -74,8 +73,5 @@ public class BlobImmunity extends FlavourBuff {
 		immunities.add( StormCloud.class );
 		immunities.add( ToxicGas.class );
 		immunities.add( Web.class );
-
-		immunities.add(Tengu.FireAbility.FireBlob.class);
 	}
-
 }

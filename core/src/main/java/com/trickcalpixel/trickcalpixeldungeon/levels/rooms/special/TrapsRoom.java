@@ -32,7 +32,6 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.painters.Painter;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.DisintegrationTrap;
-import com.trickcalpixel.trickcalpixeldungeon.levels.traps.ExplosiveTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.FlashingTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.FlockTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.GrimTrap;
@@ -161,12 +160,12 @@ public class TrapsRoom extends SpecialRoom {
 			//sewers
 			{GrippingTrap.class, TeleportationTrap.class, FlockTrap.class},
 			//prison
-			{PoisonDartTrap.class, GrippingTrap.class, ExplosiveTrap.class},
+			{PoisonDartTrap.class, GrippingTrap.class},
 			//caves
-			{PoisonDartTrap.class, FlashingTrap.class, ExplosiveTrap.class},
+			{PoisonDartTrap.class, FlashingTrap.class},
 			//city
 			{WarpingTrap.class, FlashingTrap.class, DisintegrationTrap.class},
 			//halls, muahahahaha
-			{GrimTrap.class}
+			{GrimTrap.class}//todo
 	};
 }

@@ -32,7 +32,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.KindOfWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
@@ -75,7 +74,7 @@ public class CursingTrap extends Trap {
 		ArrayList<Item> canCurse = new ArrayList<>();
 
 		KindOfWeapon weapon = hero.belongings.weapon();
-		if (weapon instanceof Weapon && !(weapon instanceof MagesStaff)){
+		if (weapon instanceof Weapon){
 			if (((Weapon) weapon).enchantment == null)
 				priorityCurse.add(weapon);
 			else

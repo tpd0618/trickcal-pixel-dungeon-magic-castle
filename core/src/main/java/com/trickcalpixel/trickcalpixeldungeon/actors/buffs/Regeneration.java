@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon.actors.buffs;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.ChaliceOfBlood;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ChaoticCenser;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.SaltCube;
 
@@ -72,7 +71,6 @@ public class Regeneration extends Buff {
 				} else {
 					//15% boost at +0, scaling to a 500% boost at +10
 					delay -= 1.33f + regenBuff.itemLevel()*0.667f;
-					delay /= RingOfEnergy.artifactChargeMultiplier(target);
 				}
 			}
 			delay /= SaltCube.healthRegenMultiplier();

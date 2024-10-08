@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon.actors.buffs;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Thief;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.FrozenCarpaccio;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.MysteryMeat;
@@ -82,17 +81,6 @@ public class Frost extends FlavourBuff {
 					}
 				}
 				
-			} else if (target instanceof Thief) {
-
-				Item item = ((Thief) target).item;
-
-				if (item instanceof Potion && !item.unique) {
-					((Potion) ((Thief) target).item).shatter(target.pos);
-					((Thief) target).item = null;
-				} else if (item instanceof MysteryMeat){
-					((Thief) target).item = new FrozenCarpaccio();
-				}
-
 			}
 
 			return true;

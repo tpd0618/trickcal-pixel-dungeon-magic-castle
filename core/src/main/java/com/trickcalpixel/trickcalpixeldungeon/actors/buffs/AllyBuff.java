@@ -60,11 +60,8 @@ public abstract class AllyBuff extends Buff{
 
 			Statistics.enemiesSlain++;
 			Badges.validateMonstersSlain();
-			Statistics.qualifiedForNoKilling = false;
 			Bestiary.setSeen(enemy.getClass());
 			Bestiary.countEncounter(enemy.getClass());
-
-			AscensionChallenge.processEnemyKill(enemy);
 
 			int exp = hero.lvl <= enemy.maxLvl ? enemy.EXP : 0;
 			if (exp > 0) {

@@ -24,28 +24,33 @@ package com.trickcalpixel.trickcalpixeldungeon.items;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.ClothArmor;
-import com.trickcalpixel.trickcalpixeldungeon.items.armor.DuelistArmor;
-import com.trickcalpixel.trickcalpixeldungeon.items.armor.HuntressArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.LeatherArmor;
-import com.trickcalpixel.trickcalpixeldungeon.items.armor.MageArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.MailArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.PlateArmor;
-import com.trickcalpixel.trickcalpixeldungeon.items.armor.RogueArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.ScaleArmor;
-import com.trickcalpixel.trickcalpixeldungeon.items.armor.WarriorArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.Artifact;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.CloakOfShadows;
-import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.DriedRose;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.EtherealChains;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.HornOfPlenty;
-import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.SandalsOfNature;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.UnstableSpellbook;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.AntiParryBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.BlinkBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.CheatBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.DetectBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.FloatingBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.HappyBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.HealingBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.IdentifyBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.JudgeBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.MojoBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.RustproofBracelet;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.SwiftBracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Food;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.MysteryMeat;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Pasty;
@@ -65,20 +70,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.potions.PotionOfToxicGas;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.Brew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.Elixir;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.exotic.ExoticPotion;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.Pickaxe;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfAccuracy;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfArcana;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfElements;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEvasion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfForce;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfFuror;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfHaste;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfMight;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfSharpshooting;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfTenacity;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfWealth;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfLullaby;
@@ -126,18 +117,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.VialOfBlood;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.WondrousResin;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfCorrosion;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfCorruption;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfDisintegration;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfFireblast;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfFrost;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLightning;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfLivingEarth;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfMagicMissile;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfPrismaticLight;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfRegrowth;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfTransfusion;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfWarding;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.BattleAxe;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Crossbow;
@@ -154,7 +133,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.HandAxe;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Katana;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Longsword;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Mace;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Rapier;
@@ -232,7 +210,7 @@ public class Generator {
 		MIS_T5  ( 0, 0, MissileWeapon.class ),
 		
 		WAND	( 1, 1, Wand.class ),
-		RING	( 1, 0, Ring.class ),
+		BRACELET	( 1, 0, Bracelet.class ),
 		ARTIFACT( 0, 1, Artifact.class),
 		
 		FOOD	( 0, 0, Food.class ),
@@ -285,7 +263,7 @@ public class Generator {
 		private static HashMap<Class, ArrayList<Class>> subOrderings = new HashMap<>();
 		static {
 			subOrderings.put(Trinket.class, new ArrayList<>(Arrays.asList(Trinket.class, TrinketCatalyst.class)));
-			subOrderings.put(MissileWeapon.class, new ArrayList<>(Arrays.asList(MissileWeapon.class, Bomb.class)));
+			subOrderings.put(MissileWeapon.class, new ArrayList<>(Arrays.asList(MissileWeapon.class)));
 			subOrderings.put(Potion.class, new ArrayList<>(Arrays.asList(Waterskin.class, Potion.class, ExoticPotion.class, Brew.class, Elixir.class, LiquidMetal.class)));
 			subOrderings.put(Scroll.class, new ArrayList<>(Arrays.asList(Scroll.class, ExoticScroll.class, Spell.class, ArcaneResin.class)));
 		}
@@ -389,20 +367,8 @@ public class Generator {
 			STONE.probs = STONE.defaultProbs.clone();
 
 			WAND.classes = new Class<?>[]{
-					WandOfMagicMissile.class,
-					WandOfLightning.class,
-					WandOfDisintegration.class,
-					WandOfFireblast.class,
-					WandOfCorrosion.class,
-					WandOfBlastWave.class,
-					WandOfLivingEarth.class,
-					WandOfFrost.class,
-					WandOfPrismaticLight.class,
-					WandOfWarding.class,
-					WandOfTransfusion.class,
-					WandOfCorruption.class,
-					WandOfRegrowth.class };
-			WAND.defaultProbs = new float[]{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
+					WandOfBlastWave.class};
+			WAND.defaultProbs = new float[]{ 3 };
 			WAND.probs = WAND.defaultProbs.clone();
 			
 			//see generator.randomWeapon
@@ -411,7 +377,6 @@ public class Generator {
 			
 			WEP_T1.classes = new Class<?>[]{
 					WornShortsword.class,
-					MagesStaff.class,
 					Dagger.class,
 					Gloves.class,
 					Rapier.class
@@ -425,10 +390,9 @@ public class Generator {
 					Spear.class,
 					Quarterstaff.class,
 					Dirk.class,
-					Sickle.class,
-					Pickaxe.class
+					Sickle.class
 			};
-			WEP_T2.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2, 0 };
+			WEP_T2.defaultProbs = new float[]{ 2, 2, 2, 2, 2, 2 };
 			WEP_T2.probs = WEP_T2.defaultProbs.clone();
 			
 			WEP_T3.classes = new Class<?>[]{
@@ -472,14 +436,9 @@ public class Generator {
 					LeatherArmor.class,
 					MailArmor.class,
 					ScaleArmor.class,
-					PlateArmor.class,
-					WarriorArmor.class,
-					MageArmor.class,
-					RogueArmor.class,
-					HuntressArmor.class,
-					DuelistArmor.class
+					PlateArmor.class
 			};
-			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
+			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1 };
 			
 			//see Generator.randomMissile
 			MISSILE.classes = new Class<?>[]{};
@@ -532,37 +491,34 @@ public class Generator {
 					MysteryMeat.class };
 			FOOD.defaultProbs = new float[]{ 4, 1, 0 };
 			FOOD.probs = FOOD.defaultProbs.clone();
-			
-			RING.classes = new Class<?>[]{
-					RingOfAccuracy.class,
-					RingOfArcana.class,
-					RingOfElements.class,
-					RingOfEnergy.class,
-					RingOfEvasion.class,
-					RingOfForce.class,
-					RingOfFuror.class,
-					RingOfHaste.class,
-					RingOfMight.class,
-					RingOfSharpshooting.class,
-					RingOfTenacity.class,
-					RingOfWealth.class};
-			RING.defaultProbs = new float[]{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
-			RING.probs = RING.defaultProbs.clone();
-			
+
+			BRACELET.classes = new Class<?>[]{
+					AntiParryBracelet.class,
+					BlinkBracelet.class,
+					CheatBracelet.class,
+					HappyBracelet.class,
+					DetectBracelet.class,
+					FloatingBracelet.class,
+					HealingBracelet.class,
+					IdentifyBracelet.class,
+					JudgeBracelet.class,
+					MojoBracelet.class,
+					RustproofBracelet.class,
+					SwiftBracelet.class};
+			BRACELET.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+
 			ARTIFACT.classes = new Class<?>[]{
 					AlchemistsToolkit.class,
 					ChaliceOfBlood.class,
 					CloakOfShadows.class,
-					DriedRose.class,
 					EtherealChains.class,
 					HornOfPlenty.class,
-					MasterThievesArmband.class,
 					SandalsOfNature.class,
 					TalismanOfForesight.class,
 					TimekeepersHourglass.class,
 					UnstableSpellbook.class
 			};
-			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
+			ARTIFACT.defaultProbs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			ARTIFACT.probs = ARTIFACT.defaultProbs.clone();
 
 			//Trinkets are unique like artifacts, but unlike them you can only have one at once
@@ -693,8 +649,8 @@ public class Generator {
 				return randomMissile();
 			case ARTIFACT:
 				Item item = randomArtifact();
-				//if we're out of artifacts, return a ring instead.
-				return item != null ? item : random(Category.RING);
+				//if we're out of artifacts, return a bracelet instead.
+				return item != null ? item : random(Category.BRACELET);
 			default:
 				if (cat.defaultProbs != null && cat.seed != null){
 					Random.pushGenerator(cat.seed);

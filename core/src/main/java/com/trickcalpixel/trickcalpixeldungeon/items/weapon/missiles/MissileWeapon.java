@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Momentum;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.PinCushion;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.RevealedArea;
@@ -35,8 +34,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.MagicalHolster;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfSharpshooting;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Projecting;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.darts.Dart;
@@ -76,7 +73,7 @@ abstract public class MissileWeapon extends Weapon {
 	@Override
 	public int min() {
 		if (Dungeon.hero != null){
-			return Math.max(0, min(buffedLvl() + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
+			return Math.max(0, min(buffedLvl()));
 		} else {
 			return Math.max(0 , min( buffedLvl() ));
 		}
@@ -91,7 +88,7 @@ abstract public class MissileWeapon extends Weapon {
 	@Override
 	public int max() {
 		if (Dungeon.hero != null){
-			return Math.max(0, max( buffedLvl() + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) ));
+			return Math.max(0, max( buffedLvl()));
 		} else {
 			return Math.max(0 , max( buffedLvl() ));
 		}
@@ -177,10 +174,6 @@ abstract public class MissileWeapon extends Weapon {
 			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)){
 				//do nothing
 			} else {
-				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
-				if (bow != null && bow.hasEnchant(Projecting.class, user)) {
-					projecting = true;
-				}
 			}
 		}
 
@@ -259,10 +252,6 @@ abstract public class MissileWeapon extends Weapon {
 			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)){
 				//do nothing
 			} else {
-				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
-				if (bow != null && bow.enchantment != null && Dungeon.hero.buff(MagicImmune.class) == null) {
-					damage = bow.enchantment.proc(this, attacker, defender, damage);
-				}
 			}
 		}
 
@@ -340,8 +329,6 @@ abstract public class MissileWeapon extends Weapon {
 		if (holster) {
 			usages *= MagicalHolster.HOLSTER_DURABILITY_FACTOR;
 		}
-
-		if (Dungeon.hero != null) usages *= RingOfSharpshooting.durabilityMultiplier( Dungeon.hero );
 
 		//at 100 uses, items just last forever.
 		if (usages >= 100f) return 0;

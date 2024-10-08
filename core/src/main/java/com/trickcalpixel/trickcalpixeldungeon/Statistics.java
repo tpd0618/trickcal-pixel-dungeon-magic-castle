@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,226 +22,463 @@
 package com.trickcalpixel.trickcalpixeldungeon;
 
 import com.watabou.utils.Bundle;
-import com.watabou.utils.SparseArray;
 
 public class Statistics {
 
+	public static int talismanUsed;
 	public static int goldCollected;
-	public static int deepestFloor;
+	public static int goldPickedup;
+	public static int highestFloor;
 	public static int highestAscent;
 	public static int enemiesSlain;
 	public static int foodEaten;
+	public static int potionsCooked;
 	public static int itemsCrafted;
-	public static int piranhasKilled;
-	public static int ankhsUsed;
+	public static int murasasKilled;
+	public static int kisumesKilled;
+	public static int trap_act_count;
+	public static int bamboo;
+	public static int chimata;
 
-	//These are used for score calculation
-	// some are built incrementally, most are assigned when full score is calculated
-	public static int progressScore;
-	public static int heldItemValue;
-	public static int treasureScore;
-	public static SparseArray<Boolean> floorsExplored = new SparseArray<>();
-	public static int exploreScore;
-	public static int[] bossScores = new int[5];
-	public static int totalBossScore;
-	public static int[] questScores = new int[5];
-	public static int totalQuestScore;
-	public static float winMultiplier;
-	public static float chalMultiplier;
-	public static int totalScore;
+	public static Class exterminatedEnemy;
 
-	//used for hero unlock badges
 	public static int upgradesUsed;
 	public static int sneakAttacks;
-	public static int thrownAttacks;
+	public static int thrownAssists;
 
-	public static int spawnersAlive;
-	
+	public static int timeReset;
+	public static int tenshiEarthquake;
+	public static int bordercount;
+
+	public static int HT_bonus;
+	public static int life_count;
+	public static int bomb_count;
+	public static int dismantle_count;
+
+	public static int power;
+	public static int value;
+	public static int life;
+	public static int lifefragment;
+	public static int spellcard;
+	public static int spellcardfragment;
+
+	public static int tenshiattackstep;
+	public static int eirinelixircount;
+
+	public static int nextvalue;
+
+	public static int lifefragmentkill;
+	public static int spellcardfragmentkill;
+
+	public static int difficulty;
+
+	public static int double_speed_upgrade;
 	public static float duration;
-	
-	public static boolean qualifiedForNoKilling = false;
-	public static boolean completedWithNoKilling = false;
-	public static boolean qualifiedForBossRemainsBadge = false;
-	public static boolean qualifiedForBossChallengeBadge = false;
-	
-	public static boolean amuletObtained = false;
-	public static boolean gameWon = false;
-	public static boolean ascended = false;
-	
+
+	public static boolean identify_use;
+	public static boolean fate_use;
+	public static boolean earth_use;
+	public static boolean exorcism_use;
+	public static boolean transmute_use;
+
+	public static boolean elixir_trigger = false;
+
+	public static boolean remi_countdown = false;
+
+	public static boolean scorelife1 = false;
+	public static boolean scorelife2 = false;
+	public static boolean scorelife3 = false;
+	public static boolean scorelife4 = false;
+	public static boolean scorelife5 = false;
+	public static boolean scorelife6 = false;
+	public static boolean scorelife7 = false;
+	public static boolean scorelife8 = false;
+
+	public static boolean lifelose = false;
+	public static boolean spellcarduse = false;
+	public static boolean abcarduse = false;
+	public static boolean suwakorelic_active = false;
+
+	//boss appear check
+	public static boolean boss1 = false;
+	public static boolean boss2 = false;
+	public static boolean boss3 = false;
+	public static boolean boss4 = false;
+	public static boolean boss5 = false;
+	public static boolean boss6 = false;
+	public static boolean boss7 = false;
+	public static boolean boss8 = false;
+	public static boolean boss9 = false;
+
+	public static boolean card1 = false;
+	public static boolean card2 = false;
+	public static boolean card3 = false;
+	public static boolean card4 = false;
+	public static boolean card5 = false;
+	public static boolean card6 = false;
+	public static boolean card7 = false;
+	public static boolean card8 = false;
+	public static boolean card9 = false;
+	public static boolean card10 = false;
+	public static boolean card11 = false;
+	public static boolean card12 = false;
+	public static boolean card13 = false;
+	public static boolean card14 = false;
+	public static boolean card15 = false;
+	public static boolean card16 = false;
+	public static boolean card17 = false;
+	public static boolean card18 = false;
+	public static boolean card19 = false;
+	public static boolean card20 = false;
+	public static boolean card21 = false;
+	public static boolean card22 = false;
+	public static boolean card23 = false;
+	public static boolean card24 = false;
+	public static boolean card25 = false;
+	public static boolean card26 = false;
+	public static boolean card27 = false;
+	public static boolean card28 = false;
+	public static boolean card29 = false;
+	public static boolean card30 = false;
+	public static boolean card31 = false;
+	public static boolean card32 = false;
+	public static boolean card33 = false;
+	public static boolean card34 = false;
+	public static boolean card35 = false;
+	public static boolean card36 = false;
+	public static boolean card37 = false;
+	public static boolean card38 = false;
+	public static boolean card39 = false;
+	public static boolean card40 = false;
+	public static boolean card41 = false;
+	public static boolean card42 = false;
+	public static boolean card43 = false;
+	public static boolean card44 = false;
+	public static boolean card45 = false;
+	public static boolean card46 = false;
+	public static boolean card47 = false;
+	public static boolean card48 = false;
+	public static boolean card49 = false;
+	public static boolean card50 = false;
+	public static boolean card51 = false;
+	public static boolean card52 = false;
+	public static boolean card53 = false;
+	public static boolean card54 = false;
+	public static boolean card55 = false;
+	public static boolean card56 = false;
+	public static boolean card57 = false;
+	public static boolean card58 = false;
+	public static boolean card59 = false;
+	public static boolean card60 = false;
+	public static boolean card61 = false;
+	public static boolean card62 = false;
+	public static boolean card63 = false;
+	public static boolean card64 = false;
+	public static boolean card65 = false;
+	public static boolean card66 = false;
+	public static boolean card67 = false;
+	public static boolean card68 = false;
+	public static boolean card69 = false;
+	public static boolean card70 = false;
+
 	public static void reset() {
-		
+
+		talismanUsed	= 0;
 		goldCollected	= 0;
-		deepestFloor	= 0;
+		goldPickedup	= 0;
+		highestFloor = 0;
 		highestAscent	= 0;
 		enemiesSlain	= 0;
 		foodEaten		= 0;
+		potionsCooked	= 0;
 		itemsCrafted    = 0;
-		piranhasKilled	= 0;
-		ankhsUsed		= 0;
+		murasasKilled = 0;
+		kisumesKilled   = 0;
+		trap_act_count = 0;
+		bamboo = 0;
+		chimata = 0;
+		exterminatedEnemy = null;
 
-		progressScore   = 0;
-		heldItemValue   = 0;
-		treasureScore   = 0;
-		floorsExplored  = new SparseArray<>();
-		exploreScore    = 0;
-		bossScores      = new int[5];
-		totalBossScore  = 0;
-		questScores     = new int[5];
-		totalQuestScore = 0;
-		winMultiplier   = 1;
-		chalMultiplier  = 1;
-		totalScore      = 0;
-		
 		upgradesUsed    = 0;
 		sneakAttacks    = 0;
-		thrownAttacks   = 0;
+		thrownAssists   = 0;
 
-		spawnersAlive   = 0;
-		
-		duration	    = 0;
-		
-		qualifiedForNoKilling = false;
-		qualifiedForBossRemainsBadge = false;
-		qualifiedForBossChallengeBadge = false;
-		
-		amuletObtained = false;
-		gameWon = false;
-		ascended = false;
-		
+		timeReset = 0;
+		tenshiEarthquake = 0;
+		bordercount = 0;
+
+		HT_bonus = 0;
+		life_count = 0;
+		bomb_count = 0;
+		dismantle_count = 0;
+
+		power = 100;
+		value = 0;
+		life = 2;
+		lifefragment = 0;
+		spellcard = 3;
+		spellcardfragment = 0;
+
+		tenshiattackstep = 0;
+		eirinelixircount = 0;
+
+		nextvalue = 500;
+
+		lifefragmentkill = 0;
+		spellcardfragmentkill = 0;
+
+		difficulty = 1; //easy
+
+		double_speed_upgrade = 0;
+		duration = 0;
+
+		identify_use = false;
+		fate_use = false;
+		earth_use = false;
+		exorcism_use = false;
+		transmute_use = false;
+
+		elixir_trigger = false;
+
+		remi_countdown = false;
+
+		scorelife1 = false;
+		scorelife2 = false;
+		scorelife3 = false;
+		scorelife4 = false;
+		scorelife5 = false;
+		scorelife6 = false;
+		scorelife7 = false;
+		scorelife8 = false;
+
+		lifelose = false;
+		spellcarduse = false;
+		abcarduse = false;
+		suwakorelic_active = false;
 	}
-	
+
+	private static final String TALISMANUSED		= "talismanused";
 	private static final String GOLD		= "score";
+	private static final String GOLDPICKEDUP		= "goldpickedup";
 	private static final String DEEPEST		= "maxDepth";
 	private static final String HIGHEST		= "maxAscent";
 	private static final String SLAIN		= "enemiesSlain";
 	private static final String FOOD		= "foodEaten";
 	private static final String ALCHEMY		= "potionsCooked";
-	private static final String PIRANHAS	= "priranhas";
-	private static final String ANKHS		= "ankhsUsed";
+	private static final String KISUMES	    = "kisumeskilled";
+	private static final String MURASAS = "priranhas";
+	private static final String TRAP_ACT_COUNT		= "trap_act_count";
+	private static final String BAMBOO		= "bamboo";
+	private static final String EXTERMINATED_ENEMY		= "exterminated_enemy";
+	private static final String CHIMATA		= "chimata";
 
-	private static final String PROG_SCORE	    = "prog_score";
-	private static final String ITEM_VAL	    = "item_val";
-	private static final String TRES_SCORE      = "tres_score";
-	private static final String FLR_EXPL        = "flr_expl";
-	private static final String EXPL_SCORE      = "expl_score";
-	private static final String BOSS_SCORES		= "boss_scores";
-	private static final String TOT_BOSS		= "tot_boss";
-	private static final String QUEST_SCORES	= "quest_scores";
-	private static final String TOT_QUEST		= "tot_quest";
-	private static final String WIN_MULT		= "win_mult";
-	private static final String CHAL_MULT		= "chal_mult";
-	private static final String TOTAL_SCORE		= "total_score";
-	
 	private static final String UPGRADES	= "upgradesUsed";
 	private static final String SNEAKS		= "sneakAttacks";
 	private static final String THROWN		= "thrownAssists";
 
-	private static final String SPAWNERS	= "spawnersAlive";
-	
+	private static final String TIMERESET		= "timeReset";
+	private static final String TENSHIEARTHQUAKE		= "tenshiearthquake";
+	private static final String BORDERCOUNT		= "bordercount";
+
+	private static final String MAXHP_DOWN		= "maxhp_down";
+	private static final String LIFE_COUNT = "life_count";
+	private static final String BOMB_COUNT = "bomb_count";
+	private static final String DISMANTLE_COUNT = "dismantle_count";
+
+	private static final String POWER	= "power";
+	private static final String VALUE	= "value";
+	private static final String LIFE	= "life";
+	private static final String LIFEFRAGMENT	= "lifefragment";
+	private static final String SPELLCARD	= "spellcard";
+	private static final String SPELLCARDFRAGMENT	= "spellcardfragment";
+
+	private static final String TENSHIATTACKSTEP	= "tenshiattackstep";
+	private static final String EIRINELIXIRCOUNT	= "eirinelixircount";
+
+	private static final String NEXTVALUE	= "nextvalue";
+
+	private static final String LIFEFRAGMENTKILL	= "lifefragmentkill";
+	private static final String SPELLCARDFRAGMENTKILL	= "spellcardfragmentkill";
+
+	private static final String DIFFICULTY	= "difficulty";
+
+	private static final String DOUBLE_SPEED_UPGRADE	= "double_speed_upgrade";
 	private static final String DURATION	= "duration";
 
-	private static final String NO_KILLING_QUALIFIED	= "qualifiedForNoKilling";
-	private static final String BOSS_REMAINS_QUALIFIED	= "qualifiedForBossRemainsBadge";
-	private static final String BOSS_CHALLENGE_QUALIFIED= "qualifiedForBossChallengeBadge";
-	
-	private static final String AMULET          = "amuletObtained";
-	private static final String WON		        = "won";
-	private static final String ASCENDED		= "ascended";
-	
+	private static final String IDENTIFY_USE	= "identify_use";
+	private static final String FATE_USE	= "fate_use";
+	private static final String EARTH_USE	= "earth_use";
+	private static final String EXORCISM_USE	= "exorcism_use";
+	private static final String TRANSMUTE_USE	= "transmute_use";
+
+	private static final String ELIXIRTRIGGER	= "elixirtrigger";
+
+	private static final String REMI_COUNTDOWN	= "remi_countdown";
+
+	private static final String SCORELIFE1		= "scorelife1";
+	private static final String SCORELIFE2		= "scorelife2";
+	private static final String SCORELIFE3		= "scorelife3";
+	private static final String SCORELIFE4		= "scorelife4";
+	private static final String SCORELIFE5		= "scorelife5";
+	private static final String SCORELIFE6		= "scorelife6";
+	private static final String SCORELIFE7		= "scorelife7";
+	private static final String SCORELIFE8		= "scorelife8";
+
+	private static final String LIFELOSE		= "lifelose";
+	private static final String SPELLCARDUSE		= "spellcarduse";
+	private static final String ABCARDUSE		= "abcarduse";
+	private static final String SUWAKORELIC_ACTIVE = "suwakorelic_active";
+
 	public static void storeInBundle( Bundle bundle ) {
+		bundle.put( TALISMANUSED,		talismanUsed );
 		bundle.put( GOLD,		goldCollected );
-		bundle.put( DEEPEST,	deepestFloor );
+		bundle.put( GOLDPICKEDUP,		goldPickedup );
+		bundle.put( DEEPEST, highestFloor);
 		bundle.put( HIGHEST,	highestAscent );
 		bundle.put( SLAIN,		enemiesSlain );
 		bundle.put( FOOD,		foodEaten );
 		bundle.put( ALCHEMY,    itemsCrafted );
-		bundle.put( PIRANHAS,	piranhasKilled );
-		bundle.put( ANKHS,		ankhsUsed );
+		bundle.put( MURASAS, murasasKilled);
+		bundle.put( KISUMES,	kisumesKilled );
+		bundle.put( TRAP_ACT_COUNT, trap_act_count);
+		bundle.put( BAMBOO, bamboo);
+		bundle.put( CHIMATA, chimata);
+		bundle.put( EXTERMINATED_ENEMY, exterminatedEnemy );
 
-		bundle.put( PROG_SCORE,  progressScore );
-		bundle.put( ITEM_VAL,    heldItemValue );
-		bundle.put( TRES_SCORE,  treasureScore );
-		for (int i = 1; i < 26; i++){
-			if (floorsExplored.containsKey(i)){
-				bundle.put( FLR_EXPL+i, floorsExplored.get(i) );
-			}
-		}
-		bundle.put( EXPL_SCORE,  exploreScore );
-		bundle.put( BOSS_SCORES, bossScores );
-		bundle.put( TOT_BOSS,    totalBossScore );
-		bundle.put( QUEST_SCORES,questScores );
-		bundle.put( TOT_QUEST,   totalQuestScore );
-		bundle.put( WIN_MULT,    winMultiplier );
-		bundle.put( CHAL_MULT,   chalMultiplier );
-		bundle.put( TOTAL_SCORE, totalScore );
-		
 		bundle.put( UPGRADES,   upgradesUsed );
 		bundle.put( SNEAKS,		sneakAttacks );
-		bundle.put( THROWN,     thrownAttacks);
+		bundle.put( THROWN,		thrownAssists );
 
-		bundle.put( SPAWNERS,	spawnersAlive );
-		
+		bundle.put( TIMERESET,		timeReset );
+		bundle.put( TENSHIEARTHQUAKE,		tenshiEarthquake );
+		bundle.put( BORDERCOUNT,		bordercount );
+
+		bundle.put( MAXHP_DOWN, HT_bonus);
+		bundle.put( LIFE_COUNT, life_count);
+		bundle.put( BOMB_COUNT, bomb_count);
+		bundle.put( DISMANTLE_COUNT, dismantle_count);
+
+		bundle.put( POWER,	power );
+		bundle.put( VALUE,	value );
+		bundle.put( LIFE,	life );
+		bundle.put( LIFEFRAGMENT,	lifefragment );
+		bundle.put( SPELLCARD,	spellcard );
+		bundle.put( SPELLCARDFRAGMENT,	spellcardfragment );
+
+		bundle.put( TENSHIATTACKSTEP, tenshiattackstep);
+		bundle.put( EIRINELIXIRCOUNT, eirinelixircount);
+
+		bundle.put( NEXTVALUE,	nextvalue );
+
+		bundle.put( LIFEFRAGMENTKILL,	lifefragmentkill );
+		bundle.put( SPELLCARDFRAGMENTKILL,	spellcardfragmentkill );
+
+		bundle.put( DIFFICULTY,	difficulty );
+
+		bundle.put( IDENTIFY_USE,	identify_use );
+		bundle.put( FATE_USE,	fate_use );
+		bundle.put( EARTH_USE,	earth_use );
+		bundle.put( EXORCISM_USE,	exorcism_use );
+		bundle.put( TRANSMUTE_USE,	transmute_use );
+
+		bundle.put( DOUBLE_SPEED_UPGRADE,	double_speed_upgrade );
 		bundle.put( DURATION,	duration );
 
-		bundle.put(NO_KILLING_QUALIFIED, qualifiedForNoKilling);
-		bundle.put(BOSS_REMAINS_QUALIFIED, qualifiedForBossRemainsBadge);
-		bundle.put(BOSS_CHALLENGE_QUALIFIED, qualifiedForBossChallengeBadge);
-		
-		bundle.put( AMULET,		amuletObtained );
-		bundle.put( WON,        gameWon );
-		bundle.put( ASCENDED,   ascended );
+		bundle.put( ELIXIRTRIGGER, elixir_trigger);
+
+		bundle.put( REMI_COUNTDOWN, remi_countdown);
+
+		bundle.put( SCORELIFE1,	scorelife1 );
+		bundle.put( SCORELIFE2,	scorelife2 );
+		bundle.put( SCORELIFE3,	scorelife3 );
+		bundle.put( SCORELIFE4,	scorelife4 );
+		bundle.put( SCORELIFE5,	scorelife5 );
+		bundle.put( SCORELIFE6,	scorelife6 );
+		bundle.put( SCORELIFE7,	scorelife7 );
+		bundle.put( SCORELIFE8,	scorelife8 );
+
+		bundle.put( LIFELOSE,	lifelose );
+		bundle.put( SPELLCARDUSE,	spellcarduse );
+		bundle.put( SUWAKORELIC_ACTIVE, suwakorelic_active);
+		bundle.put( ABCARDUSE,	abcarduse );
 	}
-	
+
 	public static void restoreFromBundle( Bundle bundle ) {
-		goldCollected	= bundle.getInt( GOLD );
-		deepestFloor	= bundle.getInt( DEEPEST );
-		highestAscent   = bundle.getInt( HIGHEST );
-		enemiesSlain	= bundle.getInt( SLAIN );
-		foodEaten		= bundle.getInt( FOOD );
-		itemsCrafted    = bundle.getInt( ALCHEMY );
-		piranhasKilled	= bundle.getInt( PIRANHAS );
-		ankhsUsed		= bundle.getInt( ANKHS );
+		talismanUsed = bundle.getInt(TALISMANUSED);
+		goldCollected = bundle.getInt(GOLD);
+		goldPickedup = bundle.getInt(GOLDPICKEDUP);
+		highestFloor = bundle.getInt(DEEPEST);
+		highestAscent = bundle.getInt(HIGHEST);
+		enemiesSlain = bundle.getInt(SLAIN);
+		foodEaten = bundle.getInt(FOOD);
+		itemsCrafted = bundle.getInt(ALCHEMY);
+		kisumesKilled = bundle.getInt(KISUMES);
+		murasasKilled = bundle.getInt(MURASAS);
+		trap_act_count = bundle.getInt(TRAP_ACT_COUNT);
+		bamboo = bundle.getInt(BAMBOO);
+		chimata = bundle.getInt(CHIMATA);
+		exterminatedEnemy = bundle.getClass(EXTERMINATED_ENEMY);
 
-		progressScore   = bundle.getInt( PROG_SCORE );
-		heldItemValue   = bundle.getInt( ITEM_VAL );
-		treasureScore   = bundle.getInt( TRES_SCORE );
-		floorsExplored.clear();
-		for (int i = 1; i < 26; i++){
-			if (bundle.contains( FLR_EXPL+i )){
-				floorsExplored.put(i, bundle.getBoolean( FLR_EXPL+i ));
-			}
-		}
-		exploreScore    = bundle.getInt( EXPL_SCORE );
-		if (bundle.contains( BOSS_SCORES )) bossScores = bundle.getIntArray( BOSS_SCORES );
-		else                                bossScores = new int[5];
-		totalBossScore  = bundle.getInt( TOT_BOSS );
-		if (bundle.contains( QUEST_SCORES ))questScores = bundle.getIntArray( QUEST_SCORES );
-		else                                questScores = new int[5];
-		totalQuestScore = bundle.getInt( TOT_QUEST );
-		winMultiplier   = bundle.getFloat( WIN_MULT );
-		chalMultiplier  = bundle.getFloat( CHAL_MULT );
-		totalScore      = bundle.getInt( TOTAL_SCORE );
-		
-		upgradesUsed    = bundle.getInt( UPGRADES );
-		sneakAttacks    = bundle.getInt( SNEAKS );
-		thrownAttacks   = bundle.getInt( THROWN );
+		upgradesUsed = bundle.getInt(UPGRADES);
+		sneakAttacks = bundle.getInt(SNEAKS);
+		thrownAssists = bundle.getInt(THROWN);
 
-		spawnersAlive   = bundle.getInt( SPAWNERS );
-		
-		duration		= bundle.getFloat( DURATION );
+		timeReset = bundle.getInt(TIMERESET);
+		tenshiEarthquake = bundle.getInt(TENSHIEARTHQUAKE);
+		bordercount = bundle.getInt(BORDERCOUNT);
 
-		qualifiedForNoKilling = bundle.getBoolean( NO_KILLING_QUALIFIED );
-		qualifiedForBossRemainsBadge = bundle.getBoolean( BOSS_REMAINS_QUALIFIED );
-		qualifiedForBossChallengeBadge = bundle.getBoolean( BOSS_CHALLENGE_QUALIFIED );
-		
-		amuletObtained	= bundle.getBoolean( AMULET );
-		gameWon         = bundle.getBoolean( WON );
-		ascended        = bundle.getBoolean( ASCENDED );
+		HT_bonus = bundle.getInt(MAXHP_DOWN);
+		life_count = bundle.getInt(LIFE_COUNT);
+		bomb_count = bundle.getInt(BOMB_COUNT);
+		dismantle_count = bundle.getInt(DISMANTLE_COUNT);
+
+		power = bundle.getInt(POWER);
+		value = bundle.getInt(VALUE);
+		life = bundle.getInt(LIFE);
+		lifefragment = bundle.getInt(LIFEFRAGMENT);
+		spellcard = bundle.getInt(SPELLCARD);
+		spellcardfragment = bundle.getInt(SPELLCARDFRAGMENT);
+
+		tenshiattackstep = bundle.getInt(TENSHIATTACKSTEP);
+		eirinelixircount = bundle.getInt(EIRINELIXIRCOUNT);
+
+		nextvalue = bundle.getInt(NEXTVALUE);
+
+		lifefragmentkill = bundle.getInt(LIFEFRAGMENTKILL);
+		spellcardfragmentkill = bundle.getInt(SPELLCARDFRAGMENTKILL);
+
+		difficulty = bundle.getInt(DIFFICULTY);
+
+		double_speed_upgrade = bundle.getInt(DOUBLE_SPEED_UPGRADE);
+		duration = bundle.getFloat(DURATION);
+
+		identify_use = bundle.getBoolean(IDENTIFY_USE);
+		fate_use = bundle.getBoolean(FATE_USE);
+		earth_use = bundle.getBoolean(EARTH_USE);
+		exorcism_use = bundle.getBoolean(EXORCISM_USE);
+		transmute_use = bundle.getBoolean(TRANSMUTE_USE);
+
+		elixir_trigger = bundle.getBoolean(ELIXIRTRIGGER);
+
+		remi_countdown = bundle.getBoolean(REMI_COUNTDOWN);
+
+		scorelife1 = bundle.getBoolean(SCORELIFE1);
+		scorelife2 = bundle.getBoolean(SCORELIFE2);
+		scorelife3 = bundle.getBoolean(SCORELIFE3);
+		scorelife4 = bundle.getBoolean(SCORELIFE4);
+		scorelife5 = bundle.getBoolean(SCORELIFE5);
+		scorelife6 = bundle.getBoolean(SCORELIFE6);
+		scorelife7 = bundle.getBoolean(SCORELIFE7);
+		scorelife8 = bundle.getBoolean(SCORELIFE8);
+
+		lifelose = bundle.getBoolean(LIFELOSE);
+		spellcarduse = bundle.getBoolean(SPELLCARDUSE);
+		abcarduse = bundle.getBoolean(ABCARDUSE);
+		suwakorelic_active = bundle.getBoolean(SUWAKORELIC_ACTIVE);
 	}
-	
-	public static void preview( GamesInProgress.Info info, Bundle bundle ){
+
+	public static void preview(GamesInProgress.Info info, Bundle bundle ){
 		info.goldCollected  = bundle.getInt( GOLD );
-		info.maxDepth       = bundle.getInt( DEEPEST );
+		info.maxDepth = bundle.getInt( DEEPEST );
 	}
-
 }

@@ -22,7 +22,6 @@
 package com.trickcalpixel.trickcalpixeldungeon.windows;
 
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.items.Ankh;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
@@ -125,7 +124,6 @@ public class WndResurrect extends Window {
 	private void resurrect( final Ankh ankh ){
 		hide();
 
-		Statistics.ankhsUsed++;
 		Catalog.countUse(Ankh.class);
 
 		ankh.detach(Dungeon.hero.belongings.backpack);

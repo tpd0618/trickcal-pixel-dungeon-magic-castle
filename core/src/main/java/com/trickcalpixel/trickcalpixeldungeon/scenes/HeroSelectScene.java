@@ -534,15 +534,15 @@ public class HeroSelectScene extends PixelScene {
 
 		private HeroClass cl;
 
-		private static final int MIN_WIDTH = 20;
-		private static final int HEIGHT = 24;
+		private static final int MIN_WIDTH = 23;
+		private static final int HEIGHT = 23;
 
 		HeroBtn ( HeroClass cl ){
 			super(Chrome.Type.GREY_BUTTON_TR, "");
 
 			this.cl = cl;
 
-			icon(new Image(cl.spritesheet(), 0, 90, 12, 15));
+			icon(new Image(cl.spritesheet(), 0, 90, 23, 23));
 
 		}
 

@@ -27,22 +27,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Challenges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.QuickSlot;
 import com.trickcalpixel.trickcalpixeldungeon.SPDSettings;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.ArmorAbility;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.Challenge;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.Feint;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.mage.WildMagic;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.rogue.DeathMark;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.warrior.Endure;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.trickcalpixel.trickcalpixeldungeon.items.BrokenSeal;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.Waterskin;
@@ -61,11 +45,8 @@ import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfMagicMapping
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRage;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfMagicMissile;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Dagger;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Gloves;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Rapier;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.WornShortsword;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -77,7 +58,7 @@ import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 
-	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR ),
+	AYA( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR ),
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN ),
@@ -109,7 +90,7 @@ public enum HeroClass {
 		new ScrollOfIdentify().identify();
 
 		switch (this) {
-			case WARRIOR:
+			case AYA:
 				initWarrior( hero );
 				break;
 
@@ -143,7 +124,7 @@ public enum HeroClass {
 
 	public Badges.Badge masteryBadge() {
 		switch (this) {
-			case WARRIOR:
+			case AYA:
 				return Badges.Badge.MASTERY_WARRIOR;
 			case MAGE:
 				return Badges.Badge.MASTERY_MAGE;
@@ -173,14 +154,7 @@ public enum HeroClass {
 	}
 
 	private static void initMage( Hero hero ) {
-		MagesStaff staff;
-
-		staff = new MagesStaff(new WandOfMagicMissile());
-
-		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);
-
-		Dungeon.quickslot.setSlot(0, staff);
 
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
@@ -206,10 +180,6 @@ public enum HeroClass {
 	private static void initHuntress( Hero hero ) {
 
 		(hero.belongings.weapon = new Gloves()).identify();
-		SpiritBow bow = new SpiritBow();
-		bow.identify().collect();
-
-		Dungeon.quickslot.setSlot(0, bow);
 
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
@@ -246,40 +216,17 @@ public enum HeroClass {
 		return subClasses;
 	}
 
-	public ArmorAbility[] armorAbilities(){
-		switch (this) {
-			case WARRIOR: default:
-				return new ArmorAbility[]{new HeroicLeap(), new Shockwave(), new Endure()};
-			case MAGE:
-				return new ArmorAbility[]{new ElementalBlast(), new WildMagic(), new WarpBeacon()};
-			case ROGUE:
-				return new ArmorAbility[]{new SmokeBomb(), new DeathMark(), new ShadowClone()};
-			case HUNTRESS:
-				return new ArmorAbility[]{new SpectralBlades(), new NaturesPower(), new SpiritHawk()};
-			case DUELIST:
-				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
-		}
-	}
-
 	public String spritesheet() {
 		switch (this) {
-			case WARRIOR: default:
-				return Assets.Sprites.WARRIOR;
-			case MAGE:
-				return Assets.Sprites.MAGE;
-			case ROGUE:
-				return Assets.Sprites.ROGUE;
-			case HUNTRESS:
-				return Assets.Sprites.HUNTRESS;
-			case DUELIST:
-				return Assets.Sprites.DUELIST;
+			case AYA: default:
+				return Assets.Sprites.AYA;
 		}
 	}
 
 	public String splashArt(){
 		switch (this) {
-			case WARRIOR: default:
-				return Assets.Splashes.WARRIOR;
+			case AYA: default:
+				return Assets.Splashes.AYA;
 			case MAGE:
 				return Assets.Splashes.MAGE;
 			case ROGUE:
@@ -296,7 +243,7 @@ public enum HeroClass {
 		if (DeviceCompat.isDebug()) return true;
 
 		switch (this){
-			case WARRIOR: default:
+			case AYA: default:
 				return true;
 			case MAGE:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_MAGE);

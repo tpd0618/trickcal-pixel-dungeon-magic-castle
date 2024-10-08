@@ -84,7 +84,6 @@ public class ExitRoom extends StandardRoom {
 		rooms.add(CavesFissureExitRoom.class);
 
 		rooms.add(HallwayExitRoom.class);
-		rooms.add(StatuesExitRoom.class);
 
 		rooms.add(ChasmExitRoom.class);
 		rooms.add(RitualExitRoom.class);
@@ -106,6 +105,8 @@ public class ExitRoom extends StandardRoom {
 
 		chances[21] = new float[]{3,  0,0, 0,0, 0,0, 0,0, 6,1};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
+
+		//todo
 	}
 
 	public static StandardRoom createExit(){

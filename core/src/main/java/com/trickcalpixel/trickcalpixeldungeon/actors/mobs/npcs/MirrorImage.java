@@ -32,8 +32,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Burning;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Invisibility;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfAccuracy;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEvasion;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.CharSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.MirrorSprite;
@@ -116,7 +114,6 @@ public class MirrorImage extends NPC {
 	public int attackSkill( Char target ) {
 		//same base attack skill as hero, benefits from accuracy ring and weapon
 		int attackSkill = 9 + hero.lvl;
-		attackSkill *= RingOfAccuracy.accuracyMultiplier(hero);
 		if (hero.belongings.attackingWeapon() != null){
 			attackSkill *= hero.belongings.attackingWeapon().accuracyFactor(this, target);
 		}
@@ -127,7 +124,7 @@ public class MirrorImage extends NPC {
 	public int defenseSkill(Char enemy) {
 		if (hero != null) {
 			int baseEvasion = 4 + hero.lvl;
-			int heroEvasion = (int)((4 + hero.lvl) * RingOfEvasion.evasionMultiplier( hero ));
+			int heroEvasion = (int)((4 + hero.lvl));
 			
 			//if the hero has more/less evasion, 50% of it is applied
 			//includes ring of evasion boost

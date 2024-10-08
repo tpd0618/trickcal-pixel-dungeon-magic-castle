@@ -23,8 +23,6 @@ package com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments;
 
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
-import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfWealth;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite.Glowing;
@@ -61,14 +59,8 @@ public class Lucky extends Weapon.Enchantment {
 		return damage;
 
 	}
-	
-	public static Item genLoot(){
-		//80% common, 20% uncommon, 0% rare
-		return RingOfWealth.genConsumableDrop(-5);
-	}
 
 	public static void showFlare( Visual vis ){
-		RingOfWealth.showFlareForBonusDrop(vis);
 	}
 
 	@Override
@@ -85,11 +77,6 @@ public class Lucky extends Weapon.Enchantment {
 		public boolean act() {
 			detach();
 			return true;
-		}
-
-		public Item genLoot(){
-			detach();
-			return RingOfWealth.genConsumableDrop(ringLevel);
 		}
 	}
 	

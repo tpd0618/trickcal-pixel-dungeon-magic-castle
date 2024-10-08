@@ -21,13 +21,10 @@
 
 package com.trickcalpixel.trickcalpixeldungeon.items.scrolls;
 
-import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Degrade;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Belongings;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.TormentedSpirit;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Flare;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ShadowParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.EquipableItem;
@@ -38,8 +35,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.PathFinder;
 
 public class ScrollOfRemoveCurse extends InventoryScroll {
 
@@ -50,30 +45,7 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 
 	@Override
 	public void doRead() {
-
-		TormentedSpirit spirit = null;
-		for (int i : PathFinder.NEIGHBOURS8){
-			if (Actor.findChar(curUser.pos+i) instanceof TormentedSpirit){
-				spirit = (TormentedSpirit) Actor.findChar(curUser.pos+i);
-			}
-		}
-		if (spirit != null){
-			identify();
-			Sample.INSTANCE.play( Assets.Sounds.READ );
-			readAnimation();
-
-			new Flare( 6, 32 ).show( curUser.sprite, 2f );
-
-			if (curUser.buff(Degrade.class) != null) {
-				Degrade.detach(curUser, Degrade.class);
-			}
-
-			detach(curUser.belongings.backpack);
-			GLog.p(Messages.get(this, "spirit"));
-			spirit.cleanse();
-		} else {
-			super.doRead();
-		}
+		super.doRead();
 	}
 
 	@Override

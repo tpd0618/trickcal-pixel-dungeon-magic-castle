@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.keys.IronKey;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
@@ -85,12 +84,10 @@ public class ArmoryRoom extends SpecialRoom {
 		prizeCats[index] = 0;
 		switch (index){
 			case 0:
-				return new Bomb().random();
-			case 1:
 				return Generator.randomWeapon();
-			case 2:
+			case 1:
 				return Generator.randomArmor();
-			case 3: default:
+			case 2: default:
 				return Generator.randomMissile();
 		}
 	}

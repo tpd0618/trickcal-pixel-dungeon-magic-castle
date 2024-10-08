@@ -114,7 +114,7 @@ public class Piranha extends Mob {
 	public void die( Object cause ) {
 		super.die( cause );
 		
-		Statistics.piranhasKilled++;
+		Statistics.murasasKilled++;
 		Badges.validatePiranhasKilled();
 	}
 

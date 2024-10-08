@@ -31,7 +31,6 @@ import com.trickcalpixel.trickcalpixeldungeon.SPDSettings;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
 import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Belongings;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.Trinket;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -207,8 +206,6 @@ public class WndRanking extends WndTabbed {
 
 			} else {
 
-				pos = statSlot(this, Messages.get(this, "score"), num.format(Statistics.totalScore), pos);
-
 				IconButton scoreInfo = new IconButton(Icons.get(Icons.INFO)) {
 					@Override
 					protected void onClick() {
@@ -231,7 +228,7 @@ public class WndRanking extends WndTabbed {
 					pos = statSlot(this, Messages.get(this, "str"), Integer.toString(Dungeon.hero.STR), pos);
 				pos = statSlot(this, Messages.get(this, "duration"), num.format((int) Statistics.duration), pos);
 				if (Statistics.highestAscent == 0) {
-					pos = statSlot(this, Messages.get(this, "depth"), num.format(Statistics.deepestFloor), pos);
+					pos = statSlot(this, Messages.get(this, "depth"), num.format(Statistics.highestFloor), pos);
 				} else {
 					pos = statSlot(this, Messages.get(this, "ascent"), num.format(Statistics.highestAscent), pos);
 				}
@@ -317,9 +314,6 @@ public class WndRanking extends WndTabbed {
 			camera = WndRanking.this.camera;
 
 			int tiers = 1;
-			if (Dungeon.hero.lvl >= 6) tiers++;
-			if (Dungeon.hero.lvl >= 12 && Dungeon.hero.subClass != HeroSubClass.NONE) tiers++;
-			if (Dungeon.hero.lvl >= 20 && Dungeon.hero.armorAbility != null) tiers++;
 			while (Dungeon.hero.talents.size() > tiers){
 				Dungeon.hero.talents.remove(Dungeon.hero.talents.size()-1);
 			}
@@ -354,8 +348,8 @@ public class WndRanking extends WndTabbed {
 			if (stuff.misc != null) {
 				addItem( stuff.misc );
 			}
-			if (stuff.ring != null) {
-				addItem( stuff.ring );
+			if (stuff.bracelet != null) {
+				addItem( stuff.bracelet);
 			}
 
 			pos = 0;

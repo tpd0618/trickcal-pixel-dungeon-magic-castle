@@ -26,8 +26,8 @@ import com.trickcalpixel.trickcalpixeldungeon.Badges;
 import com.trickcalpixel.trickcalpixeldungeon.Chrome;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Journal;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -63,7 +63,7 @@ public class JournalScene extends PixelScene {
 
 		Potion.clearColors();
 		Scroll.clearLabels();
-		Ring.clearGems();
+		Bracelet.clearGems();
 
 		//need to re-initialize the texture here, as it may be invalid
 		new TerrainFeaturesTilemap(new SparseArray<>(), new SparseArray<>());

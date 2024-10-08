@@ -27,7 +27,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
-import com.trickcalpixel.trickcalpixeldungeon.levels.traps.TenguDartTrap;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
@@ -66,7 +65,6 @@ public class ForceCube extends MissileWeapon {
 		if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
 		
 		for (int i : PathFinder.NEIGHBOURS8){
-			if (!(Dungeon.level.traps.get(cell+i) instanceof TenguDartTrap)) Dungeon.level.pressCell(cell+i);
 			if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
 		}
 		

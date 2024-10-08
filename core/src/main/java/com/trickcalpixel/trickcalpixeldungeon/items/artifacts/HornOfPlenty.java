@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2024 Evan Debenham
+ * Copyright (C) 2014-2022 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +22,18 @@
 package com.trickcalpixel.trickcalpixeldungeon.items.artifacts;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
-import com.trickcalpixel.trickcalpixeldungeon.Badges;
-import com.trickcalpixel.trickcalpixeldungeon.Challenges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.Statistics;
+import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AshurBread;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Hunger;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Belongings;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.SpellSprite;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Blandfruit;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Food;
-import com.trickcalpixel.trickcalpixeldungeon.items.food.MeatPie;
-import com.trickcalpixel.trickcalpixeldungeon.items.food.Pasty;
-import com.trickcalpixel.trickcalpixeldungeon.items.food.PhantomMeat;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfEnergy;
-import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
@@ -66,7 +58,7 @@ public class HornOfPlenty extends Artifact {
 
 		defaultAction = AC_SNACK;
 	}
-	
+
 	private int storedFoodEnergy = 0;
 
 	public static final String AC_SNACK = "SNACK";
@@ -74,36 +66,32 @@ public class HornOfPlenty extends Artifact {
 	public static final String AC_STORE = "STORE";
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (hero.buff(MagicImmune.class) != null) return actions;
-		if (isEquipped( hero ) && charge > 0) {
-			actions.add(AC_SNACK);
-			actions.add(AC_EAT);
-		}
-		if (isEquipped( hero ) && level() < levelCap && !cursed) {
-			actions.add(AC_STORE);
+	public ArrayList<String> actions( Hero heroine) {
+		ArrayList<String> actions = super.actions(heroine);
+		if (Dungeon.hero.buff(AshurBread.class) == null) {
+			if (isEquipped(heroine) && charge > 0) {
+				actions.add(AC_SNACK);
+				actions.add(AC_EAT);
+			}
+			if (isEquipped(heroine) && level() < levelCap && !cursed) {
+				actions.add(AC_STORE);
+			}
 		}
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Hero heroine, String action ) {
 
-		super.execute(hero, action);
-
-		if (hero.buff(MagicImmune.class) != null) return;
+		super.execute(heroine, action);
 
 		if (action.equals(AC_EAT) || action.equals(AC_SNACK)){
 
-			if (!isEquipped(hero)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
+			if (!isEquipped(heroine)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 			else if (charge == 0)  GLog.i( Messages.get(this, "no_food") );
 			else {
 				//consume as much food as it takes to be full, to a minimum of 1
 				int satietyPerCharge = (int) (Hunger.STARVING/5f);
-				if (Dungeon.isChallenged(Challenges.NO_FOOD)){
-					satietyPerCharge /= 3;
-				}
 
 				Hunger hunger = Buff.affect(Dungeon.hero, Hunger.class);
 				int chargesToUse = Math.max( 1, hunger.hunger() / satietyPerCharge);
@@ -119,31 +107,19 @@ public class HornOfPlenty extends Artifact {
 				Statistics.foodEaten++;
 
 				charge -= chargesToUse;
-				Talent.onArtifactUsed(hero);
 
-				hero.sprite.operate(hero.pos);
-				hero.busy();
-				SpellSprite.show(hero, SpellSprite.FOOD);
+				heroine.sprite.operate(heroine.pos);
+				heroine.busy();
+				SpellSprite.show(heroine, SpellSprite.FOOD);
 				Sample.INSTANCE.play(Assets.Sounds.EAT);
 				GLog.i( Messages.get(this, "eat") );
 
-				if (Dungeon.hero.hasTalent(Talent.IRON_STOMACH)
-						|| Dungeon.hero.hasTalent(Talent.ENERGIZING_MEAL)
-						|| Dungeon.hero.hasTalent(Talent.MYSTICAL_MEAL)
-						|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
-						|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)){
-					hero.spend(Food.TIME_TO_EAT - 2);
-				} else {
-					hero.spend(Food.TIME_TO_EAT);
-				}
+				heroine.spend(Food.TIME_TO_EAT);
 
-				Talent.onFoodEaten(hero, satietyPerCharge * chargesToUse, this);
-
-				Badges.validateFoodEaten();
-
-				if (charge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
-				else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
-				else if (charge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
+				int oldImage = image;
+				if (charge >= 15)       image = ItemSpriteSheet.ARTIFACT_HORN4;
+				else if (charge >= 10)  image = ItemSpriteSheet.ARTIFACT_HORN3;
+				else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN2;
 				else                    image = ItemSpriteSheet.ARTIFACT_HORN1;
 
 				updateQuickslot();
@@ -160,35 +136,36 @@ public class HornOfPlenty extends Artifact {
 	protected ArtifactBuff passiveBuff() {
 		return new hornRecharge();
 	}
-	
+
 	@Override
 	public void charge(Hero target, float amount) {
-		if (charge < chargeCap && !cursed && target.buff(MagicImmune.class) == null){
+		if (charge < chargeCap){
 			partialCharge += 0.25f*amount;
-			while (partialCharge >= 1){
+			if (partialCharge >= 1){
 				partialCharge--;
 				charge++;
-				
+
 				if (charge == chargeCap){
 					GLog.p( Messages.get(HornOfPlenty.class, "full") );
 					partialCharge = 0;
 				}
 
-				if (charge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
-				else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
-				else if (charge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
+				int oldImage = image;
+				if (charge >= 15)       image = ItemSpriteSheet.ARTIFACT_HORN4;
+				else if (charge >= 10)  image = ItemSpriteSheet.ARTIFACT_HORN3;
+				else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN2;
 				else                    image = ItemSpriteSheet.ARTIFACT_HORN1;
 
 				updateQuickslot();
 			}
 		}
 	}
-	
+
 	@Override
 	public String desc() {
 		String desc = super.desc();
 
-		if ( isEquipped( Dungeon.hero ) ){
+		if ( isEquipped( Dungeon.hero) ){
 			if (!cursed) {
 				if (level() < levelCap)
 					desc += "\n\n" +Messages.get(this, "desc_hint");
@@ -212,22 +189,15 @@ public class HornOfPlenty extends Artifact {
 		chargeCap = 5 + level()/2;
 		return this;
 	}
-	
+
 	public void gainFoodValue( Food food ){
 		if (level() >= 10) return;
-		
+
 		storedFoodEnergy += food.energy;
-		//Pasties and phantom meat are worth two upgrades instead of 1.5, meat pies are worth 4 instead of 3!
-		if (food instanceof Pasty || food instanceof PhantomMeat){
-			storedFoodEnergy += Hunger.HUNGRY/2;
-		} else if (food instanceof MeatPie){
-			storedFoodEnergy += Hunger.HUNGRY;
-		}
 		if (storedFoodEnergy >= Hunger.HUNGRY){
 			int upgrades = storedFoodEnergy / (int)Hunger.HUNGRY;
 			upgrades = Math.min(upgrades, 10 - level());
 			upgrade(upgrades);
-			Catalog.countUse(HornOfPlenty.class);
 			storedFoodEnergy -= upgrades * Hunger.HUNGRY;
 			if (level() == 10){
 				storedFoodEnergy = 0;
@@ -239,26 +209,20 @@ public class HornOfPlenty extends Artifact {
 			GLog.i( Messages.get(this, "feed") );
 		}
 	}
-	
+
 	private static final String STORED = "stored";
-	
+
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put( STORED, storedFoodEnergy );
 	}
-	
+
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-
-		//pre-2.0.0 saves
-		if (partialCharge > 1){
-			partialCharge /= Hunger.STARVING/5f;
-		}
-
 		storedFoodEnergy = bundle.getInt(STORED);
-		
+
 		if (charge >= 8)       image = ItemSpriteSheet.ARTIFACT_HORN4;
 		else if (charge >= 5)  image = ItemSpriteSheet.ARTIFACT_HORN3;
 		else if (charge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
@@ -267,25 +231,22 @@ public class HornOfPlenty extends Artifact {
 	public class hornRecharge extends ArtifactBuff{
 
 		public void gainCharge(float levelPortion) {
-			if (cursed || target.buff(MagicImmune.class) != null) return;
-			
+			if (cursed) return;
+
 			if (charge < chargeCap) {
 
 				//generates 0.25x max hunger value every hero level, +0.125x max value per horn level
 				//to a max of 1.5x max hunger value per hero level
 				//This means that a standard ration will be recovered in ~5.333 hero levels
 				float chargeGain = Hunger.STARVING * levelPortion * (0.25f + (0.125f*level()));
-				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
-
-				//each charge is equal to 1/5 the max hunger value
-				chargeGain /= Hunger.STARVING/5;
 				partialCharge += chargeGain;
 
 				//charge is in increments of 1/5 max hunger value.
-				while (partialCharge >= 1) {
+				while (partialCharge >= Hunger.STARVING/5) {
 					charge++;
-					partialCharge -= 1;
+					partialCharge -= Hunger.STARVING/5;
 
+					int oldImage = image;
 					if (charge >= 8)        image = ItemSpriteSheet.ARTIFACT_HORN4;
 					else if (charge >= 5)   image = ItemSpriteSheet.ARTIFACT_HORN3;
 					else if (charge >= 2)   image = ItemSpriteSheet.ARTIFACT_HORN2;
@@ -298,9 +259,8 @@ public class HornOfPlenty extends Artifact {
 						partialCharge = 0;
 					}
 				}
-			} else {
+			} else
 				partialCharge = 0;
-			}
 		}
 
 	}
@@ -328,13 +288,13 @@ public class HornOfPlenty extends Artifact {
 				if (item instanceof Blandfruit && ((Blandfruit) item).potionAttrib == null){
 					GLog.w( Messages.get(HornOfPlenty.class, "reject") );
 				} else {
-					Hero hero = Dungeon.hero;
-					hero.sprite.operate( hero.pos );
-					hero.busy();
-					hero.spend( Food.TIME_TO_EAT );
+					Hero heroine = Dungeon.hero;
+					heroine.sprite.operate( heroine.pos );
+					heroine.busy();
+					heroine.spend( Food.TIME_TO_EAT );
 
 					((HornOfPlenty)curItem).gainFoodValue(((Food)item));
-					item.detach(hero.belongings.backpack);
+					item.detach(heroine.belongings.backpack);
 				}
 
 			}

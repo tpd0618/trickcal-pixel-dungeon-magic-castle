@@ -343,7 +343,7 @@ public class Mimic extends Mob {
 					reward = Generator.randomWeapon(!useDecks);
 					break;
 				case 4:
-					reward = useDecks ? Generator.random(Generator.Category.RING) : Generator.randomUsingDefaults(Generator.Category.RING);
+					reward = useDecks ? Generator.random(Generator.Category.BRACELET) : Generator.randomUsingDefaults(Generator.Category.BRACELET);
 					break;
 			}
 		} while (reward == null || Challenges.isItemBlocked(reward));

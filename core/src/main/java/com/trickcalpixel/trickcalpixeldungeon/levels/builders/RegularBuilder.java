@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.Room;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.connection.ConnectionRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.connection.MazeConnectionRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.secret.SecretRoom;
-import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.ShopRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.watabou.utils.Random;
 
@@ -100,8 +99,6 @@ public abstract class RegularBuilder extends Builder {
 				entrance = r;
 			} else if (r.isExit()) {
 				exit = r;
-			} else if (r instanceof ShopRoom && r.maxConnections(Room.ALL) == 1){
-				shop = r;
 			} else if (r.maxConnections(Room.ALL) > 1){
 				multiConnections.add(r);
 			} else if (r.maxConnections(Room.ALL) == 1){

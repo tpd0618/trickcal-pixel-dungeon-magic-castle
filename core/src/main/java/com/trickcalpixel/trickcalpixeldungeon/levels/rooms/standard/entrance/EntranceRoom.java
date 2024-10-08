@@ -142,13 +142,12 @@ public class EntranceRoom extends StandardRoom {
 		rooms.add(CavesFissureEntranceRoom.class);
 
 		rooms.add(HallwayEntranceRoom.class);
-		rooms.add(StatuesEntranceRoom.class);
 
 		rooms.add(ChasmEntranceRoom.class);
 		rooms.add(RitualEntranceRoom.class);
 	}
 
-	private static float[][] chances = new float[27][];
+	private static float[][] chances = new float[101][];
 	static {
 		chances[1] =  new float[]{1,  0,0, 0,0, 0,0, 0,0, 0,0};
 		chances[2] =  chances[1];
@@ -166,6 +165,8 @@ public class EntranceRoom extends StandardRoom {
 
 		chances[21] = new float[]{3,  0,0, 0,0, 0,0, 0,0, 6,1};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22] = chances[21];
+
+		//todo
 	}
 
 	public static StandardRoom createEntrance(){

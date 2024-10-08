@@ -37,10 +37,8 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.StormCloud;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.ToxicGas;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Buff;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Regeneration;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.trickcalpixel.trickcalpixeldungeon.effects.MagicMissile;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
-import com.trickcalpixel.trickcalpixeldungeon.mechanics.Ballistica;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
@@ -135,11 +133,6 @@ public class ChaoticCenser extends Trinket {
 
 					//shops are a safe area
 					for (Char ch : Actor.chars()) {
-						if (ch instanceof Shopkeeper
-								&& Dungeon.level.distance(target.pos, ch.pos) <= 6
-								&& new Ballistica(target.pos, ch.pos, Ballistica.PROJECTILE).collisionPos == ch.pos) {
-							safeArea = true;
-						}
 					}
 
 					//enclosed spaces are a safe area if no enemies are present

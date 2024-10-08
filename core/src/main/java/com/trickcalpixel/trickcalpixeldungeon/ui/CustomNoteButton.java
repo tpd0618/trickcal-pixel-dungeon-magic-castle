@@ -26,7 +26,7 @@ import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.items.EquipableItem;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Notes;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -116,7 +116,7 @@ public class CustomNoteButton extends IconButton {
 			int top = height+2;
 			int left = 0;
 
-			for (int i = Statistics.deepestFloor; i > 0; i --){
+			for (int i = Statistics.highestFloor; i > 0; i --){
 				if (i % 5 == 0 && left > 0){
 					left = 0;
 					top += 17;
@@ -156,7 +156,7 @@ public class CustomNoteButton extends IconButton {
 		@Override
 		public boolean itemSelectable(Item item) {
 			if (item instanceof EquipableItem){
-				if (item instanceof Ring && Notes.findCustomRecord(item.getClass()) != null){
+				if (item instanceof Bracelet && Notes.findCustomRecord(item.getClass()) != null){
 					return false;
 				}
 				return ((EquipableItem) item).customNoteID == -1
@@ -199,7 +199,7 @@ public class CustomNoteButton extends IconButton {
 			for (Class<?> potionCls : Generator.Category.SCROLL.classes) {
 				items.add((Item) Reflection.newInstance(potionCls));
 			}
-			for (Class<?> potionCls : Generator.Category.RING.classes) {
+			for (Class<?> potionCls : Generator.Category.BRACELET.classes) {
 				items.add((Item) Reflection.newInstance(potionCls));
 			}
 			Collections.sort(items, itemVisualcomparator);
@@ -243,10 +243,10 @@ public class CustomNoteButton extends IconButton {
 			int i2Idx = i2.image();
 
 			if (i1 instanceof Scroll)   i1Idx += 1000;
-			if (i1 instanceof Ring)     i1Idx += 2000;
+			if (i1 instanceof Bracelet)     i1Idx += 2000;
 
 			if (i2 instanceof Scroll)   i2Idx += 1000;
-			if (i2 instanceof Ring)     i2Idx += 2000;
+			if (i2 instanceof Bracelet)     i2Idx += 2000;
 
 			return i1Idx - i2Idx;
 		}

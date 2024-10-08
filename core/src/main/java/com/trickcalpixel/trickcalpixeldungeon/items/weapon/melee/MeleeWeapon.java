@@ -38,7 +38,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.FloatingText;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.KindOfWeapon;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfForce;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -356,7 +355,7 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		//the mage's staff has no ability as it can only be gained by the mage
-		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
+		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST){
 			info += "\n\n" + abilityInfo();
 		}
 		
@@ -419,11 +418,6 @@ public class MeleeWeapon extends Weapon {
 					//40 to 30 turns per charge for champion
 					if (Dungeon.hero.subClass == HeroSubClass.CHAMPION){
 						chargeToGain *= 1.5f;
-					}
-
-					//50% slower charge gain with brawler's stance enabled, even if buff is inactive
-					if (Dungeon.hero.buff(RingOfForce.BrawlersStance.class) != null){
-						chargeToGain *= 0.50f;
 					}
 
 					partialCharge += chargeToGain;

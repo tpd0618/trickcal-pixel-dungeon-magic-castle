@@ -23,7 +23,6 @@ package com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments;
 
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.mechanics.Ballistica;
@@ -54,7 +53,7 @@ public class Elastic extends Weapon.Enchantment {
 			WandOfBlastWave.throwChar(defender,
 					trajectory,
 					Math.round(2 * powerMulti),
-					!(weapon instanceof MissileWeapon || weapon instanceof SpiritBow),
+					!(weapon instanceof MissileWeapon),
 					true,
 					this);
 		}

@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Amok;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AscensionChallenge;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Awareness;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Dread;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Light;
@@ -34,38 +33,20 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.RevealedArea;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Terror;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Blacksmith;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Ghost;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Imp;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Wandmaker;
 import com.trickcalpixel.trickcalpixeldungeon.items.Amulet;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.TalismanOfForesight;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfRegrowth;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfWarding;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Notes;
-import com.trickcalpixel.trickcalpixeldungeon.levels.CavesBossLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.CavesLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.CityBossLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.CityLevel;
 import com.trickcalpixel.trickcalpixeldungeon.levels.DeadEndLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.HallsBossLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.HallsLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.LastLevel;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
-import com.trickcalpixel.trickcalpixeldungeon.levels.MiningLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.PrisonBossLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.PrisonLevel;
 import com.trickcalpixel.trickcalpixeldungeon.levels.RegularLevel;
-import com.trickcalpixel.trickcalpixeldungeon.levels.SewerBossLevel;
 import com.trickcalpixel.trickcalpixeldungeon.levels.SewerLevel;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.LevelTransition;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.secret.SecretRoom;
@@ -248,7 +229,7 @@ public class Dungeon {
 
 			Scroll.initLabels();
 			Potion.initColors();
-			Ring.initGems();
+			Bracelet.initGems();
 
 			SpecialRoom.initForRun();
 			SecretRoom.initForRun();
@@ -276,11 +257,6 @@ public class Dungeon {
 		LimitedDrops.reset();
 		
 		chapters = new HashSet<>();
-		
-		Ghost.Quest.reset();
-		Wandmaker.Quest.reset();
-		Blacksmith.Quest.reset();
-		Imp.Quest.reset();
 
 		hero = new Hero();
 		hero.live();
@@ -312,59 +288,6 @@ public class Dungeon {
 				case 4:
 					level = new SewerLevel();
 					break;
-				case 5:
-					level = new SewerBossLevel();
-					break;
-				case 6:
-				case 7:
-				case 8:
-				case 9:
-					level = new PrisonLevel();
-					break;
-				case 10:
-					level = new PrisonBossLevel();
-					break;
-				case 11:
-				case 12:
-				case 13:
-				case 14:
-					level = new CavesLevel();
-					break;
-				case 15:
-					level = new CavesBossLevel();
-					break;
-				case 16:
-				case 17:
-				case 18:
-				case 19:
-					level = new CityLevel();
-					break;
-				case 20:
-					level = new CityBossLevel();
-					break;
-				case 21:
-				case 22:
-				case 23:
-				case 24:
-					level = new HallsLevel();
-					break;
-				case 25:
-					level = new HallsBossLevel();
-					break;
-				case 26:
-					level = new LastLevel();
-					break;
-				default:
-					level = new DeadEndLevel();
-			}
-		} else if (branch == 1) {
-			switch (depth) {
-				case 11:
-				case 12:
-				case 13:
-				case 14:
-					level = new MiningLevel();
-					break;
 				default:
 					level = new DeadEndLevel();
 			}
@@ -380,23 +303,12 @@ public class Dungeon {
 				generatedLevels.add(depth + 1000 * branch);
 			}
 
-			if (depth > Statistics.deepestFloor && branch == 0) {
-				Statistics.deepestFloor = depth;
-
-				if (Statistics.qualifiedForNoKilling) {
-					Statistics.completedWithNoKilling = true;
-				} else {
-					Statistics.completedWithNoKilling = false;
-				}
+			if (depth > Statistics.highestFloor && branch == 0) {
+				Statistics.highestFloor = depth;
 			}
 		}
-
-		Statistics.qualifiedForBossRemainsBadge = false;
 		
 		level.create();
-		
-		if (branch == 0) Statistics.qualifiedForNoKilling = !bossLevel();
-		Statistics.qualifiedForBossChallengeBadge = false;
 		
 		return level;
 	}
@@ -427,33 +339,19 @@ public class Dungeon {
 		Random.popGenerator();
 		return result;
 	}
-	
-	public static boolean shopOnLevel() {
-		return depth == 6 || depth == 11 || depth == 16;
-	}
-	
-	public static boolean bossLevel() {
-		return bossLevel( depth );
-	}
-	
-	public static boolean bossLevel( int depth ) {
-		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
-	}
 
 	//value used for scaling of damage values and other effects.
 	//is usually the dungeon depth, but can be set to 26 when ascending
 	public static int scalingDepth(){
-		if (Dungeon.hero != null && Dungeon.hero.buff(AscensionChallenge.class) != null){
-			return 26;
+		if (Dungeon.hero != null){
+			return 101;
 		} else {
 			return depth;
 		}
 	}
 
 	public static boolean interfloorTeleportAllowed(){
-		if (Dungeon.level.locked
-				|| Dungeon.level instanceof MiningLevel
-				|| (Dungeon.hero != null && Dungeon.hero.belongings.getItem(Amulet.class) != null)){
+		if (Dungeon.level.locked || (Dungeon.hero != null && Dungeon.hero.belongings.getItem(Amulet.class) != null)){
 			return false;
 		}
 		return true;
@@ -477,10 +375,6 @@ public class Dungeon {
 		
 		Dungeon.level = level;
 		hero.pos = pos;
-
-		if (hero.buff(AscensionChallenge.class) != null){
-			hero.buff(AscensionChallenge.class).onLevelSwitch();
-		}
 
 		Mob.restoreAllies( level, pos );
 
@@ -655,10 +549,6 @@ public class Dungeon {
 			bundle.put( CHAPTERS, ids );
 			
 			Bundle quests = new Bundle();
-			Ghost		.Quest.storeInBundle( quests );
-			Wandmaker	.Quest.storeInBundle( quests );
-			Blacksmith	.Quest.storeInBundle( quests );
-			Imp			.Quest.storeInBundle( quests );
 			bundle.put( QUESTS, quests );
 			
 			SpecialRoom.storeRoomsInBundle( bundle );
@@ -676,7 +566,7 @@ public class Dungeon {
 			
 			Scroll.save( bundle );
 			Potion.save( bundle );
-			Ring.save( bundle );
+			Bracelet.save( bundle );
 
 			Actor.storeNextID( bundle );
 			
@@ -749,7 +639,7 @@ public class Dungeon {
 		
 		Scroll.restore( bundle );
 		Potion.restore( bundle );
-		Ring.restore( bundle );
+		Bracelet.restore( bundle );
 
 		quickslot.restorePlaceholders( bundle );
 		
@@ -767,15 +657,7 @@ public class Dungeon {
 			
 			Bundle quests = bundle.getBundle( QUESTS );
 			if (!quests.isNull()) {
-				Ghost.Quest.restoreFromBundle( quests );
-				Wandmaker.Quest.restoreFromBundle( quests );
-				Blacksmith.Quest.restoreFromBundle( quests );
-				Imp.Quest.restoreFromBundle( quests );
 			} else {
-				Ghost.Quest.reset();
-				Wandmaker.Quest.reset();
-				Blacksmith.Quest.reset();
-				Imp.Quest.reset();
 			}
 			
 			SpecialRoom.restoreRoomsFromBundle(bundle);
@@ -810,7 +692,7 @@ public class Dungeon {
 			}
 		//pre-v2.1.1 saves
 		} else  {
-			for (int i = 1; i <= Statistics.deepestFloor; i++){
+			for (int i = 1; i <= Statistics.highestFloor; i++){
 				generatedLevels.add(i);
 			}
 		}
@@ -879,7 +761,6 @@ public class Dungeon {
 	public static void fail( Object cause ) {
 		if (WndResurrect.instance == null) {
 			updateLevelExplored();
-			Statistics.gameWon = false;
 			Rankings.INSTANCE.submit( false, cause );
 		}
 	}
@@ -887,7 +768,6 @@ public class Dungeon {
 	public static void win( Object cause ) {
 
 		updateLevelExplored();
-		Statistics.gameWon = true;
 
 		hero.belongings.identify();
 
@@ -895,8 +775,7 @@ public class Dungeon {
 	}
 
 	public static void updateLevelExplored(){
-		if (branch == 0 && level instanceof RegularLevel && !Dungeon.bossLevel()){
-			Statistics.floorsExplored.put( depth, level.isLevelExplored(depth));
+		if (branch == 0 && level instanceof RegularLevel){
 		}
 	}
 
@@ -979,7 +858,7 @@ public class Dungeon {
 		}
 
 		for (TalismanOfForesight.HeapAwareness h : hero.buffs(TalismanOfForesight.HeapAwareness.class)){
-			if (Dungeon.depth != h.depth || Dungeon.branch != h.branch) continue;
+			if (Dungeon.depth != h.floor) continue; //todo
 			BArray.or( level.visited, level.heroFOV, h.pos - 1 - level.width(), 3, level.visited );
 			BArray.or( level.visited, level.heroFOV, h.pos - 1, 3, level.visited );
 			BArray.or( level.visited, level.heroFOV, h.pos - 1 + level.width(), 3, level.visited );
@@ -995,30 +874,6 @@ public class Dungeon {
 		}
 
 		for (Char ch : Actor.chars()){
-			if (ch instanceof WandOfWarding.Ward
-					|| ch instanceof WandOfRegrowth.Lotus
-					|| ch instanceof SpiritHawk.HawkAlly){
-				x = ch.pos % level.width();
-				y = ch.pos / level.width();
-
-				//left, right, top, bottom
-				dist = ch.viewDistance+1;
-				l = Math.max( 0, x - dist );
-				r = Math.min( x + dist, level.width() - 1 );
-				t = Math.max( 0, y - dist );
-				b = Math.min( y + dist, level.height() - 1 );
-
-				width = r - l + 1;
-				height = b - t + 1;
-
-				pos = l + t * level.width();
-
-				for (int i = t; i <= b; i++) {
-					BArray.or( level.visited, level.heroFOV, pos, width, level.visited );
-					pos+=level.width();
-				}
-				GameScene.updateFog(ch.pos, dist);
-			}
 		}
 
 		GameScene.afterObserve();

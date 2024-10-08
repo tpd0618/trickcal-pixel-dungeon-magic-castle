@@ -30,7 +30,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfRegrowth;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Crossbow;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -174,23 +173,11 @@ public abstract class TippedDart extends Dart {
 			float lotusPreserve = 0f;
 			if (targetPos != -1) {
 				for (Char ch : Actor.chars()) {
-					if (ch instanceof WandOfRegrowth.Lotus) {
-						WandOfRegrowth.Lotus l = (WandOfRegrowth.Lotus) ch;
-						if (l.inRange(targetPos)) {
-							lotusPreserve = Math.max(lotusPreserve, l.seedPreservation());
-						}
-					}
 				}
 				targetPos = -1;
 			}
 			int p = curUser == null ? Dungeon.hero.pos : curUser.pos;
 			for (Char ch : Actor.chars()) {
-				if (ch instanceof WandOfRegrowth.Lotus) {
-					WandOfRegrowth.Lotus l = (WandOfRegrowth.Lotus) ch;
-					if (l.inRange(p)) {
-						lotusPreserve = Math.max(lotusPreserve, l.seedPreservation());
-					}
-				}
 			}
 			use *= (1f - lotusPreserve);
 		}

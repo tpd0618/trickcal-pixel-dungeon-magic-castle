@@ -28,19 +28,14 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Berserk;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.MagicImmune;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.duelist.ElementalStrike;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.KindOfWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.Bag;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfArcana;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfForce;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfFuror;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ParchmentScrap;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Annoying;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Dazzling;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Displacing;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Explosive;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Friendly;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Polarized;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.curses.Sacrificial;
@@ -247,7 +242,7 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	protected float speedMultiplier(Char owner ){
-		float multi = RingOfFuror.attackSpeedMultiplier(owner);
+		float multi = 1f;
 
 		if (owner.buff(Scimitar.SwordDance.class) != null){
 			multi += 0.6f;
@@ -259,12 +254,6 @@ abstract public class Weapon extends KindOfWeapon {
 	@Override
 	public int reachFactor(Char owner) {
 		int reach = RCH;
-		if (owner instanceof Hero && RingOfForce.fightingUnarmed((Hero) owner)){
-			reach = 1; //brawlers stance benefits from enchantments, but not innate reach
-			if (!RingOfForce.unarmedGetsWeaponEnchantment((Hero) owner)){
-				return reach;
-			}
-		}
 		if (hasEnchant(Projecting.class, owner)){
 			return reach + Math.round(enchantment.procChanceMultiplier(owner));
 		} else {
@@ -419,8 +408,7 @@ abstract public class Weapon extends KindOfWeapon {
 		};
 
 		public static final Class<?>[] curses = new Class<?>[]{
-				Annoying.class, Displacing.class, Dazzling.class, Explosive.class,
-				Sacrificial.class, Wayward.class, Polarized.class, Friendly.class
+				Annoying.class, Displacing.class, Dazzling.class, Sacrificial.class, Wayward.class, Polarized.class, Friendly.class
 		};
 		
 			
@@ -431,20 +419,15 @@ abstract public class Weapon extends KindOfWeapon {
 		}
 
 		public static float genericProcChanceMultiplier( Char attacker ){
-			float multi = RingOfArcana.enchantPowerMultiplier(attacker);
+			float multi = 1f;
 			Berserk rage = attacker.buff(Berserk.class);
 			if (rage != null) {
 				multi = rage.enchantFactor(multi);
 			}
 
-			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
+			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null) {
 				multi += attacker.buff(RunicBlade.RunicSlashTracker.class).boost;
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
-			}
-
-			if (attacker.buff(ElementalStrike.DirectedPowerTracker.class) != null){
-				multi += attacker.buff(ElementalStrike.DirectedPowerTracker.class).enchBoost;
-				attacker.buff(ElementalStrike.DirectedPowerTracker.class).detach();
 			}
 
 			if (attacker.buff(Talent.SpiritBladesTracker.class) != null

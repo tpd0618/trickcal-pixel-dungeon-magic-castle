@@ -24,8 +24,8 @@ package com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic;
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Identification;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
@@ -59,9 +59,9 @@ public class ScrollOfDivination extends ExoticScroll {
 		
 		HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
 		HashSet<Class<? extends Scroll>> scrolls = Scroll.getUnknown();
-		HashSet<Class<? extends Ring>> rings = Ring.getUnknown();
+		HashSet<Class<? extends Bracelet>> bracelets = Bracelet.getUnknown();
 		
-		int total = potions.size() + scrolls.size() + rings.size();
+		int total = potions.size() + scrolls.size() + bracelets.size();
 		
 		ArrayList<Item> IDed = new ArrayList<>();
 		int left = 4;
@@ -97,15 +97,15 @@ public class ScrollOfDivination extends ExoticScroll {
 					scrolls.remove(s.getClass());
 					break;
 				case 2:
-					if (rings.isEmpty()) {
+					if (bracelets.isEmpty()) {
 						probs[2] = 0;
 						continue;
 					}
 					probs[2]--;
-					Ring r = Reflection.newInstance(Random.element(rings));
+					Bracelet r = Reflection.newInstance(Random.element(bracelets));
 					r.setKnown();
 					IDed.add(r);
-					rings.remove(r.getClass());
+					bracelets.remove(r.getClass());
 					break;
 			}
 			left --;

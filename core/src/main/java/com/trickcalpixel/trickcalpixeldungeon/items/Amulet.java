@@ -25,9 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.Badges;
 import com.trickcalpixel.trickcalpixeldungeon.Challenges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
-import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AscensionChallenge;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.AmuletScene;
@@ -50,11 +47,7 @@ public class Amulet extends Item {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if (hero.buff(AscensionChallenge.class) != null){
-			actions.clear();
-		} else {
-			actions.add(AC_END);
-		}
+		actions.add(AC_END);
 		return actions;
 	}
 	
@@ -71,27 +64,6 @@ public class Amulet extends Item {
 	@Override
 	public boolean doPickUp(Hero hero, int pos) {
 		if (super.doPickUp( hero, pos )) {
-			
-			if (!Statistics.amuletObtained) {
-				Statistics.amuletObtained = true;
-				hero.spend(-TIME_TO_PICK_UP);
-
-				//delay with an actor here so pickup behaviour can fully process.
-				Actor.add(new Actor(){
-
-					{
-						actPriority = VFX_PRIO;
-					}
-
-					@Override
-					protected boolean act() {
-						Actor.remove(this);
-						showAmuletScene( true );
-						return false;
-					}
-				});
-			}
-			
 			return true;
 		} else {
 			return false;
@@ -134,7 +106,7 @@ public class Amulet extends Item {
 	public String desc() {
 		String desc = super.desc();
 
-		if (Dungeon.hero == null || Dungeon.hero.buff(AscensionChallenge.class) == null){
+		if (Dungeon.hero == null){
 			desc += "\n\n" + Messages.get(this, "desc_origins");
 		} else {
 			desc += "\n\n" + Messages.get(this, "desc_ascent");

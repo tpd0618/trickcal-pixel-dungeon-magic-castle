@@ -27,15 +27,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Foliage;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.SacrificialFire;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.WaterOfAwareness;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.WaterOfHealth;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.DemonSpawner;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Statue;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Blacksmith;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Ghost;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Imp;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.ImpShopkeeper;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.RatKing;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Shopkeeper;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Wandmaker;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.keys.Key;
@@ -43,16 +34,8 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.WeakFloorRoom;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.PixelScene;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.BlacksmithSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.GhostSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.ImpSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.RatKingSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.ShopkeeperSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.SpawnerSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.StatueSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.WandmakerSprite;
 import com.trickcalpixel.trickcalpixeldungeon.ui.Icons;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Image;
@@ -167,9 +150,6 @@ public class Notes {
 				case SECRETS_FLOOR:
 					return Icons.STAIRS_SECRETS.get();
 
-				case SHOP:
-					if (depth == 20)    return new Image(new ImpSprite());
-					else                return new Image(new ShopkeeperSprite());
 				case ALCHEMY:
 					return Icons.get(Icons.ALCHEMY);
 				case GARDEN:
@@ -182,22 +162,6 @@ public class Notes {
 					return Icons.get(Icons.WELL_AWARENESS);
 				case SACRIFICIAL_FIRE:
 					return Icons.get(Icons.SACRIFICE_ALTAR);
-				case STATUE:
-					return new Image(new StatueSprite());
-
-				case GHOST:
-					return new Image(new GhostSprite());
-				case RAT_KING:
-					return new Image(new RatKingSprite());
-				case WANDMAKER:
-					return new Image(new WandmakerSprite());
-				case TROLL:
-					return new Image(new BlacksmithSprite());
-				case IMP:
-					return new Image(new ImpSprite());
-
-				case DEMON_SPAWNER:
-					return new Image(new SpawnerSprite());
 			}
 		}
 
@@ -228,24 +192,12 @@ public class Notes {
 				case TRAPS_FLOOR:   return Messages.get(Level.Feeling.class, "traps_desc");
 				case SECRETS_FLOOR: return Messages.get(Level.Feeling.class, "secrets_desc");
 
-				case SHOP:
-					if (depth == 20)    return Messages.get(ImpShopkeeper.class, "desc");
-					else                return Messages.get(Shopkeeper.class, "desc");
 				case ALCHEMY:           return Messages.get(Level.class, "alchemy_desc");
 				case GARDEN:            return Messages.get(Foliage.class, "desc");
 				case DISTANT_WELL:      return Messages.get(WeakFloorRoom.HiddenWell.class, "desc");
 				case WELL_OF_HEALTH:    return Messages.get(WaterOfHealth.class, "desc");
 				case WELL_OF_AWARENESS: return Messages.get(WaterOfAwareness.class, "desc");
 				case SACRIFICIAL_FIRE:  return Messages.get(SacrificialFire.class, "desc");
-				case STATUE:            return Messages.get(Statue.class, "desc");
-
-				case GHOST:         return Messages.get(Ghost.class, "desc");
-				case RAT_KING:      return Messages.get(RatKing.class, "desc");
-				case WANDMAKER:     return Messages.get(Wandmaker.class, "desc");
-				case TROLL:         return Messages.get(Blacksmith.class, "desc");
-				case IMP:           return Messages.get(Imp.class, "desc");
-
-				case DEMON_SPAWNER: return Messages.get(DemonSpawner.class, "desc");
 			}
 		}
 

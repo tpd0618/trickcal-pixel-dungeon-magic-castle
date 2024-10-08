@@ -21,31 +21,22 @@
 
 package com.trickcalpixel.trickcalpixeldungeon.items.trinkets;
 
-import com.trickcalpixel.trickcalpixeldungeon.Assets;
-import com.trickcalpixel.trickcalpixeldungeon.Badges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Document;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
-import com.trickcalpixel.trickcalpixeldungeon.scenes.AlchemyScene;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.PixelScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
 import com.trickcalpixel.trickcalpixeldungeon.ui.ItemButton;
-import com.trickcalpixel.trickcalpixeldungeon.ui.RedButton;
 import com.trickcalpixel.trickcalpixeldungeon.ui.RenderedTextBlock;
 import com.trickcalpixel.trickcalpixeldungeon.ui.Window;
-import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
 import com.trickcalpixel.trickcalpixeldungeon.windows.IconTitle;
 import com.trickcalpixel.trickcalpixeldungeon.windows.WndInfoItem;
-import com.trickcalpixel.trickcalpixeldungeon.windows.WndSadGhost;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
 import java.io.IOException;
@@ -208,62 +199,7 @@ public class TrinketCatalyst extends Item {
 
 			public RewardWindow( Item item ) {
 				super(item);
-
-				RedButton btnConfirm = new RedButton(Messages.get(WndSadGhost.class, "confirm")){
-					@Override
-					protected void onClick() {
-						RewardWindow.this.hide();
-						WndTrinket.this.hide();
-
-						Item result = item;
-						if (result instanceof RandomTrinket){
-							result = Generator.random(Generator.Category.TRINKET);
-						}
-
-						TrinketCatalyst cata = Dungeon.hero.belongings.getItem(TrinketCatalyst.class);
-
-						if (cata != null) {
-							cata.detach(Dungeon.hero.belongings.backpack);
-							Catalog.countUse(cata.getClass());
-							result.identify();
-							if (ShatteredPixelDungeon.scene() instanceof AlchemyScene) {
-								((AlchemyScene) ShatteredPixelDungeon.scene()).craftItem(null, result);
-							} else {
-								Sample.INSTANCE.play( Assets.Sounds.PUFF );
-
-								if (result.doPickUp(Dungeon.hero)){
-									GLog.p( Messages.capitalize(Messages.get(Hero.class, "you_now_have", item.name())) );
-								} else {
-									Dungeon.level.drop(result, Dungeon.hero.pos);
-								}
-
-								Statistics.itemsCrafted++;
-								Badges.validateItemsCrafted();
-
-								try {
-									Dungeon.saveAll();
-								} catch (IOException e) {
-									ShatteredPixelDungeon.reportException(e);
-								}
-							}
-						}
-					}
-				};
-				btnConfirm.setRect(0, height+2, width/2-1, 16);
-				add(btnConfirm);
-
-				RedButton btnCancel = new RedButton(Messages.get(WndSadGhost.class, "cancel")){
-					@Override
-					protected void onClick() {
-						hide();
-					}
-				};
-				btnCancel.setRect(btnConfirm.right()+2, height+2, btnConfirm.width(), 16);
-				add(btnCancel);
-
-				resize(width, (int)btnCancel.bottom());
 			}
 		}
-
 	}
 }

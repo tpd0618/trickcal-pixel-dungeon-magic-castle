@@ -28,24 +28,18 @@ import com.trickcalpixel.trickcalpixeldungeon.SPDAction;
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
 import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.CrystalSpire;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Pylon;
 import com.trickcalpixel.trickcalpixeldungeon.items.EnergyCrystal;
 import com.trickcalpixel.trickcalpixeldungeon.items.Gold;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
-import com.trickcalpixel.trickcalpixeldungeon.items.armor.ClassArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.Artifact;
+import com.trickcalpixel.trickcalpixeldungeon.items.bracelets.Bracelet;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.Trinket;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfWarding;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Bestiary;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Document;
@@ -511,7 +505,7 @@ public class WndJournal extends WndTabbed {
 				}
 			}
 
-			for (int i = Statistics.deepestFloor; i > 0; i--){
+			for (int i = Statistics.highestFloor; i > 0; i--){
 
 				ArrayList<Notes.Record> recs = Notes.getRecords(i);
 
@@ -747,8 +741,8 @@ public class WndJournal extends WndTabbed {
 				Item item = (Item) Reflection.newInstance(itemClass);
 
 				if (seen) {
-					if (item instanceof Ring) {
-						((Ring) item).anonymize();
+					if (item instanceof Bracelet) {
+						((Bracelet) item).anonymize();
 					} else if (item instanceof Potion) {
 						((Potion) item).anonymize();
 					} else if (item instanceof Scroll) {
@@ -764,11 +758,7 @@ public class WndJournal extends WndTabbed {
 				} else {
 					title = Messages.titleCase(item.trueName());
 					//some items don't include direct stats, generally when they're not applicable
-					if (item instanceof ClassArmor || item instanceof SpiritBow){
-						desc += item.desc();
-					} else {
-						desc += item.info();
-					}
+					desc += item.info();
 
 					if (Catalog.useCount(itemClass) > 1) {
 						if (item.isUpgradable() || item instanceof Artifact) {
@@ -782,13 +772,6 @@ public class WndJournal extends WndTabbed {
 						} else {
 							desc += "\n\n" + Messages.get(CatalogTab.class, "use_count", Catalog.useCount(itemClass));
 						}
-					}
-
-					//mage's staff normally has 2 pixels extra at the top for particle effects, we chop that off here
-					if (item instanceof MagesStaff){
-						RectF frame = sprite.frame();
-						frame.top += frame.height()/8f;
-						sprite.frame(frame);
 					}
 
 					if (item.icon != -1) {
@@ -871,18 +854,8 @@ public class WndJournal extends WndTabbed {
 
 				mob = (Mob) Reflection.newInstance(entityCls);
 
-				if (mob instanceof Mimic || mob instanceof Pylon || mob instanceof CrystalSpire) {
+				if (mob instanceof Mimic) {
 					mob.alignment = Char.Alignment.ENEMY;
-				}
-				if (mob instanceof WandOfWarding.Ward){
-					if (mob instanceof WandOfWarding.Ward.WardSentry){
-						((WandOfWarding.Ward) mob).upgrade(3);
-						((WandOfWarding.Ward) mob).upgrade(3);
-						((WandOfWarding.Ward) mob).upgrade(3);
-						((WandOfWarding.Ward) mob).upgrade(3);
-					} else {
-						((WandOfWarding.Ward) mob).upgrade(0);
-					}
 				}
 
 				CharSprite sprite = mob.sprite();

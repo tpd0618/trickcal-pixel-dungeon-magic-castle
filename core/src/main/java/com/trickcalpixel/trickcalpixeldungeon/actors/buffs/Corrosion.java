@@ -21,10 +21,8 @@
 
 package com.trickcalpixel.trickcalpixeldungeon.actors.buffs;
 
-import com.trickcalpixel.trickcalpixeldungeon.Badges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfCorrosion;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.ui.BuffIndicator;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
@@ -117,10 +115,6 @@ public class Corrosion extends Buff implements Hero.Doom {
 	
 	@Override
 	public void onDeath() {
-		if (source == WandOfCorrosion.class){
-			Badges.validateDeathFromFriendlyMagic();
-		}
-
 		Dungeon.fail( this );
 		GLog.n(Messages.get(this, "ondeath"));
 	}

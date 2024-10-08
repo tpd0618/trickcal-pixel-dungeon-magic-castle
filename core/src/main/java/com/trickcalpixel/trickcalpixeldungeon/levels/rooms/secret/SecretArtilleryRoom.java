@@ -22,7 +22,6 @@
 package com.trickcalpixel.trickcalpixeldungeon.levels.rooms.secret;
 
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.painters.Painter;
@@ -43,11 +42,7 @@ public class SecretArtilleryRoom extends SecretRoom {
 			} while ( level.map[itemPos] != Terrain.EMPTY_SP
 					|| level.heaps.get(itemPos) != null);
 			
-			if( i == 0 ){
-				level.drop(new Bomb.DoubleBomb(), itemPos);
-			} else {
-				level.drop(Generator.randomMissile(true), itemPos);
-			}
+			level.drop(Generator.randomMissile(true), itemPos);
 		}
 		
 		entrance().set(Door.Type.HIDDEN);

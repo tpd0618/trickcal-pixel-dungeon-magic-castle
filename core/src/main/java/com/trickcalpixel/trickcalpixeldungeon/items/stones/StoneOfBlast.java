@@ -21,7 +21,6 @@
 
 package com.trickcalpixel.trickcalpixeldungeon.items.stones;
 
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
 
 public class StoneOfBlast extends Runestone {
@@ -32,7 +31,7 @@ public class StoneOfBlast extends Runestone {
 	
 	@Override
 	protected void activate(int cell) {
-		new Bomb.ConjuredBomb().explode(cell);
+		//todo
 	}
 	
 }

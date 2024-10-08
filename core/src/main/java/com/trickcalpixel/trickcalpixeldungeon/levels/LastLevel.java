@@ -23,7 +23,6 @@ package com.trickcalpixel.trickcalpixeldungeon.levels;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
@@ -33,7 +32,6 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.painters.Painter;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.tiles.CustomTilemap;
 import com.trickcalpixel.trickcalpixeldungeon.tiles.DungeonTileSheet;
-import com.watabou.noosa.Group;
 import com.watabou.noosa.Tilemap;
 import com.watabou.noosa.audio.Music;
 import com.watabou.utils.Bundle;
@@ -54,11 +52,7 @@ public class LastLevel extends Level {
 
 	@Override
 	public void playLevelMusic() {
-		if (Statistics.amuletObtained) {
-			Music.INSTANCE.end();
-		} else {
-			Music.INSTANCE.play(Assets.Music.THEME_FINALE, true);
-		}
+		Music.INSTANCE.play(Assets.Music.THEME_FINALE, true);
 	}
 
 	@Override
@@ -192,14 +186,14 @@ public class LastLevel extends Level {
 	public String tileName( int tile ) {
 		switch (tile) {
 			case Terrain.WATER:
-				return Messages.get(HallsLevel.class, "water_name");
+				return Messages.get(SewerLevel.class, "water_name");
 			case Terrain.GRASS:
-				return Messages.get(HallsLevel.class, "grass_name");
+				return Messages.get(SewerLevel.class, "grass_name");
 			case Terrain.HIGH_GRASS:
-				return Messages.get(HallsLevel.class, "high_grass_name");
+				return Messages.get(SewerLevel.class, "high_grass_name");
 			case Terrain.STATUE:
 			case Terrain.STATUE_SP:
-				return Messages.get(HallsLevel.class, "statue_name");
+				return Messages.get(SewerLevel.class, "statue_name");
 			default:
 				return super.tileName( tile );
 		}
@@ -209,22 +203,15 @@ public class LastLevel extends Level {
 	public String tileDesc(int tile) {
 		switch (tile) {
 			case Terrain.WATER:
-				return Messages.get(HallsLevel.class, "water_desc");
+				return Messages.get(SewerLevel.class, "water_desc");
 			case Terrain.STATUE:
 			case Terrain.STATUE_SP:
-				return Messages.get(HallsLevel.class, "statue_desc");
+				return Messages.get(SewerLevel.class, "statue_desc");
 			case Terrain.BOOKSHELF:
-				return Messages.get(HallsLevel.class, "bookshelf_desc");
+				return Messages.get(SewerLevel.class, "bookshelf_desc");
 			default:
 				return super.tileDesc( tile );
 		}
-	}
-
-	@Override
-	public Group addVisuals () {
-		super.addVisuals();
-		HallsLevel.addHallsVisuals(this, visuals);
-		return visuals;
 	}
 
 	@Override
@@ -287,10 +274,6 @@ public class LastLevel extends Level {
 							data[i] ++;
 						}
 
-						if (Statistics.amuletObtained && data[i] > 40){
-							data[i] += 8;
-						}
-
 						if (map[cell] != Terrain.CHASM && map[cell+Dungeon.level.width] == Terrain.CHASM) {
 							data[i+tileW] = 6;
 						}
@@ -303,11 +286,7 @@ public class LastLevel extends Level {
 					}
 				}
 				if (map[cell] == Terrain.EMPTY_DECO) {
-					if (Statistics.amuletObtained){
-						data[i] = 31;
-					} else {
-						data[i] = 27;
-					}
+					data[i] = 27;
 				} else if (map[cell] == Terrain.EMPTY) {
 					data[i] = 19;
 				} else if (data[i] == 0) {

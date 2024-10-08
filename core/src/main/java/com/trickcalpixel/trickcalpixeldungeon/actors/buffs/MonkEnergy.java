@@ -27,13 +27,8 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Ghoul;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.RipperDemon;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Wraith;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.YogDzewa;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Speck;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.RingOfForce;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfBlastWave;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
@@ -153,10 +148,6 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 		//bosses and minibosses give extra energy, certain enemies give half, otherwise give 1
 		if (Char.hasProp(enemy, Char.Property.BOSS))            energyGain = 5;
 		else if (Char.hasProp(enemy, Char.Property.MINIBOSS))   energyGain = 3;
-		else if (enemy instanceof Ghoul)                        energyGain = 0.5f;
-		else if (enemy instanceof RipperDemon)                  energyGain = 0.5f;
-		else if (enemy instanceof YogDzewa.Larva)               energyGain = 0.5f;
-		else if (enemy instanceof Wraith)                       energyGain = 0.5f;
 		else                                                    energyGain = 1;
 
 		float enGainMulti = 1f;
@@ -175,9 +166,7 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 					}
 				}
 
-				if (hero.belongings.weapon() instanceof MeleeWeapon
-						&& (hero.buff(RingOfForce.BrawlersStance.class) == null
-						|| !hero.buff(RingOfForce.BrawlersStance.class).active)){
+				if (hero.belongings.weapon() instanceof MeleeWeapon){
 					if (((MeleeWeapon) hero.belongings.weapon()).tier <= 1 && points >= 3){
 						enGainMulti += 1.00f;
 					} else if (((MeleeWeapon) hero.belongings.weapon()).tier <= 2 && points >= 2){

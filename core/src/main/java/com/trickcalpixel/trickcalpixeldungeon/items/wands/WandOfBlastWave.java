@@ -27,15 +27,12 @@ import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Paralysis;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Effects;
 import com.trickcalpixel.trickcalpixeldungeon.effects.MagicMissile;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Pushing;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.enchantments.Elastic;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.Door;
-import com.trickcalpixel.trickcalpixeldungeon.levels.traps.TenguDartTrap;
 import com.trickcalpixel.trickcalpixeldungeon.mechanics.Ballistica;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
@@ -46,7 +43,6 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
-import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 public class WandOfBlastWave extends DamageWand {
@@ -69,13 +65,6 @@ public class WandOfBlastWave extends DamageWand {
 	public void onZap(Ballistica bolt) {
 		Sample.INSTANCE.play( Assets.Sounds.BLAST );
 		BlastWave.blast(bolt.collisionPos);
-
-		//presses all tiles in the AOE first, with the exception of tengu dart traps
-		for (int i : PathFinder.NEIGHBOURS9){
-			if (!(Dungeon.level.traps.get(bolt.collisionPos+i) instanceof TenguDartTrap)) {
-				Dungeon.level.pressCell(bolt.collisionPos + i);
-			}
-		}
 
 		//throws other chars around the center.
 		for (int i  : PathFinder.NEIGHBOURS8){
@@ -183,35 +172,6 @@ public class WandOfBlastWave extends DamageWand {
 
 	public static class Knockback{}
 
-	@Override
-	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {
-
-		Talent.EmpoweredStrikeTracker tracker = attacker.buff(Talent.EmpoweredStrikeTracker.class);
-
-		if (tracker != null){
-			tracker.delayedDetach = true;
-		}
-
-		//acts like elastic enchantment
-		//we delay this with an actor to prevent conflicts with regular elastic
-		//so elastic always fully resolves first, then this effect activates
-		Actor.add(new Actor() {
-			{
-				actPriority = VFX_PRIO+9; //act after pushing effects
-			}
-
-			@Override
-			protected boolean act() {
-				Actor.remove(this);
-				if (defender.isAlive()) {
-					new BlastWaveOnHit().proc(staff, attacker, defender, damage);
-				}
-				if (tracker != null) tracker.detach();
-				return true;
-			}
-		});
-	}
-
 	private static class BlastWaveOnHit extends Elastic{
 		@Override
 		protected float procChanceMultiplier(Char attacker) {
@@ -232,15 +192,6 @@ public class WandOfBlastWave extends DamageWand {
 				bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play(Assets.Sounds.ZAP);
-	}
-
-	@Override
-	public void staffFx(MagesStaff.StaffParticle particle) {
-		particle.color( 0x664422 ); particle.am = 0.6f;
-		particle.setLifespan(3f);
-		particle.speed.polar(Random.Float(PointF.PI2), 0.3f);
-		particle.setSize( 1f, 2f);
-		particle.radiateXY(2.5f);
 	}
 
 	public static class BlastWave extends Image {

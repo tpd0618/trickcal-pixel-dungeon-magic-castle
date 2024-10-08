@@ -31,7 +31,6 @@ import com.trickcalpixel.trickcalpixeldungeon.effects.particles.SparkParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.utils.GLog;
 import com.watabou.utils.PathFinder;
@@ -87,8 +86,6 @@ public class Electricity extends Blob {
 						Item toShock = h.peek();
 						if (toShock instanceof Wand){
 							((Wand) toShock).gainCharge(0.333f);
-						} else if (toShock instanceof MagesStaff){
-							((MagesStaff) toShock).gainCharge(0.333f);
 						}
 					}
 					

@@ -27,7 +27,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.PinCushion;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.DwarfKing;
 import com.trickcalpixel.trickcalpixeldungeon.effects.MagicMissile;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
@@ -64,7 +63,7 @@ public class TelekineticGrab extends TargetedSpell {
 		//special logic for DK when he is on his throne
 		if (ch == null && bolt.path.size() > bolt.dist+1){
 			ch = Actor.findChar(bolt.path.get(bolt.dist+1));
-			if (!(ch instanceof DwarfKing && Dungeon.level.solid[ch.pos])){
+			if (Dungeon.level.solid[ch.pos]){
 				ch = null;
 			}
 		}

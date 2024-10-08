@@ -33,7 +33,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.particles.LeafParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfRegrowth;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Bestiary;
 import com.trickcalpixel.trickcalpixeldungeon.journal.Catalog;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
@@ -87,12 +86,6 @@ public abstract class Plant implements Bundlable {
 
 		float seedChance = 0f;
 		for (Char c : Actor.chars()){
-			if (c instanceof WandOfRegrowth.Lotus){
-				WandOfRegrowth.Lotus l = (WandOfRegrowth.Lotus) c;
-				if (l.inRange(pos)){
-					seedChance = Math.max(seedChance, l.seedPreservation());
-				}
-			}
 		}
 
 		if (Random.Float() < seedChance){

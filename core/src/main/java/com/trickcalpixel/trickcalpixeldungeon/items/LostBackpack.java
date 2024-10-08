@@ -28,7 +28,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.CloakOfShadows;
 import com.trickcalpixel.trickcalpixeldungeon.items.bags.MagicalHolster;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.GameScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.HeroSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
@@ -63,8 +62,6 @@ public class LostBackpack extends Item {
 					} else {
 						((Wand) i).charge(hero);
 					}
-				} else if (i instanceof MagesStaff){
-					((MagesStaff) i).applyWandChargeBuff(hero);
 				}
 			}
 		}

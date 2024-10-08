@@ -139,7 +139,6 @@ public abstract class StandardRoom extends Room {
 		rooms.add(CircleWallRoom.class);
 
 		rooms.add(HallwayRoom.class);
-		rooms.add(StatuesRoom.class);
 		rooms.add(LibraryRingRoom.class);
 		rooms.add(SegmentedLibraryRoom.class);
 

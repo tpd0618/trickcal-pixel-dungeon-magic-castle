@@ -26,13 +26,11 @@ import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroClass;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.MagicalInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Greatshield;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.RoundShield;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -50,7 +48,6 @@ import com.trickcalpixel.trickcalpixeldungeon.ui.Window;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Reflection;
 
 public class WndUpgrade extends Window {
 
@@ -255,9 +252,6 @@ public class WndUpgrade extends Window {
 
 		//we use a separate reference for wand properties so that mage's staff can include them
 		Item wand = toUpgrade;
-		if (toUpgrade instanceof MagesStaff && ((MagesStaff) toUpgrade).wandClass() != null){
-			wand = Reflection.newInstance(((MagesStaff) toUpgrade).wandClass());
-		}
 
 		//Various wand stats (varies by wand)
 		if (wand instanceof Wand){
@@ -283,35 +277,11 @@ public class WndUpgrade extends Window {
 
 		//max charges
 		if (wand instanceof Wand){
-			int chargeboost = levelFrom + (toUpgrade instanceof MagesStaff ? 1 : 0);
+			int chargeboost = levelFrom + 0;
 			bottom = fillFields(Messages.get(this, "charges"),
 					Integer.toString(Math.min(10, ((Wand) wand).initialCharges() + chargeboost)),
 					Integer.toString(Math.min(10, ((Wand) wand).initialCharges() + chargeboost + 1)),
 					bottom);
-		}
-
-		//Various ring stats (varies by ring)
-		if (toUpgrade instanceof Ring){
-			if (((Ring) toUpgrade).isKnown()) {
-				if (((Ring) toUpgrade).upgradeStat1(levelFrom) != null) {
-					bottom = fillFields(Messages.get(toUpgrade, "upgrade_stat_name_1"),
-							((Ring) toUpgrade).upgradeStat1(levelFrom),
-							((Ring) toUpgrade).upgradeStat1(levelTo),
-							bottom);
-				}
-				if (((Ring) toUpgrade).upgradeStat2(levelFrom) != null) {
-					bottom = fillFields(Messages.get(toUpgrade, "upgrade_stat_name_2"),
-							((Ring) toUpgrade).upgradeStat2(levelFrom),
-							((Ring) toUpgrade).upgradeStat2(levelTo),
-							bottom);
-				}
-				if (((Ring) toUpgrade).upgradeStat3(levelFrom) != null) {
-					bottom = fillFields(Messages.get(toUpgrade, "upgrade_stat_name_3"),
-							((Ring) toUpgrade).upgradeStat3(levelFrom),
-							((Ring) toUpgrade).upgradeStat3(levelTo),
-							bottom);
-				}
-			}
 		}
 
 		//visual separators for each column
@@ -328,15 +298,6 @@ public class WndUpgrade extends Window {
 		add(sep);
 
 		// *** Various extra info texts that can appear underneath stats ***
-
-		//warning relating to identification
-		if (!toUpgrade.isIdentified()){
-			if (toUpgrade instanceof Ring && !((Ring) toUpgrade).isKnown()){
-				bottom = addMessage(Messages.get(this, "unknown_ring"), CharSprite.WARNING, bottom);
-			} else {
-				bottom = addMessage(Messages.get(this, "unided"), CharSprite.WARNING, bottom);
-			}
-		}
 
 		// various messages relating to enchantments and curses
 		if (!(upgrader instanceof MagicalInfusion)) {

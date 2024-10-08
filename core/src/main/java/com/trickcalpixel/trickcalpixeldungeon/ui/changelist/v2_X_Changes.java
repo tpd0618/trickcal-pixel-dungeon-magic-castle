@@ -28,14 +28,9 @@ import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Whip;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
 import com.trickcalpixel.trickcalpixeldungeon.scenes.ChangesScene;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.CharSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.GhostSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.GnollGuardSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.HeroSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSprite;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.ShopkeeperSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.TormentedSpiritSprite;
-import com.trickcalpixel.trickcalpixeldungeon.sprites.WandmakerSprite;
 import com.trickcalpixel.trickcalpixeldungeon.ui.Icons;
 import com.trickcalpixel.trickcalpixeldungeon.ui.TalentIcon;
 import com.trickcalpixel.trickcalpixeldungeon.ui.Window;
@@ -97,7 +92,7 @@ public class v2_X_Changes {
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.BOMB), "Bombs and Identification",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.BRACELET), "Bombs and Identification",
 				"I'm making a few changes as a followup to the removal of the bomb identification exploit in v2.5.0:\n" +
 				"\n" +
 				"Firstly _Stones of Detect Magic_ are a new item that replace stones of disarming. Each stone can be used on a piece of equipment to identify whether it is cursed, and whether it is enchanted/upgraded. This should give a few more options when it comes to IDing equipment. Stones of disarming will no longer appear, but existing ones will remain in runs in progress for now.",
@@ -134,7 +129,7 @@ public class v2_X_Changes {
 				"_-_ DM-300 can no longer use an ability immediately after existing supercharge state\n" +
 				"_-_ Wraiths spawned by spectral necromancers are now more powerful"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.ALICE, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
 				"Fixed the Following Bugs:\n" +
 				"_Caused by v2.5.0:_\n" +
 				"_-_ Various minor visual errors\n" +
@@ -157,25 +152,6 @@ public class v2_X_Changes {
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Just a quick extra patch this time to fix a few more bugs:\n" +
-				"_Caused by v2.5.1:_\n" +
-				"_-_ Crashes when using transmutation abilities (sorry!)\n" +
-				"_-_ Shard of Oblivion description not using its new bonus loot rate\n" +
-				"\n" +
-				"_Caused by v2.5.0:_\n" +
-				"_-_ Dark floors sometimes giving 1/2 vision instead of the new value of 5/8\n" +
-				"_-_ Drop and throw actions not working on Shard of Oblivion\n" +
-				"_-_ Some flying characters visually falling into pits when they die that shouldn't (e.g. ghosts)\n" +
-				"_-_ Various minor textual errors\n" +
-				"\n" +
-				"_Existed Prior to v2.5.0:_\n" +
-				"_-_ Various minor visual bugs with stealthy mimics"));
-		
-		changes = new ChangeInfo("v2.5.1", false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
-
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.CHAOTIC_CENSER), "New Trinket Buffs",
 				"Based on some early balance data it looks like some of the new trinkets aren't quite hitting the mark. I'm open to more extensive changes after getting in some more data, but for now I'm doing some simple buffs:\n" +
 				"\n" +
@@ -193,30 +169,6 @@ public class v2_X_Changes {
 				"_-_ Added Google Play Games achievements for the new researcher badges\n" +
 				"_-_ ShatteredPD is now categorized as a game on Android devices\n" +
 				"_-_ Updated Translations"));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Caused by v2.5.0:_\n" +
-				"_-_ Various crash and freeze bugs with the chaotic censer\n" +
-				"_-_ Goo and DM-300 benefitting from terrain while levitating\n" +
-				"_-_ Defeating temporarily transmogrified enemies not counting for the bestiary\n" +
-				"_-_ Underscores being incorrectly interpreted by the game in custom notes\n" +
-				"_-_ New 'remembering fullscreen monitor' functionality for desktop users not working properly\n" +
-				"_-_ Various minor textual and graphical errors\n" +
-				"\n" +
-				"_Existed Prior to v2.5.0:_\n" +
-				"_-_ Shopkeepers often failing to clear gasses from their shops\n" +
-				"_-_ Debuffs disappearing from DM-300's pylons on save/load\n" +
-				"_-_ Rare cases of levelgen hanging\n" +
-				"_-_ Game log spam during the tutorial in specific cases\n" +
-				"_-_ Corpse Dust sometimes spawning many wraiths in quick succession after spawning none\n" +
-				"_-_ Direction compass not pointing to exit after defeating Tengu\n" +
-				"_-_ Split alchemy guide not updating with inventory state in various cases\n" +
-				"_-_ Magic well note entries not being cleared if there are two wells in a level"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "new"), false, null);
-		changes.hardlight(Window.TITLE_COLOR);
-		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Developer Commentary",
 				"_-_ Released September 11th, 2024\n" +
@@ -331,57 +283,6 @@ public class v2_X_Changes {
 				"_-_ Updated translations\n" +
 				"_-_ Added dev commentary for v1.4.0"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Highlights:_\n" +
-				"_-_ Hall of Heroes pages 5-10 not syncing via Google Play Games on Google Play version\n" +
-				"_-_ Incorrect behaviour when game is force-closed from trinket selection window\n" +
-				"_-_ Scroll of remove curse not being consumed when freeing tormented spirits\n" +
-				"_-_ Sleeping enemies not being alerted by allies in many cases\n" +
-				"\n" +
-				"_Misc:_\n" +
-				"_-_ Various rare crash bugs\n" +
-				"_-_ Various minor visual and textual errors\n" +
-				"_-_ Surface victory badges not being added to the rankings screen\n" +
-				"_-_ Very rare cases of players getting outside of boss arenas\n" +
-				"_-_ Settings defaulting to audio tab and not languages tab when user is using a language with an incomplete translation",
-				
-				"_Effects:_\n" +
-				"_-_ Warrior being able to gain extra upgrades on his armor via hero armor transfer effect\n" +
-				"_-_ Earthroot and living rock armor not applying to bone explosion damage\n" +
-				"_-_ Precise Assault not working with unarmed melee attacks\n" +
-				"_-_ Deferred damage sometimes being delayed on save/load\n" +
-				"_-_ Various situational errors when enemies are transmogrified over chasms\n" +
-				"_-_ Challenge Arena effect briefly persisting between floors\n" +
-				"_-_ Magically slept enemies waking up when terror expires on them\n" +
-				"_-_ Duelist's Spike ability incorrectly triggering on-kill effects in specific circumstances",
-				
-				"_Items:_\n" +
-				"_-_ Trinkets becoming unidentified when transmuted\n" +
-				"_-_ Wondrous resin applying its effect to chaos elementals\n" +
-				"_-_ Exotic crystals and Parchment Scrap trinkets affecting levelgen in some cases\n" +
-				"_-_ Auto-aim not working correctly with cursed wands\n" +
-				"_-_ Aqua brew always knocking hero up and left when thrown on self\n" +
-				"_-_ Bomb fuses not being visually cleared when boss levels are reset by unblessed ankhs\n" +
-				"_-_ Exotic crystals and Parchment Scrap trinkets affecting levelgen in some cases\n" +
-				"_-_ Helpful darts dealing damage to allies in rare cases\n" +
-				"_-_ Tipped dart cleaning window showing 'clean all' and 'clean one' even with just 1 dart\n" +
-				"_-_ Death via a reclaimed trap not counting as dying to your own magic item",
-				
-				"_Characters:_\n" +
-				"_-_ Final boss not immediately advancing to its final phase in some cases\n" +
-				"_-_ Sad Ghost rarely spawning inside of walls\n" +
-				"_-_ Ally position swapping working when allies are paralyzed\n" +
-				"_-_ DM-300's exposed wire shielding mechanic and the vertigo debuff interacting incorrectly\n" +
-				"_-_ Brutes not being affected by terror in specific cases\n" +
-				"_-_ Enemies not properly prioritizing targets based on distance\n" +
-				"_-_ Very specific cases where the hero would refuse to walk onto visible traps\n" +
-				"_-_ Ripper Demons refusing to leap onto enemies above chasms"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
-		changes.hardlight(CharSprite.POSITIVE);
-		changeInfos.add(changes);
-
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.CLOVER), "Trinket Buffs",
 				"I'm handing out buffs to several trinkets that are underperforming:\n" +
 				"\n" +
@@ -430,7 +331,7 @@ public class v2_X_Changes {
 		changes.hardlight(CharSprite.NEGATIVE);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.BOMB), "Bomb Identification",
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.BRACELET), "Bomb Identification",
 				"This is actually an exploit fix, but I'm listing the change here for clarity. Explosions will now avoid destroying any equipment, previously they would destroy un-upgraded equipment only. This led to some players purposefully blowing up un-identified items to see if they were upgraded.\n" +
 				"\n" +
 				"I've been hesitant to change this functionality as I know it lessened inventory congestion, but after taking in feedback during the beta it's become clear to me that some players were relying on it to effectively avoid ever equipping unidentified items. Apologies for letting this persist for so long, I would have removed this exploit much sooner had I known how dependant some players were on it.\n" +
@@ -565,72 +466,6 @@ public class v2_X_Changes {
 				"_-_ Removed the power saver setting on Android 4.4+ devices, if the user hadn't already enabled it.\n" +
 				"(Power saver was always meant for very old Android devices. It gives no real benefit for more modern ones.)"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Highlights:_\n" +
-				"_-_ Ruins rooms in the last region using incorrect wall shapes since v2.2.0\n" +
-				"_-_ Rare cases where some victory badges would not save if game was immediately closed\n" +
-				"_-_ Rare cases where game actors could continue to process for a moment when hero falls into a chasm\n" +
-				"_-_ Various cases where characters would not play death animations if they died while paralyzed\n" +
-				"_-_ Dwarf King now only clears minions that are still allied with him when transitioning phases\n" +
-				"\n" +
-				"_Heroes:_\n" +
-				"_-_ Duelist's swift equip not working during time freeze\n" +
-				"_-_ Monk's flurry of blows not using projecting enchantment when empowered\n" +
-				"_-_ Various battlemage on-hit effects not showing as magical damage\n" +
-				"_-_ Empowered strike talent not working with blastwave\n" +
-				"_-_ Challenge ability incorrectly working on neutral mobs\n" +
-				"_-_ Seer shot talent not working in blacksmith quest area",
-
-				"_Enemies:_\n" +
-				"_-_ Newborn elemental boss rarely firing its attack through walls\n" +
-				"_-_ Rare cases where the final boss could command minions to attack themselves\n" +
-				"_-_ Gnoll geomancer and sappers potentially dropping boulders next to entrance\n" +
-				"_-_ Gnoll sappers granting armor to corrupted gnoll guards\n" +
-				"_-_ Necromancer skeletons not following necromancer's aggro in some cases\n" +
-				"_-_ Spectral necromancers now only kill wraiths they are aligned with when they die\n" +
-				"_-_ Teleportation effects not accounting for large characters in specific cases\n" +
-				"_-_ DM-300 not becoming supercharged if exactly damaged to the supercharge threshold\n" +
-				"_-_ Specific cases where damaging immune enemies would count towards regen time during boss fights",
-
-				"_Items pt.1:_\n" +
-				"_-_ Armband not working on hiding mimics\n" +
-				"_-_ Chilling enchant reducing chill duration in rare cases\n" +
-				"_-_ Rare cases where lucky enchant wouldn't trigger\n" +
-				"_-_ Runestones affecting terrain when thrown at a character\n" +
-				"_-_ Thrown weapons sticking to downed ghouls in some cases\n" +
-				"_-_ Camouflage glyph not working if hero uses ethereal chains to move into grass\n" +
-				"_-_ Sandals of nature incorrectly interacting with artifact charging\n" +
-				"_-_ Various specific errors with artifact charge boosting\n" +
-				"_-_ Cursed wands can no longer turn important NPCs into sheep\n" +
-				"_-_ King's crown not preserving armor hardening",
-				
-				"_Items pt.2:_\n" +
-				"_-_ Brimstone glyph not benefiting from glyph power boosts past +50%\n" +
-				"_-_ Errors when leaving/entering blacksmith's area while a boomerang was circling back\n" +
-				"_-_ Transfusion not benefiting from wand damage bonuses\n" +
-				"_-_ Dwarf King's crown automatically IDing armor\n" +
-				"_-_ Armband allowing more than one steal in specific cases\n" +
-				"_-_ Swiftness glyph ignoring nearby enemies in specific cases\n" +
-				"_-_ Swiftness glyph turning off near neutral characters\n" +
-				"_-_ Stone of fear applying to hero and allies\n" +
-				"_-_ Spike ability overriding elastic enchant in some cases\n" +
-				"_-_ Geyser traps and aqua brew not extinguishing flames",
-
-				"_Misc:_\n" +
-				"_-_ Various minor visual and textual errors\n" +
-				"_-_ Various rare crash bugs\n" +
-				"_-_ Specific cases where unbreakable traps could spawn in halls in the caves\n" +
-				"_-_ Music not properly pausing in background on desktop in some cases\n" +
-				"_-_ Various rare errors when game launches in fullscreen\n" +
-				"_-_ 'taste vengeance' badge not being earnable in a run after unlocking it\n" +
-				"_-_ Ascension hero speed debuff triggering at 7+ amulet curse stacks instead of 6+\n" +
-				"_-_ View distance becoming 0 during final boss in specific cases"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
-		changes.hardlight(CharSprite.POSITIVE);
-		changeInfos.add(changes);
-
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.RAPIER), "Weapon Ability Buffs",
 				"_- Lunge_ damage up\n" +
 				"_- Cleave_ damage up, is now instant if it kills, but no longer chains\n" +
@@ -669,16 +504,6 @@ public class v2_X_Changes {
 				"_- Alchemize_ has a new recipe, it is now much cheaper to make\n" +
 				"_- Summon Elemental_ cost down to 10 from 15 and buffing the spell now persists after use"));
 
-		changes.addButton( new ChangeButton(new Image(new GhostSprite()), "Ghost and Blacksmith Enchantments",
-				"I've given a slight boost to the rewards of the Ghost quest and Blacksmith's smith reward, aimed at making enchantments/glyphs more likely. this should make these rewards a bit more interesting more often.\n" +
-				"\n" +
-				"_-_ Ghost reward enchant rate up to 20% from 10%\n" +
-				"_-_ Blacksmith smith reward enchant rate up to 30% from 0%"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "nerfs"), false, null);
-		changes.hardlight(CharSprite.NEGATIVE);
-		changeInfos.add(changes);
-
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ELIXIR_MIGHT), "Alchemy Nerfs",
 				"_- Elixir of Might_ cost up to 16 from 14 (after account for catalyst removal)\n" +
 				"_- Phase Shift_ cost down to 10 from 13, but output quantity down to 6 from 8"));
@@ -700,13 +525,6 @@ public class v2_X_Changes {
 				"_-_ 92 days after Shattered v2.2.0\n\n" +
 				"v2.3.0 was originally going to contain two new variants for the caves quest, but after a longer than expected dev cycle plus the holidays, I opted to release v2.3.0 with just one more variant and move on to other content for a while, instead of spending even more time on the caves quest.\n\n" +
 				"More Dev commentary will be added here in the future."));
-
-		changes.addButton(new ChangeButton(new Image(new GnollGuardSprite()), "Gnoll Caves Quest",
-				"_A second variant has been added to the caves quest!_\n" +
-				"\n" +
-				"This variant features _gnolls and earth-moving magic._ Expect to spend a bit more time digging, as this environment features collapsed walls, boulders, and angry gnolls wielding spears and earth-moving devices. Their magic is quite chaotic, so be ready to dodge and possibly get the gnolls caught in their own attacks.\n" +
-				"\n" +
-				"The boss for this variant is the _gnoll geomancer,_ an experienced gnoll with access to lots of mobility and earth-moving power."));
 
 		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.REMAINS), "New Remains Items",
 				"_Heroes remains now contain a new unique item that varies based on the class of the hero that died._\n" +
@@ -785,84 +603,6 @@ public class v2_X_Changes {
 				"_-_ Slightly improved the layout of shop rooms when many items are present\n" +
 				"_-_ Updated a link in the game's credits"));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Highlights:_\n" +
-				"_-_ Enemies continuing to fight each other after amok expires in many cases\n" +
-				"_-_ Some inter-level teleportation effects working inside caves quest level\n" +
-				"_-_ Transmutation being usable on the pickaxe during the caves quest\n" +
-				"_-_ Unintended changes to reforge functionality when both items are the same level\n" +
-				"_-_ Rounding errors causing tipped darts to last longer than intended in some cases\n" +
-				"\n" +
-				"_Quests:_\n" +
-				"_-_ Crystal spire being considered a mini boss, not a full boss\n" +
-				"_-_ Crystal spire attacks ignoring damage-resisting effects\n" +
-				"_-_ Cases where remains would fail to appear in the new mining level\n" +
-				"_-_ Blacksmith landmark entry not clearing when you have spent all favor\n" +
-				"_-_ Rare cases where hero could appear to be on top of crystal spire\n" +
-				"_-_ Corpse dust quest tracking all wraiths instead of just the ones it spawned\n" +
-				"_-_ Some cases where new rot garden room could spawn much smaller than intended",
-
-				"_Enemies:_\n" +
-				"_-_ Final boss fight not properly interacting with the into darkness challenge\n" +
-				"_-_ Monk ability use disqualifying for dwarf king's 'no weapons' badge when a weapon was equipped\n" +
-				"_-_ Tengu behaving slightly incorrectly when taking massive damage\n" +
-				"_-_ Mimics not dropping their loot if corrupted while hiding\n" +
-				"_-_ Rare cases where DM-300 finale music would play before the fight\n" +
-				"_-_ Rare errors in DM-201 target selection",
-
-				"_Items:_\n" +
-				"_-_ Rotberry seed being deleted in rare cases\n" +
-				"_-_ Rare cases where the game would freeze after reviving via unblessed ankh\n" +
-				"_-_ Some bombs and explosion-spawning effects incorrectly dealing magic damage\n" +
-				"_-_ Foresight effects not triggering after level transition\n" +
-				"_-_ Projecting missile weapons not working on enemies inside solid terrain\n" +
-				"_-_ Cursed wand of warding having different targeting properties than other wands\n" +
-				"_-_ Thrown potions not clearing fire/ooze if they shattered out of view\n" +
-				"_-_ Retribution and psionic blast not applying to all visible characters in very rare cases\n" +
-				"_-_ Degrade debuff not applying to thrown weapons\n" +
-				"_-_ Cloak of shadows not losing charge if it is dispelled as it is activated\n" +
-				"_-_ Items being assignable to non-visible quickslots in specific cases\n" +
-				"_-_ Rare quickslot errors when bags which already contain items are collected",
-
-				"_Hero & Allies:_\n" +
-				"_-_ Thrown potions not triggering Liquid Agility talent\n" +
-				"_-_ Sneak ability working while Duelist is rooted\n" +
-				"_-_ Damage from Body Slam talent ignoring armor\n" +
-				"_-_ Lunge ability incorrectly interacting with movespeed in some cases\n" +
-				"_-_ Cases where prismatic images could keep appearing and then disappearing\n" +
-				"_-_ Hero not being able to self-trample plants when standing on stairs\n" +
-				"_-_ Berserker being able to rage without his seal equipped in some cases\n" +
-				"_-_ Allies rarely spawning on hazards after ankh revive\n" +
-				"_-_ Ally warp working on corrupted DM-201s\n" +
-				"_-_ Duelist's lunge ability not correctly applying range boosts in rare cases\n" +
-				"\n" +
-				"_Misc.:_\n" +
-				"_-_ Various rare crash and freeze bugs\n" +
-				"_-_ Various minor visual and textual errors\n" +
-				"_-_ Tutorial becoming stuck in rare cases\n" +
-				"_-_ Beta updates setting not working as intended\n" +
-				"_-_ Music fading not working in rare cases\n" +
-				"_-_ Scrolling pane in journal window freezing in rare cases",
-
-				"_v2.3.1:_\n" +
-				"_-_ Game unintentionally spamming new Google Play players with Play Games login requests\n" +
-				"_-_ Events which interrupt the hero not interrupting resting\n" +
-				"_-_ Rare cases where hero could lose a turn when moving between depths\n" +
-				"_-_ Transmutation removing items from quickslots in rare cases\n" +
-				"_-_ Incorrect death messages when player is killed by wards\n" +
-				"_-_ Amoked allies not being affected by aggression debuff\n" +
-				"\n" +
-				"_v2.3.2:_\n" +
-				"_-_ Various minor textual errors\n" +
-				"_-_ Very specific cases where levelgen could vary based on whether the player has a timekeeper's hourglass or not\n" +
-				"_-_ Hero leap vfx not causing the camera to follow them\n" +
-				"_-_ Cases where grass and embers wouldn't appear on top of specific ground visuals"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
-		changes.hardlight(CharSprite.POSITIVE);
-		changeInfos.add(changes);
-
 		changes.addButton(new ChangeButton(Icons.TALENT.get(), "Hero Abilities",
 				"No nerfs this time, and just a couple targeted buffs to hero abilities/talents.\n" +
 				"\n" +
@@ -904,25 +644,6 @@ public class v2_X_Changes {
 				"_Each region also has a new 'intense' track._ These tracks play while completing region quests and also during the ascension challenge.\n" +
 				"\n" +
 				"_Lastly, four 'finale' tracks have been added._ Three of these tracks play when you are about to defeat the game's three later bosses, and one plays right before securing victory (either grabbing the amulet or reaching the end of ascension)."));
-
-		changes.addButton( new ChangeButton(new Image(new WandmakerSprite()), "Prison Quest Changes",
-				"The game's second quest has received a bunch of adjustments to make it more engaging.\n" +
-				"\n" +
-				"_Corpse Dust Quest:_ The mass grave room now always spawns at least a bit away from the entrance, and wraith spawning is more consistent.\n" +
-				"\n" +
-				"_Elemental Embers Quest:_ The newborn elemental has been reworked:\n" +
-				"_-_ HP up to 60 from 30, attacking power reduced, no longer ignites on-hit\n" +
-				"_-_ Now shoots an avoidable fireball in a 3x3 area\n" +
-				"_-_ The summon elemental spell is unchanged\n" +
-				"\n" +
-				"_Rotberry Quest:_ Overhauled the rot garden room:\n" +
-				"_-_ Rot lashers are now much stronger, but take 1 turn to notice an adjacent enemy before attacking\n" +
-				"_-_ Room layout is now much more chaotic, with more grass and crumbling walls\n" +
-				"_-_ There is now a guaranteed safe path to the rot heart"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
-		changes.hardlight(CharSprite.WARNING);
-		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(Icons.CHALLENGE_COLOR.get(), "Hostile Champions",
 				"I've decided to make some changes to the hostile champions challenge, to better balance the difficulty of each of the champion types, and address some common feedback about difficulty spikes:\n" +
@@ -972,64 +693,6 @@ public class v2_X_Changes {
 				"_-_ The Google Play version of Shattered now uses Google Play Games v2, which requires Android 4.4+\n" +
 				"_-_ Removed support for Android Instant Apps\n" +
 				"_-_ Updated some links in the game's credits"));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Highlights:_\n" +
-				"_-_ Some items being incorrectly consumed when the game is closed while they are being used\n" +
-				"_-_ Mage's Staff not being affected by the degrade debuff\n" +
-				"_-_ Further characters sometimes rendering on top of closer large characters\n" +
-				"\n" +
-				"_Items:_\n" +
-				"_-_ Dwarf King's Crown rarely triggering the effect of the runic transference talent\n" +
-				"_-_ Exploit where multiplicity curse could be used to skip some of Dwarf King's second phase\n" +
-				"_-_ Various errors with class armor conversion and Warrior's broken seal\n" +
-				"_-_ Ring of Force incorrectly displaying +99.99% when at +7, instead of +100%\n" +
-				"_-_ Living Earth and Transfusion wands granting their self-buffs when shooting NPCs\n" +
-				"_-_ Several obscure issues with noisemakers\n" +
-				"_-_ Trap effects from reclaim trap spell not scaling with ascension challenge\n" +
-				"_-_ Horn of Plenty occasionally having the wrong visuals for its charge state",
-
-				"_Allies & Enemies:_\n" +
-				"_-_ Damage caused to Yog's fists not correctly adding time to boss regen limit\n" +
-				"_-_ Ambitious Imp sometimes calling out to the hero when not visible\n" +
-				"_-_ Phantom Piranhas rapidly teleporting when corrupted\n" +
-				"_-_ DM-300 fight sometimes not having a safe route to a power pylon\n" +
-				"_-_ Mimics not dropping loot when they are killed via chasm while hiding\n" +
-				"_-_ Tengu very rarely throwing bombs ontop of each other\n" +
-				"_-_ Piranhas throwing themselves off chasms in very rare cases\n" +
-				"_-_ The Rogue's body replacement talent not triggering effects like chasms and traps\n" +
-				"_-_ Followup strike buff rarely not clearing when enemies die",
-
-				"_Misc.:_\n" +
-				"_-_ Various rare crash issues\n" +
-				"_-_ Various minor visual and textual errors\n" +
-				"_-_ Various rare cases where levelgen could differ between two runs on the same seed\n" +
-				"_-_ Into Darkness and Barren Land challenges affecting levelgen\n" +
-				"_-_ Items in Imp's shop not being affected by dungeon seed\n" +
-				"_-_ Gold ore appearing on the back face of walls in regular caves levels\n" +
-				"_-_ Starflower plant VFX triggering even when out of the hero's FOV\n" +
-				"_-_ Storm Clouds not correctly clearing fire or harming fiery enemies\n" +
-				"_-_ Cases where pushing effects could cause pitfalls to trigger early\n" +
-				"_-_ Combining diagonal direction keys on desktop causing rare errors\n" +
-				"_-_ Cases where default keybindings could override custom ones\n" +
-				"_-_ Crashes caused by text input windows for controller users",
-
-				"_v2.2.1:_\n" +
-				"_-_ System gestures in iOS sometimes registering as taps within the game\n" +
-				"_-_ Endure ability not working properly when used twice quickly\n" +
-				"_-_ Melee damage of Mage's Staff benefiting from talents that boost wand levels\n" +
-				"_-_ Various blink effects allowing movement over magical fire\n" +
-				"_-_ Some game actions being possible while meditating\n" +
-				"_-_ Various minor visual and textual errors\n" +
-				"\n" +
-				"_v2.2.2 (iOS only):_\n" +
-				"_-_ Gesture fix from v2.2.1 resulting in input delays\n" +
-				"_-_ Rare crash errors caused by audio loading"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
-		changes.hardlight(CharSprite.POSITIVE);
-		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.DIRK), "Weapon Ability Buffs",
 				"Weapon abilities are overall in a much better place now, but there are still a couple that need a boost:\n" +
@@ -1083,22 +746,6 @@ public class v2_X_Changes {
 				"\n" +
 				"_The Sickle_ and _War Scythe_ are T2 and T5 weapons that trade in some accuracy for increased base damage. The Duelist can use the _harvest_ ability with these weapons, which deals a large amount of bleeding instead of direct damage, but costs 2 charges."));
 
-		changes.addButton( new ChangeButton(new Image(new TormentedSpiritSprite()), "New Exotic Enemies",
-				"An exotic variant has been added for wraiths and piranhas!\n" +
-				"\n" +
-				"_Tormented Spirits_ replace 1 in every 100 wraiths, and have higher stats along with a unique interaction. Using a scroll of remove curse on these spirits will save them from their curse, peacefully defeating them and giving you an uncursed equipment reward!\n" +
-				"\n" +
-				"_Phantom Piranhas_ replace 1 in every 50 piranhas, and can teleport either to attack or retreat whenever they take damage. They're harder to kill, but give valuable phantom meat as a drop, instead of regular mystery meat. They're also a reference to the phantom fish quest from the original Pixel Dungeon!"));
-
-		changes.addButton( new ChangeButton(new Image(new ShopkeeperSprite()), "Shop Interface Improvements",
-				"_A new UI has been added when interacting with shopkeepers._ This UI lets you talk with them and buyback the 3 most recently sold items!\n" +
-				"\n" +
-				"I plan to add more dialogue and region-specific shopkeepers in the future, but for now there is a bit of dialogue that varies based on the region and the hero you're playing as."));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "changes"), false, null);
-		changes.hardlight(CharSprite.WARNING);
-		changeInfos.add(changes);
-
 		changes.addButton( new ChangeButton(Icons.STAIRS.get(), "Ascension Changes",
 				"I've made several changes to the Ascension challenge to make it more fun, mesh better with some items/effects, and to smooth out its difficulty:\n\n" +
 				"_-_ Enemies now gain increased max HP during ascent, instead of damage resistance\n\n" +
@@ -1143,87 +790,6 @@ public class v2_X_Changes {
 				"_v2.1.3:_\n" +
 				"_-_ Heroes remains can now appear in more cases, but always contain 10 gold in challenge or seeded runs\n" +
 				"_-_ Added a setting for screen shake intensity"));
-
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Highlights:_\n" +
-				"_-_ Various rare crash errors\n" +
-				"_-_ Scrolls of Transmutation triggering the swift equip talent\n" +
-				"_-_ Evil Eyes meleeing at a distance in rare cases\n" +
-				"\n" +
-				"_Items:_\n" +
-				"_-_ Rare rounding errors when determining speed of augmented weapons\n" +
-				"_-_ Ethereal chains clearing invisibility before they activate instead of after\n" +
-				"_-_ Some spells not clearing invisibility\n" +
-				"_-_ Grim enchantment interacting incorrectly with some damage resistance effects\n" +
-				"_-_ Kinetic enchantment building damage from ally kills\n" +
-				"_-_ Artifact -> Ring transmutation generating a purely random ring\n" +
-				"_-_ Wand of Lightning not spreading correctly to flying enemies over water\n" +
-				"_-_ Errors when transmuting an equipped artifact into a ring\n" +
-				"_-_ Displacing darts not properly granting vision of teleported enemies in some cases\n" +
-				"_-_ Empty item spots on the floor 20 shop",
-
-				"_Effects:_\n" +
-				"_-_ Some Duelist abilities not clearing invisibility\n" +
-				"_-_ Cases where the player could input actions during the Sniper's flurry ability\n" +
-				"_-_ Speedy Stealth talent requiring existing momentum to work\n" +
-				"_-_ Rare errors caused by triggering many pitfall traps at once\n" +
-				"_-_ Projectile traps firing at incorrect targets in very specific cases\n" +
-				"_-_ Lethal Haste talent triggering on ally kills\n" +
-				"_-_ Very rare cases where the Duelist could be debuffed by attacking her own afterimage\n" +
-				"_-_ Monk's focus ability rarely triggering on magical attacks\n" +
-				"_-_ Chill and ring of elements interacting incorrectly in some cases\n" +
-				"_-_ Protective Shadows talent not triggering if unlocked while invisible\n" +
-				"_-_ Some effects resolving before beacon of returning teleportation applies itself",
-
-				"_Allies & Enemies:_\n" +
-				"_-_ Necromancers not properly tracking their enemy while summoning\n" +
-				"_-_ Giant necromancers teleporting their skeletons into enclosed spaces\n" +
-				"_-_ Ally swapping causing errors in rare cases\n" +
-				"_-_ Transmogrify armor ability incorrectly interacting with the multiplicity glyph\n" +
-				"_-_ Rat King blocking Goo's pump-up attack\n" +
-				"_-_ Enemy item drops being visible out of FOV for one frame\n" +
-				"_-_ Tengu smoke bombs visually destroying each other\n" +
-				"\n" +
-				"_UI/VFX:_\n" +
-				"_-_ Various minor visual/textual errors\n" +
-				"_-_ Particle FX failing to appear after loading during the 4th boss fight\n" +
-				"_-_ Action indicator not updating properly from Speedy Stealth talent\n" +
-				"_-_ Incorrect error messages when the game tries to report crashes on desktop\n" +
-				"_-_ Invalid move actions (e.g. into unknown areas) causing self-trample to activate",
-
-				"_v2.1.1_:\n" +
-				"_-_ Specific exploits involving moving between floors on a partial turn\n" +
-				"_-_ Enemy AI quirks which caused them to not switch away from inaccessible targets in some cases\n" +
-				"_-_ Various cases where the hero would not lose a debuff after becoming immune to it\n" +
-				"_-_ Hidden mimics not triggering some talents that only occur against enemies\n" +
-				"_-_ Challenge ability having a range of 4 tiles, instead of 5 as stated\n" +
-				"_-_ Shield battery talent being usable with an empty wand\n" +
-				"_-_ Elemental strike not working correctly with a friendly weapon\n" +
-				"_-_ Ally AI errors when told to attack while repositioning\n" +
-				"_-_ Visual bugs when multiple arcane bombs were used at once\n" +
-				"_-_ Various minor textual errors\n" +
-				"\n" +
-				"_v2.1.2:_\n" +
-				"_-_ Rare visual errors with the lunge ability",
-
-				"_v2.1.3:_\n" +
-				"_-_ Various rare crash and hang bugs\n" +
-				"_-_ Weaker healing effects overiding stronger ones\n" +
-				"_-_ Divine inspiration potion not being cancellable if it was already identified\n" +
-				"_-_ Very rare cases where tapping a location wouldn't cause the hero to move\n" +
-				"_-_ Armored brutes blocking more damage than intended\n" +
-				"\n" +
-				"_v2.1.4:_\n" +
-				"_-_ Various rare crash bugs\n" +
-				"_-_ Specific exploits that allowed noisemakers to alert enemies as they were defused\n" +
-				"_-_ Regen-disabling effects not affecting the warrior's shield\n" +
-				"_-_ Counter Ability talent incorrectly making all abilities cost 0 charge when upgraded to +2\n" +
-				"_-_ Visual bugs when hiding mimics were magically slept"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
-		changes.hardlight(CharSprite.POSITIVE);
-		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(new Whip(),
 				"The whip is getting a quick and simple buff, as it is performing a bit worse than its T3 counterparts:\n\n" +
@@ -1402,113 +968,6 @@ public class v2_X_Changes {
 				"_-_ The changes scene now shows a warning if the user is not viewing it in English.\n" +
 				"_-_ Liquid metal value increased to 1 from 0.5."));
 
-		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
-				"Fixed the following bugs:\n" +
-				"_Highlights:_\n" +
-				"_-_ Various rare crash and freeze errors\n" +
-				"_-_ Softlocks caused by the warden using fadeleaf just as they start a boss fight\n" +
-				"_-_ Particle effects failing to appear in a bunch of rare cases\n" +
-				"_-_ AOE from gladiator's crush move invalidating Dwarf King's 'no weapons' badge\n" +
-				"_-_ Magic resistance being extremely effective against Grim traps at low HP\n" +
-				"_-_ Allies spawned by some armor abilities getting boosted stats during ascension\n" +
-				"_-_ One upgrade being lost when transferring class armor with a warrior's seal attached\n" +
-				"_-_ Transmuting a dried rose deleting any items held by the ghost\n" +
-				"_-_ Rare cases of hero stacking onto enemies when trying to swap positions with an ally\n" +
-				"_-_ Directable allies being easily distracted after being told to move\n" +
-				"_-_ Several on-kill effects incorrectly triggering when ghouls get downed",
-
-				"_Effects:_\n" +
-				"_-_ Lethal momentum not triggering on kills made via enchantment\n" +
-				"_-_ Teleportation effects not being blocked by magic immunity\n" +
-				"_-_ Barkskin not reducing damage from things like bombs or the chalice of blood\n" +
-				"_-_ Some armor abilities not checking if targets are out of vision\n" +
-				"_-_ Magical fire not clearing regular fire if they are on the same tile\n" +
-				"_-_ Gladiator being able to riposte enemies who charmed him\n" +
-				"_-_ Iron Stomach talent cancelling fall damage in rare cases\n" +
-				"_-_ Time freeze causing various odd behaviour when triggering plants and traps\n" +
-				"_-_ Rare cases of earthroot armor and hold fast working after movement\n" +
-				"_-_ Volley ability not triggering lethal momentum",
-
-				"_Items:_\n" +
-				"_-_ Darts being lost in rare cases when tipped darts have bonus durability\n" +
-				"_-_ Alchemist's Toolkit not triggering the enhanced rings talent\n" +
-				"_-_ Wand of fireblast rarely shooting great distances\n" +
-				"_-_ Wand of lightning rarely taking credit for hero deaths not caused by it\n" +
-				"_-_ Horn of plenty benefiting from artifact recharging much more than intended\n" +
-				"_-_ Shurikens still getting an instant attack after waiting\n" +
-				"_-_ Transmutation not turning artifacts into rings if all artifacts have been spawned\n" +
-				"_-_ Magic immunity not blocking use of shield battery, cursed artifact effects, or wand recharging\n" +
-				"_-_ Cursed items still blocking equipment slots when lost via ankh revive\n" +
-				"_-_ Antimagic not reducing damage from enchantments\n" +
-				"_-_ Rare cases where cloak of shadows wouldn't spend a charge on activation\n" +
-				"_-_ Disarming traps rarely teleporting weapons into chests or graves\n" +
-				"_-_ Blacksmith failing to take his pickaxe back in rare cases\n" +
-				"_-_ Various rare errors with blacksmith reforging and resin boosted wands",
-
-				"_Allies & Enemies:_\n" +
-				"_-_ DM-300 not using abilities in its first phase in specific situations\n" +
-				"_-_ DM-201s rarely lobbing grenades when they shouldn't\n" +
-				"_-_ DM-300's rockfall attack very rarely having no delay\n" +
-				"_-_ Tengu rarely throwing bombs into walls\n" +
-				"_-_ Soiled fist being able to see through shrouding fog\n" +
-				"_-_ Rare cases where the Imp's shop could appear without completing his quest\n" +
-				"_-_ Gladiator not gaining combo from attacking hiding mimics\n" +
-				"_-_ Demon spawners rapidly spawning ripper demons in very specific cases\n" +
-				"_-_ Fly swarms often not splitting during ascension challenge\n" +
-				"_-_ Rare cases where enemies couldn't be surprise attacked when in combat with allies\n" +
-				"_-_ Various rare errors with shock elemental electricity damage\n" +
-				"_-_ Evil eyes only resisting some disintegration effects\n" +
-				"_-_ Several rare issues with spinner web shooting\n" +
-				"_-_ Very rare cases where surprise attacks on mimics would fail\n" +
-				"_-_ Very rare pathfinding bugs with flying enemies",
-
-				"_UI/VFX:_\n" +
-				"_-_ Various minor audiovisual errors\n" +
-				"_-_ Various minor textual errors\n" +
-				"_-_ Items rarely disappearing when hotkeys are used to close the inventory\n" +
-				"_-_ Number display errors when device language is set to Arabic\n" +
-				"_-_ 'i' being incorrectly uppercased to 'I' in Turkish\n" +
-				"_-_ Auras from champion enemies being visible in the fog of war for one frame\n" +
-				"_-_ Very rare cases where Goo attack particles behaved incorrectly\n" +
-				"_-_ VFX rarely not appearing on characters as they are spawned by multiplicity\n" +
-				"_-_ Damage warn vfx not accounting for hunger ignoring shielding\n" +
-				"_-_ Cases where very fast heroes would cause landmarks to not be recorded\n" +
-				"_-_ No error message being given when the mage uses elemental blast without a staff",
-
-				"_v2.0.1:_\n" +
-				"_-_ Various UI bugs caused by pressing multiple buttons simultaneously\n" +
-				"_-_ Noisemakers being visually defusable after trigger but not exploding\n" +
-				"_-_ Noisemakers being collectable in some cases after triggering\n" +
-				"_-_ Damage/Stun from blastwave knockback applying to downed ghouls\n" +
-				"_-_ Projecting champions with ranged attacks refusing to use melee in some cases\n" +
-				"_-_ Life Link sometimes persisting for longer than intended during Dwarf King fight\n" +
-				"_-_ Various rare UI bugs\n" +
-				"\n" +
-				"_v2.0.2:_\n" +
-				"_-_ Various bugs with controller input and simultaneous button presses\n" +
-				"_-_ Hero being able to leave floor 5 after it locks in rare cases\n" +
-				"_-_ Various minor rounding errors in alchemy produce values\n" +
-				"_-_ Spirit bow encumbrance calculations always using a strength requirement of 10\n" +
-				"_-_ Downed ghoul visuals sometimes staying visible in the fog of war"));
-
-		changes = new ChangeInfo(Messages.get(ChangesScene.class, "buffs"), false, null);
-		changes.hardlight(CharSprite.POSITIVE);
-		changeInfos.add(changes);
-
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.RING_TOPAZ), "Item Buffs",
-				"I'm making several buffs to various items that could be performing a little better:\n" +
-				"\n" +
-				"_- Pickaxe_ can now benefit from upgrades enchantments and augmentation, if you feel like using it for fun.\n" +
-				"\n" +
-				"_- Ring of Energy_ now also applies a recharging boost to hero armor abilities. All the boosts it gives are now standardized to +15%.\n" +
-				"_- Ring of Arcana_ enchantment boost up to +17.5% per level, from +15%\n" +
-				"\n" +
-				"_- Glyph of Repulsion_ now only knocks back enemies who are adjacent to the hero. This should make it slightly better versus ranged enemies.\n" +
-				"_- Glyph of Flow_ now grants +50% movespeed in water per level, up from +25%\n" +
-				"\n" +
-				"_- Horn of Plenty_ now gains 2 levels from being fed a pasty, up from 1.5\n" +
-				"_- Horn of Plenty_ now gains 4 levels from being fed a meat pie, up from 3"));
-
 		changes.addButton( new ChangeButton(HeroSprite.avatar(HeroClass.MAGE, 6), "Hero Buffs",
 				"A couple buffs to the two worst performing armor abilities/talents:\n" +
 				"\n" +
@@ -1542,19 +1001,6 @@ public class v2_X_Changes {
 				"_-_ Now grants 1.15x-5x healing, down from 0x-10x\n" +
 				"\n" +
 				"_- Ethereal chains_ charge from gaining exp reduced by 40%"));
-
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.RING_RUBY), "Smaller Item Nerfs",
-				"There are also some more minor nerfs to items that are just doing a bit too well:\n" +
-				"\n" +
-				"_- Ring of Furor_ attack speed boost per level down to 9.05% from 10.5%\n" +
-				"_- Ring of Evasion_ dodge boost per level down to 12.5% from 15%\n" +
-				"\n" +
-				"_- Blocking_ enchantment now grants 2+item level shielding, down from max HP/10\n" +
-				"\n" +
-				"_- Timekeeper's Hourglass_ sand bag cost up to 30 from 20\n" +
-				"_- Alchemist's Toolkit_ now requires 6 energy per level, up from 5\n" +
-				"\n" +
-				"_- Wand of Fireblast_ base damage reduced to 1-2 from 1-6 when spending 1 charge, and 2-8 from 2-12 when spending 2 charges. This is to offset the relatively high amount of DOT the wand deals at low levels."));
 
 		changes.addButton( new ChangeButton(HeroSprite.avatar(HeroClass.ROGUE, 6), "Hero Nerfs",
 				"T1 Talents:\n" +

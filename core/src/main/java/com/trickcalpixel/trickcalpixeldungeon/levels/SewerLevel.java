@@ -23,9 +23,7 @@ package com.trickcalpixel.trickcalpixeldungeon.levels;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Ghost;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Ripple;
 import com.trickcalpixel.trickcalpixeldungeon.items.Amulet;
 import com.trickcalpixel.trickcalpixeldungeon.levels.features.LevelTransition;
@@ -70,15 +68,7 @@ public class SewerLevel extends RegularLevel {
 	public static final float[] SEWER_TRACK_CHANCES = new float[]{1f, 1f, 0.5f, 0.25f, 1f, 0.5f};
 
 	public void playLevelMusic(){
-		if (Ghost.Quest.active() || Statistics.amuletObtained){
-			if (Statistics.amuletObtained && Dungeon.depth == 1){
-				Music.INSTANCE.play(Assets.Music.THEME_FINALE, true);
-			} else {
-				Music.INSTANCE.play(Assets.Music.SEWERS_TENSE, true);
-			}
-		} else {
-			Music.INSTANCE.playTracks(SEWER_TRACK_LIST, SEWER_TRACK_CHANCES, false);
-		}
+		Music.INSTANCE.playTracks(SEWER_TRACK_LIST, SEWER_TRACK_CHANCES, false);
 	}
 	
 	@Override
@@ -132,12 +122,6 @@ public class SewerLevel extends RegularLevel {
 						2, 2,
 						1, 1, 1, 1, 1};
 	}
-
-	@Override
-	protected void createMobs() {
-		Ghost.Quest.spawn( this, roomExit );
-		super.createMobs();
-	}
 	
 	@Override
 	public boolean activateTransition(Hero hero, LevelTransition transition) {
@@ -151,7 +135,6 @@ public class SewerLevel extends RegularLevel {
 				});
 				return false;
 			} else {
-				Statistics.ascended = true;
 				Game.switchScene( SurfaceScene.class );
 				return true;
 			}

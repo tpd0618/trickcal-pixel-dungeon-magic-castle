@@ -23,7 +23,6 @@ package com.trickcalpixel.trickcalpixeldungeon.ui;
 
 import com.trickcalpixel.trickcalpixeldungeon.Assets;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.HeroSubClass;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 
@@ -81,14 +80,6 @@ public class HeroIcon extends Image {
 			film = new TextureFilm(texture, SIZE, SIZE);
 		}
 		frame(film.get(subCls.icon()));
-	}
-
-	public HeroIcon(ArmorAbility abil){
-		super( Assets.Interfaces.HERO_ICONS );
-		if (film == null){
-			film = new TextureFilm(texture, SIZE, SIZE);
-		}
-		frame(film.get(abil.icon()));
 	}
 
 	public HeroIcon(ActionIndicator.Action action){

@@ -30,7 +30,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
 import com.trickcalpixel.trickcalpixeldungeon.effects.Identification;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.messages.Messages;
@@ -109,11 +108,6 @@ public class ShardOfOblivion extends Trinket {
 				if (item.isEquipped(curUser) && curUser.pointsInTalent(Talent.VETERANS_INTUITION) == 2){
 					ready = true;
 				}
-			} else if (item instanceof Ring){
-				ready = ((Ring) item).readyToIdentify();
-				if (item.isEquipped(curUser) && curUser.pointsInTalent(Talent.THIEFS_INTUITION) == 2){
-					ready = true;
-				}
 			} else if (item instanceof Wand){
 				ready = ((Wand) item).readyToIdentify();
 			}
@@ -174,7 +168,7 @@ public class ShardOfOblivion extends Trinket {
 		if (Dungeon.hero.belongings.armor() != null && !Dungeon.hero.belongings.armor().isIdentified()){
 			wornUnIDed++;
 		}
-		if (Dungeon.hero.belongings.ring() != null && !Dungeon.hero.belongings.ring().isIdentified()){
+		if (Dungeon.hero.belongings.bracelet() != null && !Dungeon.hero.belongings.bracelet().isIdentified()){
 			wornUnIDed++;
 		}
 		if (Dungeon.hero.belongings.misc() != null && !Dungeon.hero.belongings.misc().isIdentified()){

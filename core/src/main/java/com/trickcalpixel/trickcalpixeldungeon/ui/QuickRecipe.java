@@ -28,7 +28,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.LiquidMetal;
 import com.trickcalpixel.trickcalpixeldungeon.items.Recipe;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Blandfruit;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Food;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.MeatPie;
@@ -38,12 +37,9 @@ import com.trickcalpixel.trickcalpixeldungeon.items.food.StewedMeat;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.AquaBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.BlizzardBrew;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.CausticBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.InfernalBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.ShockingBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.UnstableBrew;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
@@ -54,16 +50,11 @@ import com.trickcalpixel.trickcalpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Alchemize;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.BeaconOfReturning;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.CurseInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.MagicalInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.PhaseShift;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.ReclaimTrap;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Recycle;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.SummonElemental;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.TelekineticGrab;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.UnstableSpell;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.WildEnergy;
 import com.trickcalpixel.trickcalpixeldungeon.items.stones.Runestone;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -326,18 +317,6 @@ public class QuickRecipe extends Component {
 				}
 				return result;
 			case 5:
-				r = new Bomb.EnhanceBomb();
-				int i = 0;
-				for (Class<?> cls : Bomb.EnhanceBomb.validIngredients.keySet()){
-					if (i == 2){
-						result.add(null);
-						i = 0;
-					}
-					Item item = (Item) Reflection.newInstance(cls);
-					ArrayList<Item> in = new ArrayList<>(Arrays.asList(new Bomb(), item));
-					result.add(new QuickRecipe( r, in, r.sampleOutput(in)));
-					i++;
-				}
 				return result;
 			case 6:
 				result.add(new QuickRecipe( new LiquidMetal.Recipe(),
@@ -357,7 +336,6 @@ public class QuickRecipe extends Component {
 				return result;
 			case 7:
 				result.add(new QuickRecipe(new UnstableBrew.Recipe(), new ArrayList<>(Arrays.asList(new Potion.PlaceHolder(), new  Plant.Seed.PlaceHolder())), new UnstableBrew()));
-				result.add(new QuickRecipe(new CausticBrew.Recipe()));
 				result.add(new QuickRecipe(new BlizzardBrew.Recipe()));
 				result.add(new QuickRecipe(new ShockingBrew.Recipe()));
 				result.add(new QuickRecipe(new InfernalBrew.Recipe()));
@@ -365,8 +343,6 @@ public class QuickRecipe extends Component {
 				result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new ElixirOfHoneyedHealing.Recipe()));
-				result.add(new QuickRecipe(new ElixirOfAquaticRejuvenation.Recipe()));
-				result.add(new QuickRecipe(new ElixirOfArcaneArmor.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfIcyTouch.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfToxicEssence.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfDragonsBlood.Recipe()));
@@ -375,20 +351,15 @@ public class QuickRecipe extends Component {
 				return result;
 			case 8:
 				result.add(new QuickRecipe(new UnstableSpell.Recipe(), new ArrayList<>(Arrays.asList(new Scroll.PlaceHolder(), new  Runestone.PlaceHolder())), new UnstableSpell()));
-				result.add(new QuickRecipe(new WildEnergy.Recipe()));
 				result.add(new QuickRecipe(new TelekineticGrab.Recipe()));
 				result.add(new QuickRecipe(new PhaseShift.Recipe()));
 				if (!PixelScene.landscape()) result.add(null);
 				result.add(null);
 				result.add(new QuickRecipe(new Alchemize.Recipe(), new ArrayList<>(Arrays.asList(new Plant.Seed.PlaceHolder(), new Runestone.PlaceHolder())), new Alchemize().quantity(8)));
-				result.add(new QuickRecipe(new CurseInfusion.Recipe()));
 				result.add(new QuickRecipe(new MagicalInfusion.Recipe()));
 				result.add(new QuickRecipe(new Recycle.Recipe()));
 				if (!PixelScene.landscape()) result.add(null);
 				result.add(null);
-				result.add(new QuickRecipe(new ReclaimTrap.Recipe()));
-				result.add(new QuickRecipe(new SummonElemental.Recipe()));
-				result.add(new QuickRecipe(new BeaconOfReturning.Recipe()));
 				return result;
 		}
 	}

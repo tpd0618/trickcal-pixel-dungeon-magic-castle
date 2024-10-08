@@ -41,8 +41,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.RevealedArea;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.Roots;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.ScrollEmpower;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.WandEmpower;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.ArmorAbility;
-import com.trickcalpixel.trickcalpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
 import com.trickcalpixel.trickcalpixeldungeon.effects.CellEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.FloatingText;
@@ -54,14 +52,11 @@ import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.ClothArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.CloakOfShadows;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.HornOfPlenty;
-import com.trickcalpixel.trickcalpixeldungeon.items.rings.Ring;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.ShardOfOblivion;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.SpiritBow;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.Weapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.Gloves;
-import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
@@ -399,12 +394,9 @@ public enum Talent {
 
 	public int icon(){
 		if (this == HEROIC_ENERGY){
-			if (Ratmogrify.useRatroicEnergy){
-				return 218;
-			}
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
-				case WARRIOR: default:
+				case AYA: default:
 					return 26;
 				case MAGE:
 					return 58;
@@ -425,9 +417,6 @@ public enum Talent {
 	}
 
 	public String title(){
-		if (this == HEROIC_ENERGY && Ratmogrify.useRatroicEnergy){
-			return Messages.get(this, name() + ".rat_title");
-		}
 		return Messages.get(this, name() + ".title");
 	}
 
@@ -447,7 +436,7 @@ public enum Talent {
 
 	public static void onTalentUpgraded( Hero hero, Talent talent ){
 		//for metamorphosis
-		if (talent == IRON_WILL && hero.heroClass != HeroClass.WARRIOR){
+		if (talent == IRON_WILL && hero.heroClass != HeroClass.AYA){
 			Buff.affect(hero, BrokenSeal.WarriorShield.class);
 		}
 
@@ -457,21 +446,6 @@ public enum Talent {
 			}
 		}
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
-			if (hero.belongings.ring instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
-				hero.belongings.ring.identify();
-			}
-			if (hero.belongings.misc instanceof Ring && !ShardOfOblivion.passiveIDDisabled()) {
-				hero.belongings.misc.identify();
-			}
-			for (Item item : Dungeon.hero.belongings){
-				if (item instanceof Ring){
-					((Ring) item).setKnown();
-				}
-			}
-		}
-		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
-			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
-			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
 		}
 		if (talent == ADVENTURERS_INTUITION && hero.pointsInTalent(ADVENTURERS_INTUITION) == 2){
 			if (hero.belongings.weapon() != null && !ShardOfOblivion.passiveIDDisabled()){
@@ -593,16 +567,12 @@ public enum Talent {
 		if (item instanceof Wand){
 			factor *= 1f + 2.0f*hero.pointsInTalent(SCHOLARS_INTUITION);
 		}
-		// 2x/instant for Rogue (see onItemEqupped), also id's type on equip/on pickup
-		if (item instanceof Ring){
-			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
-		}
 		return factor;
 	}
 
 	public static void onPotionUsed( Hero hero, int cell, float factor ){
 		if (hero.hasTalent(LIQUID_WILLPOWER)){
-			if (hero.heroClass == HeroClass.WARRIOR) {
+			if (hero.heroClass == HeroClass.AYA) {
 				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 				if (shield != null) {
 					// 50/75% of total shield
@@ -676,12 +646,6 @@ public enum Talent {
 	public static void onUpgradeScrollUsed( Hero hero ){
 		if (hero.hasTalent(INSCRIBED_POWER)){
 			if (hero.heroClass == HeroClass.MAGE) {
-				MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-				if (staff != null) {
-					staff.gainCharge(2 + 2 * hero.pointsInTalent(INSCRIBED_POWER), true);
-					ScrollOfRecharging.charge(Dungeon.hero);
-					SpellSprite.show(hero, SpellSprite.CHARGE);
-				}
 			} else {
 				Buff.affect(hero, Recharging.class, 4 + 8 * hero.pointsInTalent(INSCRIBED_POWER));
 			}
@@ -699,12 +663,6 @@ public enum Talent {
 		if (hero.pointsInTalent(VETERANS_INTUITION) == 2 && item instanceof Armor){
 			identify = true;
 		}
-		if (hero.hasTalent(THIEFS_INTUITION) && item instanceof Ring){
-			if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
-				identify = true;
-			}
-			((Ring) item).setKnown();
-		}
 		if (hero.pointsInTalent(ADVENTURERS_INTUITION) == 2 && item instanceof Weapon){
 			identify = true;
 		}
@@ -716,7 +674,6 @@ public enum Talent {
 
 	public static void onItemCollected( Hero hero, Item item ){
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
-			if (item instanceof Ring) ((Ring) item).setKnown();
 		}
 	}
 
@@ -758,8 +715,6 @@ public enum Talent {
 
 		if (hero.buff(Talent.SpiritBladesTracker.class) != null
 				&& Random.Int(10) < 3*hero.pointsInTalent(Talent.SPIRIT_BLADES)){
-			SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
-			if (bow != null) dmg = bow.proc( hero, enemy, dmg );
 			hero.buff(Talent.SpiritBladesTracker.class).detach();
 		}
 
@@ -773,9 +728,7 @@ public enum Talent {
 
 		if (hero.hasTalent(DEADLY_FOLLOWUP) && enemy.alignment == Char.Alignment.ENEMY) {
 			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
-				if (!(hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow)) {
-					Buff.prolong(hero, DeadlyFollowupTracker.class, 5f).object = enemy.id();
-				}
+				Buff.prolong(hero, DeadlyFollowupTracker.class, 5f).object = enemy.id();
 			} else if (hero.buff(DeadlyFollowupTracker.class) != null
 					&& hero.buff(DeadlyFollowupTracker.class).object == enemy.id()){
 				dmg = Math.round(dmg * (1.0f + .1f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
@@ -836,7 +789,7 @@ public enum Talent {
 
 		//tier 1
 		switch (cls){
-			case WARRIOR: default:
+			case AYA: default:
 				Collections.addAll(tierTalents, HEARTY_MEAL, VETERANS_INTUITION, PROVOKED_ANGER, IRON_WILL);
 				break;
 			case MAGE:
@@ -862,7 +815,7 @@ public enum Talent {
 
 		//tier 2
 		switch (cls){
-			case WARRIOR: default:
+			case AYA: default:
 				Collections.addAll(tierTalents, IRON_STOMACH, LIQUID_WILLPOWER, RUNIC_TRANSFERENCE, LETHAL_MOMENTUM, IMPROVISED_PROJECTILES);
 				break;
 			case MAGE:
@@ -888,7 +841,7 @@ public enum Talent {
 
 		//tier 3
 		switch (cls){
-			case WARRIOR: default:
+			case AYA: default:
 				Collections.addAll(tierTalents, HOLD_FAST, STRONGMAN);
 				break;
 			case MAGE:
@@ -969,22 +922,6 @@ public enum Talent {
 
 	}
 
-	public static void initArmorTalents( Hero hero ){
-		initArmorTalents( hero.armorAbility, hero.talents);
-	}
-
-	public static void initArmorTalents(ArmorAbility abil, ArrayList<LinkedHashMap<Talent, Integer>> talents ){
-		if (abil == null) return;
-
-		while (talents.size() < MAX_TALENT_TIERS){
-			talents.add(new LinkedHashMap<>());
-		}
-
-		for (Talent t : abil.talents()){
-			talents.get(3).put(t, 0);
-		}
-	}
-
 	private static final String TALENT_TIER = "talents_tier_";
 
 	public static void storeTalentsInBundle( Bundle bundle, Hero hero ){
@@ -1057,7 +994,6 @@ public enum Talent {
 
 		if (hero.heroClass != null)     initClassTalents(hero);
 		if (hero.subClass != null)      initSubclassTalents(hero);
-		if (hero.armorAbility != null)  initArmorTalents(hero);
 
 		for (int i = 0; i < MAX_TALENT_TIERS; i++){
 			LinkedHashMap<Talent, Integer> tier = hero.talents.get(i);

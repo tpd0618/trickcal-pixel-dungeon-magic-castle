@@ -57,7 +57,7 @@ public class Bones {
 
 		//remains will usually drop on the floor the hero died on
 		// but are capped at 5 floors above the lowest depth reached (even when ascending)
-		depth = Math.max(Dungeon.depth, Statistics.deepestFloor-5);
+		depth = Math.max(Dungeon.depth, Statistics.highestFloor-5);
 
 		branch = Dungeon.branch;
 
@@ -113,7 +113,7 @@ public class Bones {
 					item = hero.belongings.misc;
 					break;
 				case 4:
-					item = hero.belongings.ring;
+					item = hero.belongings.bracelet;
 					break;
 				case 5: case 6:
 					item = Dungeon.quickslot.randomNonePlaceholder();
@@ -241,9 +241,6 @@ public class Bones {
 
 				if (heroClass != null) {
 					result.add(RemainsItem.get(heroClass));
-					if (Dungeon.bossLevel()){
-						Statistics.qualifiedForBossRemainsBadge = true;
-					}
 				}
 
 				if (item != null) {

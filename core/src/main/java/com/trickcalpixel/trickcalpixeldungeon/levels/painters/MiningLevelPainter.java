@@ -23,11 +23,9 @@ package com.trickcalpixel.trickcalpixeldungeon.levels.painters;
 
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.quest.DarkGold;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.Room;
-import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.quest.MineSecretRoom;
 import com.watabou.utils.Graph;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
@@ -60,7 +58,6 @@ public class MiningLevelPainter extends CavesPainter {
 		}
 		for (Heap h : level.heaps.valueList()){
 			for (Item i : h.items){
-				if (i instanceof DarkGold) goldToAdd -= i.quantity();
 			}
 		}
 
@@ -68,8 +65,6 @@ public class MiningLevelPainter extends CavesPainter {
 		do {
 			Random.shuffle(rooms);
 			for (Room r : rooms) {
-
-				if (r instanceof MineSecretRoom) continue;
 
 				ArrayList<Integer> goldPosCandidates = new ArrayList<>();
 				for (Point p : r.getPoints()){

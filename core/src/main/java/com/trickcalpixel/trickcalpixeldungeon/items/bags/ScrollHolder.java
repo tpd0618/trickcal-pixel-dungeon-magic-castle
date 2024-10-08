@@ -25,7 +25,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.ArcaneResin;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.Stylus;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.BeaconOfReturning;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Spell;
 import com.trickcalpixel.trickcalpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -53,9 +52,6 @@ public class ScrollHolder extends Bag {
 	public void onDetach( ) {
 		super.onDetach();
 		for (Item item : items) {
-			if (item instanceof BeaconOfReturning) {
-				((BeaconOfReturning) item).returnDepth = -1;
-			}
 		}
 	}
 	

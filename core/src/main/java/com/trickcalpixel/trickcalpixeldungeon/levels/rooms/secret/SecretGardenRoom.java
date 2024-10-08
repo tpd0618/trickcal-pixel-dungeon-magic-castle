@@ -22,13 +22,11 @@
 package com.trickcalpixel.trickcalpixeldungeon.levels.rooms.secret;
 
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Foliage;
-import com.trickcalpixel.trickcalpixeldungeon.items.wands.WandOfRegrowth;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Patch;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.painters.Painter;
 import com.trickcalpixel.trickcalpixeldungeon.plants.Starflower;
-import com.watabou.utils.Random;
 
 public class SecretGardenRoom extends SecretRoom {
 	
@@ -49,14 +47,6 @@ public class SecretGardenRoom extends SecretRoom {
 		entrance().set( Door.Type.HIDDEN );
 		
 		level.plant(new Starflower.Seed(), plantPos(level));
-		level.plant(new WandOfRegrowth.Seedpod.Seed(), plantPos( level ));
-		level.plant(new WandOfRegrowth.Dewcatcher.Seed(), plantPos( level ));
-		
-		if (Random.Int(2) == 0){
-			level.plant(new WandOfRegrowth.Seedpod.Seed(), plantPos( level ));
-		} else {
-			level.plant(new WandOfRegrowth.Dewcatcher.Seed(), plantPos( level ));
-		}
 		
 		Foliage light = (Foliage)level.blobs.get( Foliage.class );
 		if (light == null) {

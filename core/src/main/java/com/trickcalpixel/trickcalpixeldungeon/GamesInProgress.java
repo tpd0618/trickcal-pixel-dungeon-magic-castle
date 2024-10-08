@@ -150,7 +150,7 @@ public class GamesInProgress {
 		info.armorTier = Dungeon.hero.tier();
 		
 		info.goldCollected = Statistics.goldCollected;
-		info.maxDepth = Statistics.deepestFloor;
+		info.maxDepth = Statistics.highestFloor;
 
 		slotStates.put( slot, info );
 	}

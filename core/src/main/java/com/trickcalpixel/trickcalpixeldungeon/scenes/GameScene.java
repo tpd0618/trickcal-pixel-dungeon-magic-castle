@@ -35,15 +35,11 @@ import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Blob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.AscensionChallenge;
 import com.trickcalpixel.trickcalpixeldungeon.actors.buffs.ChampionEnemy;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Talent;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.DemonSpawner;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Ghoul;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Snake;
 import com.trickcalpixel.trickcalpixeldungeon.effects.BannerSprites;
 import com.trickcalpixel.trickcalpixeldungeon.effects.BlobEmitter;
 import com.trickcalpixel.trickcalpixeldungeon.effects.EmoIcon;
@@ -55,7 +51,6 @@ import com.trickcalpixel.trickcalpixeldungeon.items.Ankh;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Honeypot;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
-import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.DriedRose;
 import com.trickcalpixel.trickcalpixeldungeon.items.journal.Guidebook;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -429,9 +424,6 @@ public class GameScene extends PixelScene {
 				break;
 			case DESCEND:
 			case FALL:
-				if (Dungeon.hero.isAlive()) {
-					Badges.validateNoKilling();
-				}
 				break;
 		}
 
@@ -468,32 +460,12 @@ public class GameScene extends PixelScene {
 		Camera.main.panTo(hero.center(), 2.5f);
 
 		if (InterlevelScene.mode != InterlevelScene.Mode.NONE) {
-			if (Dungeon.depth == Statistics.deepestFloor
+			if (Dungeon.depth == Statistics.highestFloor
 					&& (InterlevelScene.mode == InterlevelScene.Mode.DESCEND || InterlevelScene.mode == InterlevelScene.Mode.FALL)) {
 				GLog.h(Messages.get(this, "descend"), Dungeon.depth);
 				Sample.INSTANCE.play(Assets.Sounds.DESCEND);
 				
 				for (Char ch : Actor.chars()){
-					if (ch instanceof DriedRose.GhostHero){
-						((DriedRose.GhostHero) ch).sayAppeared();
-					}
-				}
-
-				int spawnersAbove = Statistics.spawnersAlive;
-				if (spawnersAbove > 0 && Dungeon.depth <= 25) {
-					for (Mob m : Dungeon.level.mobs) {
-						if (m instanceof DemonSpawner && ((DemonSpawner) m).spawnRecorded) {
-							spawnersAbove--;
-						}
-					}
-
-					if (spawnersAbove > 0) {
-						if (Dungeon.bossLevel()) {
-							GLog.n(Messages.get(this, "spawner_warn_final"));
-						} else {
-							GLog.n(Messages.get(this, "spawner_warn"));
-						}
-					}
 				}
 				
 			} else if (InterlevelScene.mode == InterlevelScene.Mode.RESET) {
@@ -569,10 +541,6 @@ public class GameScene extends PixelScene {
 				if (!mob.buffs(ChampionEnemy.class).isEmpty()) {
 					GLog.w(Messages.get(ChampionEnemy.class, "warn"));
 				}
-			}
-
-			if (Dungeon.hero.buff(AscensionChallenge.class) != null){
-				Dungeon.hero.buff(AscensionChallenge.class).saySwitch();
 			}
 
 			DimensionalSundial.sundialWarned = true;
@@ -1340,11 +1308,6 @@ public class GameScene extends PixelScene {
 						mob.sprite.visible = Dungeon.level.heroFOV[mob.pos];
 					}
 				}
-				if (mob instanceof Ghoul){
-					for (Ghoul.GhoulLifeLink link : mob.buffs(Ghoul.GhoulLifeLink.class)){
-						link.updateVisibility();
-					}
-				}
 			}
 		}
 	}
@@ -1576,9 +1539,6 @@ public class GameScene extends PixelScene {
 			GameScene.show( new WndHero() );
 		} else if ( o instanceof Mob && ((Mob) o).isActive() ){
 			GameScene.show(new WndInfoMob((Mob) o));
-			if (o instanceof Snake && !Document.ADVENTURERS_GUIDE.isPageRead(Document.GUIDE_SURPRISE_ATKS)){
-				GameScene.flashForDocument(Document.ADVENTURERS_GUIDE, Document.GUIDE_SURPRISE_ATKS);
-			}
 		} else if ( o instanceof Heap && !((Heap) o).isEmpty() ){
 			GameScene.show(new WndInfoItem((Heap)o));
 		} else if ( o instanceof Plant ){

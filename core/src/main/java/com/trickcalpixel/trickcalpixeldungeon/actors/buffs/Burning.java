@@ -27,8 +27,6 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Blob;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Fire;
 import com.trickcalpixel.trickcalpixeldungeon.actors.hero.Hero;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Thief;
-import com.trickcalpixel.trickcalpixeldungeon.effects.particles.ElmoParticle;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.armor.Armor;
@@ -137,20 +135,6 @@ public class Burning extends Buff implements Hero.Doom {
 				
 			} else {
 				target.damage( damage, this );
-			}
-
-			if (target instanceof Thief && ((Thief) target).item != null) {
-
-				Item item = ((Thief) target).item;
-
-				if (!item.unique && item instanceof Scroll) {
-					target.sprite.emitter().burst( ElmoParticle.FACTORY, 6 );
-					((Thief)target).item = null;
-				} else if (item instanceof MysteryMeat) {
-					target.sprite.emitter().burst( ElmoParticle.FACTORY, 6 );
-					((Thief)target).item = new ChargrilledMeat();
-				}
-
 			}
 
 		} else {

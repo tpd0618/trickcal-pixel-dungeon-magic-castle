@@ -24,7 +24,6 @@ package com.trickcalpixel.trickcalpixeldungeon.levels;
 import com.trickcalpixel.trickcalpixeldungeon.Bones;
 import com.trickcalpixel.trickcalpixeldungeon.Challenges;
 import com.trickcalpixel.trickcalpixeldungeon.Dungeon;
-import com.trickcalpixel.trickcalpixeldungeon.Statistics;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Actor;
 import com.trickcalpixel.trickcalpixeldungeon.actors.Char;
 import com.trickcalpixel.trickcalpixeldungeon.actors.blobs.Blob;
@@ -35,14 +34,11 @@ import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.EbonyMimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.GoldenMimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mimic;
 import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Mob;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.Statue;
-import com.trickcalpixel.trickcalpixeldungeon.actors.mobs.npcs.Ghost;
 import com.trickcalpixel.trickcalpixeldungeon.items.Generator;
 import com.trickcalpixel.trickcalpixeldungeon.items.Heap;
 import com.trickcalpixel.trickcalpixeldungeon.items.Item;
 import com.trickcalpixel.trickcalpixeldungeon.items.Torch;
 import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.Artifact;
-import com.trickcalpixel.trickcalpixeldungeon.items.artifacts.DriedRose;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.SupplyRation;
 import com.trickcalpixel.trickcalpixeldungeon.items.journal.DocumentPage;
 import com.trickcalpixel.trickcalpixeldungeon.items.journal.GuidePage;
@@ -61,7 +57,6 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.Room;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.MagicalFireRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.PitRoom;
-import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.ShopRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.standard.entrance.EntranceRoom;
@@ -70,7 +65,6 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.traps.BlazingTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.BurningTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.ChillingTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.DisintegrationTrap;
-import com.trickcalpixel.trickcalpixeldungeon.levels.traps.ExplosiveTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.FrostTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.PitfallTrap;
 import com.trickcalpixel.trickcalpixeldungeon.levels.traps.Trap;
@@ -134,9 +128,6 @@ public abstract class RegularLevel extends Level {
 			i += s.sizeFactor()-1;
 			initRooms.add(s);
 		}
-		
-		if (Dungeon.shopOnLevel())
-			initRooms.add(new ShopRoom());
 
 		//force max special rooms and add one more for large levels
 		int specials = specialRooms(feeling == Feeling.LARGE);
@@ -200,8 +191,7 @@ public abstract class RegularLevel extends Level {
 	@Override
 	public int mobLimit() {
 		if (Dungeon.depth <= 1){
-			if (!Statistics.amuletObtained) return 0;
-			else                            return 10;
+			return 10;
 		}
 
 		int mobs = 3 + Dungeon.depth % 5 + Random.Int(3);
@@ -487,25 +477,6 @@ public abstract class RegularLevel extends Level {
 		Random.popGenerator();
 
 		Random.pushGenerator( Random.Long() );
-			DriedRose rose = Dungeon.hero.belongings.getItem( DriedRose.class );
-			if (rose != null && rose.isIdentified() && !rose.cursed && Ghost.Quest.completed()){
-				//aim to drop 1 petal every 2 floors
-				int petalsNeeded = (int) Math.ceil((float)((Dungeon.depth / 2) - rose.droppedPetals) / 3);
-
-				for (int i=1; i <= petalsNeeded; i++) {
-					//the player may miss a single petal and still max their rose.
-					if (rose.droppedPetals < 11) {
-						Item item = new DriedRose.Petal();
-						int cell = randomDropCell();
-						drop( item, cell ).type = Heap.Type.HEAP;
-						if (map[cell] == Terrain.HIGH_GRASS || map[cell] == Terrain.FURROWED_GRASS) {
-							map[cell] = Terrain.GRASS;
-							losBlocking[cell] = false;
-						}
-						rose.droppedPetals++;
-					}
-				}
-			}
 		Random.popGenerator();
 
 		//cached rations try to drop in a special room on floors 2/4/7, to a max of 2/3
@@ -522,7 +493,6 @@ public abstract class RegularLevel extends Level {
 					do {
 						cell = randomDropCell(SpecialRoom.class);
 						valid = cell != -1 && !(room(cell) instanceof SecretRoom)
-								&& !(room(cell) instanceof ShopRoom)
 								&& map[cell] != Terrain.EMPTY_SP
 								&& map[cell] != Terrain.WATER
 								&& map[cell] != Terrain.PEDESTAL;
@@ -716,8 +686,7 @@ public abstract class RegularLevel extends Level {
 					//items cannot spawn on traps which destroy items
 					if (t == null ||
 							! (t instanceof BurningTrap || t instanceof BlazingTrap
-							|| t instanceof ChillingTrap || t instanceof FrostTrap
-							|| t instanceof ExplosiveTrap || t instanceof DisintegrationTrap
+							|| t instanceof ChillingTrap || t instanceof FrostTrap || t instanceof DisintegrationTrap
 							|| t instanceof PitfallTrap)) {
 						
 						return pos;
@@ -780,9 +749,7 @@ public abstract class RegularLevel extends Level {
 		//There are no statues or mimics (unless they were made allies)
 		for (Mob m : mobs.toArray(new Mob[0])){
 			if (m.alignment != Char.Alignment.ALLY){
-				if (m instanceof Statue && ((Statue) m).levelGenStatue){
-					return false;
-				} else if (m instanceof Mimic){
+				if (m instanceof Mimic){
 					return false;
 				}
 			}

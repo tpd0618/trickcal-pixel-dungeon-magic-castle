@@ -25,7 +25,7 @@ import com.trickcalpixel.trickcalpixeldungeon.levels.Level;
 import com.trickcalpixel.trickcalpixeldungeon.levels.Terrain;
 import com.trickcalpixel.trickcalpixeldungeon.levels.painters.Painter;
 import com.trickcalpixel.trickcalpixeldungeon.levels.rooms.Room;
-import com.trickcalpixel.trickcalpixeldungeon.levels.traps.ExplosiveTrap;
+import com.trickcalpixel.trickcalpixeldungeon.levels.traps.GrimTrap;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -80,7 +80,9 @@ public class MinefieldRoom extends StandardRoom {
 			}
 
 			Painter.set(level, pos, Terrain.SECRET_TRAP);
-			level.setTrap(new ExplosiveTrap().hide(), pos);
+			level.setTrap(new GrimTrap().hide(), pos);
+
+			//todo
 
 		}
 

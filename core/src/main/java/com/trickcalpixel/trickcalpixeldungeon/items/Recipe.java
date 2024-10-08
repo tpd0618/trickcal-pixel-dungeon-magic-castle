@@ -22,19 +22,15 @@
 package com.trickcalpixel.trickcalpixeldungeon.items;
 
 import com.trickcalpixel.trickcalpixeldungeon.ShatteredPixelDungeon;
-import com.trickcalpixel.trickcalpixeldungeon.items.bombs.Bomb;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.Blandfruit;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.MeatPie;
 import com.trickcalpixel.trickcalpixeldungeon.items.food.StewedMeat;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.Potion;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.AquaBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.BlizzardBrew;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.CausticBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.InfernalBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.ShockingBrew;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.brews.UnstableBrew;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfAquaticRejuvenation;
-import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfArcaneArmor;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfDragonsBlood;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfFeatherFall;
 import com.trickcalpixel.trickcalpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
@@ -45,16 +41,11 @@ import com.trickcalpixel.trickcalpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.Scroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.scrolls.exotic.ExoticScroll;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Alchemize;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.BeaconOfReturning;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.CurseInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.MagicalInfusion;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.PhaseShift;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.ReclaimTrap;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.Recycle;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.SummonElemental;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.TelekineticGrab;
 import com.trickcalpixel.trickcalpixeldungeon.items.spells.UnstableSpell;
-import com.trickcalpixel.trickcalpixeldungeon.items.spells.WildEnergy;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.Trinket;
 import com.trickcalpixel.trickcalpixeldungeon.items.trinkets.TrinketCatalyst;
 import com.trickcalpixel.trickcalpixeldungeon.items.wands.Wand;
@@ -186,11 +177,9 @@ public abstract class Recipe {
 		new ElixirOfMight.Recipe(),
 		new ElixirOfFeatherFall.Recipe(),
 		new MagicalInfusion.Recipe(),
-		new BeaconOfReturning.Recipe(),
 		new PhaseShift.Recipe(),
 		new Recycle.Recipe(),
 		new TelekineticGrab.Recipe(),
-		new SummonElemental.Recipe(),
 		new StewedMeat.oneMeat(),
 		new TrinketCatalyst.Recipe(),
 		new Trinket.UpgradeTrinket()
@@ -198,17 +187,10 @@ public abstract class Recipe {
 	
 	private static Recipe[] twoIngredientRecipes = new Recipe[]{
 		new Blandfruit.CookFruit(),
-		new Bomb.EnhanceBomb(),
 		new UnstableBrew.Recipe(),
-		new CausticBrew.Recipe(),
-		new ElixirOfArcaneArmor.Recipe(),
-		new ElixirOfAquaticRejuvenation.Recipe(),
 		new ElixirOfHoneyedHealing.Recipe(),
 		new UnstableSpell.Recipe(),
 		new Alchemize.Recipe(),
-		new CurseInfusion.Recipe(),
-		new ReclaimTrap.Recipe(),
-		new WildEnergy.Recipe(),
 		new StewedMeat.twoMeat()
 	};
 	
